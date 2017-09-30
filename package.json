@@ -1,0 +1,29 @@
+{
+  "name": "motion",
+  "description": "detect motion, grab video, html frontend",
+  "version": "0.0.0",
+  "keywords": [
+    "raspberry",
+    "cam",
+    "motion"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Uwe Gerdes",
+    "email": "entwicklung@uwegerdes.de"
+  },
+  "engines": {
+    "node": ">=4.5.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uwegerdes/docker-motion-armhf"
+  },
+  "scripts": {
+    "start": "index.js"
+  }
+}
