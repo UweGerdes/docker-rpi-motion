@@ -1,11 +1,14 @@
 {
   "name": "motion",
   "description": "detect motion, grab video, html frontend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "raspberry",
     "cam",
-    "motion"
+    "motion",
+    "arecord",
+    "lame",
+    "ffmpeg"
   ],
   "license": "MIT",
   "author": {
@@ -21,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uwegerdes/docker-motion-armhf"
+    "url": "https://github.com/uwegerdes/docker-motion-rpi"
   },
   "scripts": {
     "start": "index.js"
