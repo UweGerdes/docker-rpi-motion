@@ -14,7 +14,6 @@ var glob = require('glob'),
 	less = require('gulp-less'),
 	lessChanged = require('gulp-less-changed'),
 	lesshint = require('gulp-lesshint'),
-	stylish = require('gulp-lesshint-stylish'),
 	notify = require('gulp-notify'),
 	uglify = require('gulp-uglify'),
 	gutil = require('gulp-util'),
@@ -42,8 +41,6 @@ watchFilesFor['less-lint'] = [
 gulp.task('less-lint', function () {
 	return gulp.src( watchFilesFor['less-lint'] )
 		.pipe(lesshint())
-		.on('error', function (err) {})
-		.pipe(stylish())
 		.on('error', function (err) {})
 		.pipe(lesshint.reporter())
 		;

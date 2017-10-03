@@ -27,7 +27,6 @@
     "gulp-less": "^3.3.2",
     "gulp-less-changed": "^1.2.2",
     "gulp-lesshint": "^4.0.0",
-    "gulp-lesshint-stylish": "^1.0.0",
     "gulp-notify": "^3.0.0",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
