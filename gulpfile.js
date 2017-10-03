@@ -14,6 +14,7 @@ var glob = require('glob'),
 	less = require('gulp-less'),
 	lessChanged = require('gulp-less-changed'),
 	lesshint = require('gulp-lesshint'),
+	stylish = require('gulp-lesshint-stylish'),
 	notify = require('gulp-notify'),
 	uglify = require('gulp-uglify'),
 	gutil = require('gulp-util'),
@@ -40,7 +41,9 @@ watchFilesFor['less-lint'] = [
 ];
 gulp.task('less-lint', function () {
 	return gulp.src( watchFilesFor['less-lint'] )
-		.pipe(lesshint())  // enforce style guide
+		.pipe(lesshint())
+		.on('error', function (err) {})
+		.pipe(stylish())
 		.on('error', function (err) {})
 		.pipe(lesshint.reporter())
 		;
@@ -48,7 +51,7 @@ gulp.task('less-lint', function () {
 
 watchFilesFor.less = [
 	path.join(baseDir, 'less', '**', '*.less'),
-	path.join(baseDir, 'less', 'app.less')
+	path.join(baseDir, 'less', 'motion.less')
 ];
 gulp.task('less', function () {
 	var dest = function(filename) {
@@ -126,3 +129,4 @@ module.exports = {
 	gulp: gulp,
 	watchFilesFor: watchFilesFor
 };
+

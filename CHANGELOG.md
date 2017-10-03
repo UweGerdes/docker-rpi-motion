@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.4
+Added motion.less
+
 ## 0.0.3
 Added gulpfiles with jshint, less, less-lint
 
