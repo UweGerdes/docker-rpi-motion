@@ -7,7 +7,5 @@ fi
 
 cd "${APP_HOME}"
 
-mkdir -p "${APP_HOME}/motion/capture"
-
 exec "$@"
 

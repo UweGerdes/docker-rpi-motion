@@ -1,7 +1,7 @@
 {
   "name": "motion",
   "description": "detect motion, grab video, html frontend",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [
     "raspberry",
     "cam",
@@ -18,15 +18,26 @@
   "engines": {
     "node": ">=4.5.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "glob": "^7.1.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-less": "^3.3.2",
+    "gulp-less-changed": "^1.2.2",
+    "gulp-lesshint": "^4.0.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "rename": "^1.0.4",
+    "run-sequence": "^2.2.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/uwegerdes/docker-motion-rpi"
   },
   "scripts": {
-    "start": "index.js"
+    "start": "gulp"
   }
 }

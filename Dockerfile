@@ -74,7 +74,8 @@ RUN if [ -n "${APT_PROXY}" ] ; then \
 	npm -g config set user ${USER_NAME} && \
 	npm install -g \
 				bower \
-				gulp
+				gulp \
+				jshint
 
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/entrypoint.sh
