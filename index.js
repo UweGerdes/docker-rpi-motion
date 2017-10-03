@@ -7,7 +7,7 @@
  */
 'use strict';
 
-var exec = require('child_process').exec;
+var exec = require('child_process').execFile;
 
 var verbose = false;
 var status = { running: false };
@@ -22,9 +22,9 @@ function start(id, callback) {
 	status.running = false;
 	stop(id);
 	status.running = true;
-	motionProcess = exec(cmd + ' ' + args.join(' '),
+	motionProcess = exec(cmd, args,
 		function (error, stdout, stderr) {
-			log('finished ' + id, error, ", stderr: ", stderr);
+			console.log('finished ' + id + ((error) ? 'error: ' + error : ', all ok'));
 		}
 	);
 	motionProcess.stdout.on('data', function(data) { console.log(id + ': ' + data.trim()); });
@@ -42,20 +42,25 @@ function start(id, callback) {
 }
 
 function stop(id) {
-	if (status.running === true) {
+	if (running()) {
 		console.log('stopping motion ' + id);
-		motionProcess.kill('SIGKILL');
+		motionProcess.kill('SIGTERM');
 		status.running = false;
 	}
 }
 
-function log(msgStart, error, stdout, stderr) {
-	if (stdout.length > 0) { console.log(msgStart + ' stdout: ' + stdout.trim()); }
-	if (stderr.length > 0) { console.log(msgStart + ' stderr: ' + stderr.trim()); }
-	if (error !== null)	   { console.log(msgStart + ' error:\n' + JSON.stringify(error, undefined, 4)); }
+function running() {
+	if (motionProcess && ! motionProcess.killed) {
+		console.log("motion running");
+		return true;
+	} else {
+		console.log("motion not running");
+		return false;
+	}
 }
 
 module.exports = {
+	running: running,
 	start: start,
 	stop: stop
 };

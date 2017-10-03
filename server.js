@@ -84,6 +84,9 @@ function runCommand(params, res) {
 		case "stop":
 			motion.stop(params.id);
 			break;
+		case "running":
+			motion.running();
+			break;
 		default:
 			console.log("Command not found: " + params.command);
 			break;

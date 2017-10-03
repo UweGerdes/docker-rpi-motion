@@ -100,6 +100,23 @@ gulp.task('build', function(callback) {
 });
 
 /*
+ * restart server if server.js changed
+ */
+watchFilesFor.server = [
+	path.join(baseDir, 'server.js'),
+	path.join(baseDir, 'index.js')
+];
+gulp.task('server', function() {
+	server.changed(function(error) {
+		if( error ) {
+			console.log('responsive-check server.js restart error: ' + JSON.stringify(error, null, 4));
+		} else {
+			console.log('responsive-check server.js restarted');
+		}
+	});
+});
+
+/*
  * start server
  */
 gulp.task('server:start', function() {
@@ -116,22 +133,6 @@ gulp.task('server:start', function() {
  */
 gulp.task('server:stop', function() {
     server.kill();
-});
-
-/*
- * restart server if server.js changed
- */
-watchFilesFor.server = [
-	path.join(baseDir, 'server.js')
-];
-gulp.task('server', function() {
-	server.changed(function(error) {
-		if( error ) {
-			console.log('responsive-check server.js restart error: ' + JSON.stringify(error, null, 4));
-		} else {
-			console.log('responsive-check server.js restarted');
-		}
-	});
 });
 
 /*
