@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.7
+Adding motion controller
+
+## 0.0.6
+Integrate server in gulp workflow
+
 ## 0.0.5
 Adding server.js for motion frontend
 

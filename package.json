@@ -1,7 +1,7 @@
 {
   "name": "motion",
   "description": "detect motion, grab video, html frontend",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "keywords": [
     "raspberry",
     "cam",
@@ -27,11 +27,13 @@
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
+    "gulp-develop-server": "^0.5.2",
     "gulp-jshint": "^2.0.4",
     "gulp-less": "^3.3.2",
     "gulp-less-changed": "^1.2.2",
     "gulp-lesshint": "^4.0.0",
     "gulp-notify": "^3.0.0",
+    "gulp-postmortem": "^1.0.5",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "jshint": "^2.9.5",

@@ -14,10 +14,12 @@ var bodyParser = require('body-parser'),
 	os = require('os'),
 	path = require('path');
 
+var motion = require('./index.js');
+
 var interfaces = os.networkInterfaces(),
 	app = express();
 
-var httpPort = process.env.MOTION_PORT,
+var httpPort = process.env.SERVER_PORT || "8082",
 	verbose = (process.env.VERBOSE == 'true'),
 	baseDir = __dirname;
 
@@ -42,7 +44,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Serve static files
-app.use(express.static(baseDir));
+app.use(express.static(path.join(baseDir, 'public')));
 
 // Handle AJAX requests for run configs
 app.get('/:id/:command/:options?', function(req, res){
@@ -51,7 +53,7 @@ app.get('/:id/:command/:options?', function(req, res){
 
 // Route for root dir
 app.get('/', function(req, res){
-	res.sendFile(path.join(baseDir, 'index.html'));
+	res.sendFile(path.join(baseDir, 'public', 'index.html'));
 });
 
 // Route for everything else.
@@ -75,5 +77,17 @@ console.log('motion server listening on http://' + addresses[0] + ':' + httpPort
 
 function runCommand(params, res) {
 	console.log("ID: " + params.id + ", Command: " + params.command);
+	switch(params.command) {
+		case "start":
+			motion.start(params.id);
+			break;
+		case "stop":
+			motion.stop(params.id);
+			break;
+		default:
+			console.log("Command not found: " + params.command);
+			break;
+	}
+	res.sendFile(path.join(baseDir, 'public', 'index.html'));
 }
 

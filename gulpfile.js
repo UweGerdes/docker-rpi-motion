@@ -10,11 +10,13 @@
 var glob = require('glob'),
 	gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
+	server = require('gulp-develop-server'),
 	jshint = require('gulp-jshint'),
 	less = require('gulp-less'),
 	lessChanged = require('gulp-less-changed'),
 	lesshint = require('gulp-lesshint'),
 	notify = require('gulp-notify'),
+	postMortem = require('gulp-postmortem'),
 	uglify = require('gulp-uglify'),
 	gutil = require('gulp-util'),
 	path = require('path'),
@@ -33,7 +35,7 @@ var log = notify.withReporter(function (options, callback) {
 });
 
 /*
- * less files lint and style check
+ * less files lint
  */
 watchFilesFor['less-lint'] = [
 	path.join(baseDir, 'less', '**', '*.less')
@@ -46,13 +48,16 @@ gulp.task('less-lint', function () {
 		;
 });
 
+/*
+ * compile less files
+ */
 watchFilesFor.less = [
 	path.join(baseDir, 'less', '**', '*.less'),
 	path.join(baseDir, 'less', 'motion.less')
 ];
 gulp.task('less', function () {
 	var dest = function(filename) {
-		return path.join(path.dirname(path.dirname(filename)), 'css');
+		return path.join(path.dirname(path.dirname(filename)), 'public', 'css');
 	};
 	var src = watchFilesFor.less.filter(function(el){return el.indexOf('/**/') == -1; });
 	return gulp.src( src )
@@ -95,6 +100,50 @@ gulp.task('build', function(callback) {
 });
 
 /*
+ * start server
+ */
+gulp.task('server:start', function() {
+	server.listen({
+			path: path.join(baseDir, 'server.js'),
+			env: { VERBOSE: true },
+			cwd: baseDir
+		}
+	);
+});
+
+/*
+ * stop server
+ */
+gulp.task('server:stop', function() {
+    server.kill();
+});
+
+/*
+ * restart server if server.js changed
+ */
+watchFilesFor.server = [
+	path.join(baseDir, 'server.js')
+];
+gulp.task('server', function() {
+	server.changed(function(error) {
+		if( error ) {
+			console.log('responsive-check server.js restart error: ' + JSON.stringify(error, null, 4));
+		} else {
+			console.log('responsive-check server.js restarted');
+		}
+	});
+});
+
+/*
+ * gulp postmortem task to stop server on termination of gulp
+ */
+gulp.task('server-postMortem', function() {
+	return gulp.src( watchFilesFor.server )
+		.pipe(postMortem({gulp: gulp, tasks: [ 'server:stop' ]}))
+		;
+});
+
+/*
  * watch task
  */
 gulp.task('watch', function() {
@@ -118,7 +167,9 @@ gulp.task('watch', function() {
  */
 gulp.task('default', function(callback) {
 	runSequence('build',
+		'server:start',
 		'watch',
+		'server-postMortem',
 		callback);
 });
 
