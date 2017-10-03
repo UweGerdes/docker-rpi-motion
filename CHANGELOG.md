@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.5
+Adding server.js for motion frontend
+
 ## 0.0.4
 Added motion.less
 
