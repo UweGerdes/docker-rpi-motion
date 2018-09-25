@@ -37,7 +37,7 @@ $ sudo modprobe bcm2835-v4l2 # to load it and create /dev/video0
 
 This worked for me. I was having previous problems so in case anyone else has this issue; check to make sure you inserted the camera ribbon into the slot correctly, mine was in backwards.
 
-You can add `bcm2835-v4l2` to `/etc/modules` so whenever the pi is restarted it will always load up the module and always have /dev/video0 available.
+You should add `bcm2835-v4l2` to `/etc/modules` so whenever the pi is restarted it will always load up the module and always have /dev/video0 available.
 
 ### Build the Docker image
 
