@@ -47,8 +47,6 @@ If you have proxy caches for apt-get and npm you should build my baseimage-arm32
 $ docker build -t uwegerdes/motion .
 ```
 
-At the moment the version 4.0 of motion is not available for my baseimage so the Dockerfile contains additions for baseimage and nodejs. Perhaps I will rebase it to my nodejs if motion 4.0 is available for arm32v7/ubuntu.
-
 ## Run the Docker container
 
 Run the container with:
@@ -58,6 +56,7 @@ $ docker run -it \
 	-v $(pwd):/home/node/app \
 	-p 8080:8080 \
 	-p 8081:8081 \
+	-p 8082:8082 \
 	-v /dev/snd:/dev/snd \
 	-v /dev/video0:/dev/video0 \
 	--privileged \
