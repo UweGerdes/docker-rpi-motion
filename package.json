@@ -1,7 +1,7 @@
 {
   "name": "motion",
   "description": "detect motion, grab video, html frontend",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "keywords": [
     "raspberry",
     "cam",
@@ -16,7 +16,7 @@
     "email": "entwicklung@uwegerdes.de"
   },
   "engines": {
-    "node": ">=4.5.0"
+    "node": ">=8.10.0"
   },
   "dependencies": {
     "body-parser": "^1.18.2",

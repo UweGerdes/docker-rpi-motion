@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.8
+rebase Dockerfile to uwegerdes/nodejs
+
 ## 0.0.7
 Adding motion controller
 
