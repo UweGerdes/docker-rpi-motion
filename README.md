@@ -44,15 +44,13 @@ You can add `bcm2835-v4l2` to `/etc/modules` so whenever the pi is restarted it 
 If you have proxy caches for apt-get and npm you should build my baseimage-arm32v7 and nodejs before building the motion image.
 
 ```bash
-$ start=`date +%s` && \
-	docker build -t uwegerdes/motion \
-	--build-arg APT_PROXY="http://192.168.1.18:3142" \
+$ docker build -t uwegerdes/motion \
+	--build-arg APT_PROXY="http://acer-v3:3142" \
 	--build-arg TZ="Europe/Berlin" \
 	--build-arg TERM="${TERM}" \
-	--build-arg NPM_PROXY="http://192.168.1.18:3143" \
+	--build-arg NPM_PROXY="http://acer-v3:3143" \
 	--build-arg NPM_LOGLEVEL="warn" \
-	. \
-	&& runtime=$(($(date +%s)-start)) && echo "time: $((runtime/60)):$((runtime%60))"
+	.
 ```
 
 At the moment the version 4.0 of motion is not available for my baseimage so the Dockerfile contains additions for baseimage and nodejs. Perhaps I will rebase it to my nodejs if motion 4.0 is available for arm32v7/ubuntu.
@@ -77,7 +75,7 @@ $ docker run -it \
 Restart it later with:
 
 ```bash
-$ docker start -ai camserver
+$ docker start -ai motion
 ```
 
 ## Start motion
@@ -99,9 +97,7 @@ My default settings for motion work - change them as you like.
 This process uses cpu and disk massively, so do it afterwards. The time depends on the (input and) output format. Best is no conversion for the video filetype.
 
 ```bash
-$ start=`date +%s` && \
-	ffmpeg -i "FILENAME.mp3" -r 30 -i "FILENAME.avi" "video.avi" && \
-	runtime=$(($(date +%s)-start)) && echo "time: $((runtime/60)):$((runtime%60))"
+$ ffmpeg -i "FILENAME.mp3" -r 30 -i "FILENAME.avi" "video.avi"
 ```
 
 ## Usage extensions
