@@ -4,10 +4,13 @@
 	"bitwise": true,
 	"camelcase": true,
 	"curly": true,
+	"evil": true,
+	"forin": true,
 	"immed": true,
 	"newcap": true,
 	"noarg": true,
+	"strict": true,
 	"undef": true,
 	"unused": "vars",
-	"strict": true
+	"varstmt": true
 }

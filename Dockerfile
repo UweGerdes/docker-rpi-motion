@@ -10,10 +10,12 @@ MAINTAINER Uwe Gerdes <entwicklung@uwegerdes.de>
 ARG MOTION_PORT='8080'
 ARG STREAM_PORT='8081'
 ARG SERVER_PORT='8082'
+ARG LIVERELOAD_PORT='8083'
 
 ENV MOTION_PORT ${MOTION_PORT}
 ENV STREAM_PORT ${STREAM_PORT}
 ENV SERVER_PORT ${SERVER_PORT}
+ENV LIVERELOAD_PORT ${LIVERELOAD_PORT}
 
 # Set development environment as default
 ENV NODE_ENV development
@@ -35,8 +37,9 @@ RUN apt-get update && \
 	adduser ${USER_NAME} video && \
 	adduser ${USER_NAME} motion && \
 	npm install -g \
-				gulp \
-				jshint && \
+				gulp-cli \
+				jshint \
+				nodemon && \
 	chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
 
 COPY entrypoint.sh /usr/local/bin/
@@ -51,7 +54,7 @@ RUN npm install
 
 WORKDIR ${APP_HOME}
 
-EXPOSE ${MOTION_PORT} ${STREAM_PORT} ${SERVER_PORT}
+EXPOSE ${MOTION_PORT} ${STREAM_PORT} ${SERVER_PORT} ${LIVERELOAD_PORT}
 
 CMD [ "bash" ]
 

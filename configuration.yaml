@@ -1,0 +1,75 @@
+#
+#  Configuration for vcard
+#
+
+gulp:
+  watch:
+    js:
+      - 'modules/*/js/*.js'
+    jsdoc:
+      - '*.js'
+      - 'gulp/**/*.js'
+      - 'lib/**/*.js'
+#      - 'modules/**/*.js'
+      - 'src/**/*.js'
+    jshint:
+      - '*.js'
+      - 'gulp/**/*.js'
+      - 'lib/**/*.js'
+      - 'modules/**/*.js'
+      - '!modules/**/tests/e2e-workflow/*.js'
+      - 'src/**/*.js'
+    jsonlint:
+      - '**/*.json'
+      - '.jscsrc'
+      - '.jshintrc'
+      - '.lesshintrc'
+    lesshint:
+      - 'modules/**/less/**/*.less'
+      - 'src/less/**/*.less'
+    yamllint:
+      - '**/*.yaml'
+      - '**/*.yml'
+    ejslint:
+      - '**/*.ejs'
+    less:
+      - 'src/less/motion.less'
+      - 'src/less/**/*.less'
+      - 'modules/**/*.less'
+    puglint:
+      - '**/*.pug'
+    server-restart:
+      - './server.js'
+      - './modules/**/!(tests)/server/*.js'
+    livereload:
+      - 'public/**/*.html'
+      - 'modules/**/*.ejs'
+      - 'modules/**/*.pug'
+      - 'public/img/**/*.*'
+      - 'public/css/*.css'
+      - 'public/js/**/*.js'
+  build:
+    jsdoc:
+      src:
+        - '*.js'
+        - 'gulp/**/*.js'
+        - 'lib/**/*.js'
+        - 'modules/**/*.js'
+        - 'src/**/*.js'
+      dest: 'docs/jsdoc'
+    js:
+      src: 'modules/*/js/*.js'
+      dest: 'public/js'
+      replace:
+        '/js': ''
+    less:
+      src: 'src/less/motion.less'
+      dest: 'public/css'
+
+server:
+  server: ./server.js
+  docroot: ./public
+  modules: ./modules
+  httpPort: 8082
+  livereloadPort: 8083
+  verbose: false

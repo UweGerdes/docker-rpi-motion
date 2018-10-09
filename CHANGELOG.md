@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.10
+replaced gulpfile
+
 ## 0.0.9
 updating node packages
 

@@ -57,6 +57,7 @@ $ docker run -it \
 	-p 8080:8080 \
 	-p 8081:8081 \
 	-p 8082:8082 \
+	-p 8083:8083 \
 	-v /dev/snd:/dev/snd \
 	-v /dev/video0:/dev/video0 \
 	--privileged \
