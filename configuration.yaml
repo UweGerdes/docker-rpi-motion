@@ -1,17 +1,48 @@
 #
-#  Configuration for vcard
+#  Configuration for boilerplate
 #
-
 gulp:
+  start:
+    development:
+      gulp:
+        - 'lint'
+        - 'build'
+        - 'watch'
+        - 'livereload-start'
+        - 'server-start'
+#        - 'tests'
+      build:
+        - 'less'
+        - 'js'
+#        - 'jsdoc'
+      test:
+        - 'test-modules'
+      lint:
+        - 'jshint'
+        - 'jsonlint'
+        - 'lesshint'
+        - 'yamllint'
+        - 'puglint'
+        - 'ejslint'
+      server:
+        - 'server-changed'
+#        - 'tests'
+    production:
+      gulp:
+        - 'build'
+        - 'server-start'
+      build:
+        - 'less'
+        - 'js'
+      test: []
+      lint: []
+      server:
+        - 'server-changed'
   watch:
     js:
       - 'modules/*/js/*.js'
     jsdoc:
-      - '*.js'
-      - 'gulp/**/*.js'
-      - 'lib/**/*.js'
-#      - 'modules/**/*.js'
-      - 'src/**/*.js'
+      - 'nofile.js'
     jshint:
       - '*.js'
       - 'gulp/**/*.js'
@@ -33,7 +64,6 @@ gulp:
     ejslint:
       - '**/*.ejs'
     less:
-      - 'src/less/motion.less'
       - 'src/less/**/*.less'
       - 'modules/**/*.less'
     puglint:
@@ -48,6 +78,16 @@ gulp:
       - 'public/img/**/*.*'
       - 'public/css/*.css'
       - 'public/js/**/*.js'
+    test-modules:
+      - 'modules/**/tests/model/*.*'
+      - 'modules/**/tests/server/*.*'
+      - 'modules/**/views/**/*.*'
+      - 'htdocs/css/*.css'
+      - 'htdocs/js/**/*.js'
+  tests:
+    modules:
+      - 'modules/**/tests/server/*.js'
+      - 'modules/**/tests/model/*.js'
   build:
     jsdoc:
       src:
@@ -63,7 +103,7 @@ gulp:
       replace:
         '/js': ''
     less:
-      src: 'src/less/motion.less'
+      src: 'src/less/app.less'
       dest: 'public/css'
 
 server:

@@ -56,5 +56,5 @@ WORKDIR ${APP_HOME}
 
 EXPOSE ${MOTION_PORT} ${STREAM_PORT} ${SERVER_PORT} ${LIVERELOAD_PORT}
 
-CMD [ "bash" ]
+CMD [ "npm","start","dev" ]
 

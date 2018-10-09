@@ -40,12 +40,7 @@ const tasks = {
    */
   'lint': (callback) => {
     sequence(
-      'jshint',
-      'jsonlint',
-      'lesshint',
-      'yamllint',
-      'puglint',
-      'ejslint',
+      ...config.gulp.start[process.env.NODE_ENV].lint,
       callback
     );
   },

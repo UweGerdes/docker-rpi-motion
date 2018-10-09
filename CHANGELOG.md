@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.0.10
-replaced gulpfile
+replaced gulpfile, server with boilerplate from docker-vcards
 
 ## 0.0.9
 updating node packages

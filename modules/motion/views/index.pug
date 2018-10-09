@@ -1,0 +1,15 @@
+//- index.pug
+extends ../../index.pug
+
+append head
+  link(rel='stylesheet', href='/css/motion.css')
+
+block content
+  div#motion.motion.flex-wrapper
+
+    #head.flex-block.flex-header
+      #header-wrapper.flex-wrapper
+        h1#headline.headline.flex-block.flex-left= title + ' Headline'
+
+    #motion-container.motion-container.flex-block.flex-center
+      h2 Motion...

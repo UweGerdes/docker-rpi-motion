@@ -34,19 +34,19 @@ const tasks = {
    */
   'tests': (callback) => {
     sequence(
-      'test-vcards',
+      ...config.gulp.start[process.env.NODE_ENV].tests,
       callback
     );
   },
   /**
-   * ### test-vcards
+   * ### test-modules
    *
-   * @task test-vcards
+   * @task test-modules
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'test-vcards': [['jshint'], (callback) => {
-      Promise.all(config.gulp.tests.vcards.map(filePromises.getFilenames))
+  'test-modules': [['jshint'], (callback) => {
+      Promise.all(config.gulp.tests.modules.map(filePromises.getFilenames))
       .then((filenames) => [].concat(...filenames)) // jscs:ignore jsDoc
       .then(filePromises.getRecentFiles)
       .then((filenames) => { // jscs:ignore jsDoc
@@ -56,7 +56,7 @@ const tasks = {
         .on('error', function () { // jscs:ignore jsDoc
           self.emit('end');
         })
-        .pipe(log({ message: 'tested: <%= file.path %>', title: 'Gulp test-vcards' }));
+        .pipe(log({ message: 'tested: <%= file.path %>', title: 'Gulp test-modules' }));
         return self;
       })
       .then(() => { // jscs:ignore jsDoc

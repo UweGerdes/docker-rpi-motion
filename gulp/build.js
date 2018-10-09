@@ -36,9 +36,7 @@ const tasks = {
    */
   'build': (callback) => {
     sequence(
-      'less',
-      'js',
-      'jsdoc',
+      ...config.gulp.start[process.env.NODE_ENV].build,
       callback
     );
   },

@@ -1,96 +1,150 @@
-/*
- * Start a HTTP server for motion
+/**
+ * ## HTTP-Server for motion
  *
- * node server.js
- *
- * (c) Uwe Gerdes, entwicklung@uwegerdes.de
+ * @module server
  */
 'use strict';
 
-var bodyParser = require('body-parser'),
-	express = require('express'),
-	fs = require('fs'),
-	logger = require('morgan'),
-	os = require('os'),
-	path = require('path');
+const bodyParser = require('body-parser'),
+  cookieParser = require('cookie-parser'),
+  chalk = require('chalk'),
+  dateFormat = require('dateformat'),
+  express = require('express'),
+  glob = require('glob'),
+  morgan = require('morgan'),
+  path = require('path'),
+  config = require('./lib/config'),
+  ipv4addresses = require('./lib/ipv4addresses'),
+  log = require('./lib/log'),
+  app = express()
+  ;
 
-var motion = require('./index.js');
+const httpPort = config.server.httpPort,
+  docRoot = config.server.docroot,
+  modulesRoot = config.server.modules,
+  verbose = config.server.verbose
+  ;
 
-var interfaces = os.networkInterfaces(),
-	app = express();
-
-var httpPort = process.env.SERVER_PORT || "8082",
-	verbose = (process.env.VERBOSE == 'true'),
-	baseDir = __dirname;
-
-var captureDir = path.join(baseDir, 'capture'),
-	logsDir = path.join(baseDir, 'logs');
-
-if (!fs.existsSync(captureDir)) {
-	fs.mkdirSync(captureDir);
-}
-
-if (!fs.existsSync(logsDir)) {
-	fs.mkdirSync(logsDir);
-}
-
-// Log the requests
+/**
+ * Weberver logging
+ *
+ * using log format starting with [time]
+ */
 if (verbose) {
-	app.use(logger('dev'));
+  morgan.token('time', () => { // jscs:ignore jsDoc
+    return dateFormat(new Date(), 'HH:MM:ss');
+  });
+  app.use(morgan('[' + chalk.gray(':time') + '] ' +
+    ':method :status :url :res[content-length] Bytes - :response-time ms'));
 }
+
+// base directory for views
+app.set('views', __dirname);
+
+// render ejs files
+app.set('view engine', 'ejs');
 
 // work on post requests
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// work on cookies
+app.use(cookieParser());
 
 // Serve static files
-app.use(express.static(path.join(baseDir, 'public')));
+app.use(express.static(docRoot));
 
-// Handle AJAX requests for run configs
-app.get('/:id/:command/:options?', function(req, res){
-	runCommand(req.params, res);
+/**
+ * Route for root dir
+ *
+ * @param {Object} req - request
+ * @param {Object} res - response
+ */
+app.get('/', (req, res) => {
+  res.sendFile(path.join(docRoot, 'index.html'));
 });
 
-// Route for root dir
-app.get('/', function(req, res){
-	res.sendFile(path.join(baseDir, 'public', 'index.html'));
+/**
+ * Route for app main page
+ *
+ * @param {Object} req - request
+ * @param {Object} res - response
+ */
+app.get('/app', (req, res) => {
+  res.render(viewPath('app'), getHostData(req));
 });
 
-// Route for everything else.
-app.get('*', function(req, res){
-	res.status(404).send('Sorry cant find that: ' + req.url);
+/**
+ * Routes from modules
+ */
+glob.sync(modulesRoot + '/**/server/index.js')
+  .forEach((filename) => { // jscs:ignore jsDoc
+    const regex = new RegExp(modulesRoot + '(/[^/]+)/server/index.js');
+    const baseRoute = filename.replace(regex, '$1');
+    app.use(baseRoute, require(filename));
+  })
+;
+
+/**
+ * Route for everything else
+ *
+ * @param {Object} req - request
+ * @param {Object} res - response
+ */
+app.get('*', (req, res) => {
+  res.status(404).render(viewPath('404'), getHostData(req));
 });
 
 // Fire it up!
+log.info('server listening on ' +
+  chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + httpPort));
+
 app.listen(httpPort);
-var addresses = [];
-for (var k in interfaces) {
-    for (var k2 in interfaces[k]) {
-        var address = interfaces[k][k2];
-        if (address.family === 'IPv4' && !address.internal) {
-            addresses.push(address.address);
-        }
-    }
-}
-// console.log("IP address of container  :  " + addresses);
-console.log('motion server listening on http://' + addresses[0] + ':' + httpPort);
 
-function runCommand(params, res) {
-	console.log("ID: " + params.id + ", Command: " + params.command);
-	switch(params.command) {
-		case "start":
-			motion.start(params.id);
-			break;
-		case "stop":
-			motion.stop(params.id);
-			break;
-		case "running":
-			motion.running();
-			break;
-		default:
-			console.log("Command not found: " + params.command);
-			break;
-	}
-	res.sendFile(path.join(baseDir, 'public', 'index.html'));
+/**
+ * Handle server errors
+ *
+ * @param {Object} err - error
+ * @param {Object} req - request
+ * @param {Object} res - response
+ * @param {Object} next - needed for complete signature
+ */
+app.use((err, req, res, next) => {
+  console.error('SERVER ERROR:', err);
+  if (err) {
+    res.status(500)
+      .render(viewPath('500'), Object.assign({ error: err }, getHostData(req)));
+  } else {
+    next();
+  }
+});
+
+/**
+ * Get the path for file to render
+ *
+ * @private
+ * @param {String} page - page type
+ * @param {String} type - file type (ejs, jade, pug, html)
+ */
+function viewPath(page = '404', type = 'ejs') {
+  return modulesRoot + '/pages/' + page + '/views/index.' + type;
 }
 
+/**
+ * Get the host data for livereload
+ *
+ * @private
+ * @param {String} req - request
+ */
+function getHostData(req) {
+  let livereloadPort = config.server.livereloadPort;
+  const host = req.get('Host');
+  if (host.indexOf(':') > 0) {
+    livereloadPort = parseInt(host.split(':')[1]) + 1;
+  }
+  return {
+    hostname: req.hostname,
+    httpPort: httpPort,
+    livereloadPort: livereloadPort
+  };
+}

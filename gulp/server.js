@@ -36,18 +36,10 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'server-restart': [['jshint'], (callback) => {
-    if (process.env.NODE_ENV == 'development') {
-      sequence(
-        'server-changed',
-        'tests',
-        callback
-      );
-    } else {
-      sequence(
-        'server-changed',
-        callback
-      );
-    }
+    sequence(
+      ...config.gulp.start[process.env.NODE_ENV].server,
+      callback
+    );
   }],
   /**
    * ### server livereload task
