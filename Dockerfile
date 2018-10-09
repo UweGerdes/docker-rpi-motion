@@ -21,8 +21,7 @@ ENV NODE_ENV development
 USER root
 
 COPY package.json ${NODE_HOME}/
-
-WORKDIR ${NODE_HOME}
+COPY . ${APP_HOME}
 
 RUN apt-get update && \
 	apt-get install -y \
@@ -38,19 +37,19 @@ RUN apt-get update && \
 	npm install -g \
 				gulp \
 				jshint && \
-	npm install
+	chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
 
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-COPY . ${APP_HOME}
+USER ${USER_NAME}
 
-RUN chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
+WORKDIR ${NODE_HOME}
+
+RUN npm install
 
 WORKDIR ${APP_HOME}
-
-USER ${USER_NAME}
 
 EXPOSE ${MOTION_PORT} ${STREAM_PORT} ${SERVER_PORT}
 
