@@ -36,7 +36,6 @@ RUN apt-get update && \
 	adduser ${USER_NAME} video && \
 	adduser ${USER_NAME} motion && \
 	npm install -g \
-				bower \
 				gulp \
 				jshint && \
 	npm install
@@ -52,8 +51,6 @@ RUN chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
 WORKDIR ${APP_HOME}
 
 USER ${USER_NAME}
-
-VOLUME [ "${APP_HOME}" ]
 
 EXPOSE ${MOTION_PORT} ${STREAM_PORT} ${SERVER_PORT}
 
