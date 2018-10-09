@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.9
+updating node packages
+
 ## 0.0.8
 rebase Dockerfile to uwegerdes/nodejs
 
