@@ -38,7 +38,7 @@ var log = notify.withReporter(function (options, callback) {
  * less files lint
  */
 watchFilesFor['less-lint'] = [
-	path.join(baseDir, 'less', '**', '*.less')
+	path.join(baseDir, 'src', 'less', '**', '*.less')
 ];
 gulp.task('less-lint', function () {
 	return gulp.src( watchFilesFor['less-lint'] )
@@ -52,12 +52,12 @@ gulp.task('less-lint', function () {
  * compile less files
  */
 watchFilesFor.less = [
-	path.join(baseDir, 'less', '**', '*.less'),
-	path.join(baseDir, 'less', 'motion.less')
+	path.join(baseDir, 'src', 'less', '**', '*.less'),
+	path.join(baseDir, 'src', 'less', 'motion.less')
 ];
 gulp.task('less', function () {
 	var dest = function(filename) {
-		return path.join(path.dirname(path.dirname(filename)), 'public', 'css');
+		return path.join(path.dirname(path.dirname(filename)), '..', 'public', 'css');
 	};
 	var src = watchFilesFor.less.filter(function(el){return el.indexOf('/**/') == -1; });
 	return gulp.src( src )
