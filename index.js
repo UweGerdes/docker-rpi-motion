@@ -1,67 +1,79 @@
-/*
- * control the motion program
+/**
+ * # control the motion program
  *
- * node index.js
+ * use with node require
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  */
 'use strict';
 
-var exec = require('child_process').execFile;
+const exec = require('child_process').execFile;
 
-var verbose = false;
-var status = { running: false };
-var motionProcess = null;
+let verbose = false;
+let motionProcess = null;
 
-function start(id, callback) {
-	var cmd = "motion";
-	var args = ['-n'];
-	if (verbose) {
-		console.log('starting: ' + cmd + ' ' + args.join(' '));
-	}
-	status.running = false;
-	stop(id);
-	status.running = true;
-	motionProcess = exec(cmd, args,
-		function (error, stdout, stderr) {
-			console.log('finished ' + id + ((error) ? 'error: ' + error : ', all ok'));
-		}
-	);
-	motionProcess.stdout.on('data', function(data) { console.log(id + ': ' + data.trim()); });
-	motionProcess.stderr.on('data', function(data) { console.log(id + ' stderr: ' + data.trim()); });
-	motionProcess.on('error', function(err) { console.log(id + ' error: ' + err.trim()); });
-	motionProcess.on('close', function(code) {
-		if (code > 0) {
-			console.log('load ' + id + ' exit: ' + code);
-		}
-		status.running = false;
-		if (callback) {
-			callback(status);
-		}
-	});
+/**
+ * ### start motion
+ *
+ * @param {Function} callback - after end
+ */
+function start(callback) {
+  let cmd = 'motion';
+  let args = ['-n'];
+  if (verbose) {
+    console.log('starting: ' + cmd + ' ' + args.join(' '));
+  }
+  stop();
+  motionProcess = exec(cmd, args,
+    function (error, stdout, stderr) {
+      console.log('fin', stdout, stderr);
+      console.log('finished ' + ((error) ? 'error: ' + error : ', all ok'));
+    }
+  );
+  motionProcess.stdout.on('data', function (data) { console.log('stdout: ' + data.trim()); });
+  motionProcess.stderr.on('data', function (data) { console.log('stderr: ' + data.trim()); });
+  motionProcess.on('error', function (err) { console.log('error: ' + err.trim()); });
+  motionProcess.on('close', function (exitCode) {
+    if (exitCode > 0) {
+      console.log('exitCode: ' + exitCode);
+    }
+    if (callback) {
+      callback();
+    }
+  });
 }
 
-function stop(id) {
-	if (running()) {
-		console.log('stopping motion ' + id);
-		motionProcess.kill('SIGTERM');
-		status.running = false;
-	}
+/**
+ * ### stop motion
+ */
+function stop() {
+  if (isRunning()) {
+    motionProcess.kill('SIGTERM');
+  }
 }
 
-function running() {
-	if (motionProcess && ! motionProcess.killed) {
-		console.log("motion running");
-		return true;
-	} else {
-		console.log("motion not running");
-		return false;
-	}
+/**
+ * ### is motion running
+ *
+ * @returns {Boolean} motion run status
+ */
+function isRunning() {
+  if (motionProcess && !motionProcess.killed) {
+    if (verbose) {
+      console.log('motion running');
+    }
+    return true;
+  } else {
+    if (verbose) {
+      console.log('motion not running');
+    }
+    return false;
+  }
 }
 
 module.exports = {
-	running: running,
-	start: start,
-	stop: stop
+  start: start,
+  stop: stop,
+  isRunning: isRunning
 };
 
