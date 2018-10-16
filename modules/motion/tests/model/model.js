@@ -22,14 +22,18 @@ describe('motion API', () => {
     assert.notEqual(model.isRunning, null);
   });
   it('should not run', () => {
-    assert.equal(model.isRunning(), false);
+    model.isRunning().then(running => {
+      assert.equal(running, false);
+    });
   });
   it('should start motion', () => {
-    model.startMotion();
-    assert.equal(model.isRunning(), true);
+    model.startMotion().then(running => {
+      assert.equal(running, true);
+    });
   });
   it('should stop motion', () => {
-    model.stopMotion();
-    assert.equal(model.isRunning(), false);
+    model.stopMotion().then(wasRunning => {
+      assert.equal(wasRunning, false);
+    });
   });
 });

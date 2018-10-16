@@ -29,6 +29,7 @@ RUN apt-get update && \
 	apt-get install -y \
 				alsa-utils \
 				ffmpeg \
+				psmisc \
 				lame \
 				motion && \
 	apt-get clean && \
@@ -57,4 +58,3 @@ WORKDIR ${APP_HOME}
 EXPOSE ${MOTION_PORT} ${STREAM_PORT} ${SERVER_PORT} ${LIVERELOAD_PORT}
 
 CMD [ "npm","start","dev" ]
-

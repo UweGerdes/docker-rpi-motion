@@ -13,7 +13,9 @@ const dryRun = false;
  */
 function startMotion() {
   if (!dryRun) {
-    motion.start();
+    return motion.start();
+  } else {
+    console.log('motion.start();');
   }
 }
 
@@ -22,7 +24,9 @@ function startMotion() {
  */
 function stopMotion() {
   if (!dryRun) {
-    motion.stop();
+    return motion.stop();
+  } else {
+    console.log('motion.stop();');
   }
 }
 

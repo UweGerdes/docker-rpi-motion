@@ -79,6 +79,7 @@ gulp:
       - 'public/css/*.css'
       - 'public/js/**/*.js'
     test-modules:
+      - 'index.js'
       - 'modules/**/tests/model/*.*'
       - 'modules/**/tests/server/*.*'
       - 'modules/**/views/**/*.*'

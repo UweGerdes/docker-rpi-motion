@@ -7,7 +7,10 @@
  */
 'use strict';
 
-const exec = require('child_process').execFile;
+const spawn = require('child_process').spawn,
+  fkill = require('fkill'),
+  fs = require('fs'),
+  processExists = require('process-exists');
 
 let verbose = false;
 let motionProcess = null;
@@ -19,27 +22,30 @@ let motionProcess = null;
  */
 function start(callback) {
   let cmd = 'motion';
-  let args = ['-n'];
-  if (verbose) {
-    console.log('starting: ' + cmd + ' ' + args.join(' '));
-  }
-  stop();
-  motionProcess = exec(cmd, args,
-    function (error, stdout, stderr) {
-      console.log('fin', stdout, stderr);
-      console.log('finished ' + ((error) ? 'error: ' + error : ', all ok'));
+  let args = ['-b'];
+  stop().then(exists => { // jscs:ignore jsDoc
+    if (exists === false) {
+      if (verbose) {
+        console.log('starting: ' + cmd + ' ' + args.join(' '));
+      }
+    } else {
+      if (verbose) {
+        console.log('restarting: ' + cmd + ' ' + args.join(' '), exists);
+      }
+    }
+  });
+
+  let out = fs.openSync('./motion.log', 'a');
+  let err = fs.openSync('./motion.log', 'a');
+  motionProcess = spawn(cmd, args,
+    {
+      detached: true,
+      stdio: ['ignore', out, err]
     }
   );
-  motionProcess.stdout.on('data', function (data) { console.log('stdout: ' + data.trim()); });
-  motionProcess.stderr.on('data', function (data) { console.log('stderr: ' + data.trim()); });
-  motionProcess.on('error', function (err) { console.log('error: ' + err.trim()); });
-  motionProcess.on('close', function (exitCode) {
-    if (exitCode > 0) {
-      console.log('exitCode: ' + exitCode);
-    }
-    if (callback) {
-      callback();
-    }
+  motionProcess.unref();
+  return new Promise((resolve) => { // jscs:ignore jsDoc
+    resolve(true);
   });
 }
 
@@ -47,9 +53,14 @@ function start(callback) {
  * ### stop motion
  */
 function stop() {
-  if (isRunning()) {
-    motionProcess.kill('SIGTERM');
-  }
+  return isRunning().then(running => { // jscs:ignore jsDoc
+    if (running) {
+      fkill('motion');
+    }
+    return new Promise((resolve) => { // jscs:ignore jsDoc
+      resolve(!running);
+    });
+  });
 }
 
 /**
@@ -58,17 +69,7 @@ function stop() {
  * @returns {Boolean} motion run status
  */
 function isRunning() {
-  if (motionProcess && !motionProcess.killed) {
-    if (verbose) {
-      console.log('motion running');
-    }
-    return true;
-  } else {
-    if (verbose) {
-      console.log('motion not running');
-    }
-    return false;
-  }
+  return processExists('motion');
 }
 
 module.exports = {
@@ -76,4 +77,3 @@ module.exports = {
   stop: stop,
   isRunning: isRunning
 };
-
