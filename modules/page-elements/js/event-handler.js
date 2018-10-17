@@ -5,12 +5,12 @@
 
 /* jshint browser: true */
 
-let dataHandler = {};
+let eventHandler = {};
 
 /**
  * click for xhttp request and use handler for result
  */
-dataHandler['data-click-xhr'] = {
+registerHandler('data-click-xhr', {
   elements: document.querySelectorAll('[data-click-xhr]'),
   event: 'click',
   func: function (event) { // jscs:ignore jsDoc
@@ -21,8 +21,8 @@ dataHandler['data-click-xhr'] = {
         if (this.status == 200) {
           if (element.hasAttribute('data-click-xhr-result')) {
             const fn = element.getAttribute('data-click-xhr-result');
-            if (dataHandler[fn]) {
-              dataHandler[fn](this.responseText);
+            if (eventHandler[fn]) {
+              eventHandler[fn](this.responseText);
             } else {
               console.log('handler not found: ' + fn);
             }
@@ -35,7 +35,7 @@ dataHandler['data-click-xhr'] = {
     xhttp.open('GET', element.getAttribute('data-click-xhr'), true);
     xhttp.send();
   }
-};
+});
 
 /**
  * attach event to elements
@@ -55,9 +55,19 @@ function attachEventHandler(element, event, handler) {
 }
 
 /**
+ * register handler
+ *
+ * @param {String} name - for handler
+ * @param {Object} handler - element event handler or function
+ */
+function registerHandler(name, handler) {
+  eventHandler[name] = handler;
+}
+
+/**
  * attach event handlers
  */
-Object.values(dataHandler).forEach((handler) => { // jscs:ignore jsDoc
+Object.values(eventHandler).forEach((handler) => { // jscs:ignore jsDoc
   handler.elements.forEach((element) => { // jscs:ignore jsDoc
     attachEventHandler(element, handler.event, handler.func);
   });
