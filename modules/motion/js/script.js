@@ -158,33 +158,6 @@ handler['data-select-xhr'] = {
 };
 
 /**
- * new input
- */
-handler['data-click-xhr'] = {
-  elements: document.querySelectorAll('[data-click-xhr]'),
-  event: 'click',
-  func: function (event) { // jscs:ignore jsDoc
-    const element = event.target;
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          element.insertAdjacentHTML('beforeBegin', this.responseText);
-          const selects = element.previousSibling.querySelectorAll('select[data-select-xhr]');
-          if (selects.length) {
-            attachEventHandler(selects[selects.length - 1], 'change',
-              handler['data-select-xhr'].func);
-          }
-        }
-      }
-    };
-    const newIndex = element.parentElement.querySelectorAll(':scope > input').length;
-    xhttp.open('GET', element.getAttribute('data-click-xhr') + newIndex, true);
-    xhttp.send();
-  }
-};
-
-/**
  * open url from selection
  */
 handler['data-select-url'] = {
