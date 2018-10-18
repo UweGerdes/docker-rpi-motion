@@ -26,6 +26,7 @@ const viewRenderParams = {
  * @param {object} res - result
  */
 const index = (req, res) => {
+  console.log('index');
   let data = Object.assign({
       title: 'Motion'
     },
@@ -45,15 +46,12 @@ const index = (req, res) => {
  * @param {object} res - result
  */
 const run = (req, res) => {
-  // TODO implement
-  let data = Object.assign({
-      title: 'Motion'
-    },
-    req.params,
-    getHostData(req),
-    viewRenderParams
-  );
-  res.render(path.join(viewBase, 'index.pug'), data);
+  res.set('Content-Type', 'application/json');
+  model[req.params.command]().then((result) => { // jscs:ignore jsDoc
+    res.send({ data: result });
+  }).catch((error) => { // jscs:ignore jsDoc
+    res.send({ error: error });
+  });
 };
 
 module.exports = {

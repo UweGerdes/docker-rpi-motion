@@ -12,6 +12,6 @@ const controller = require('./controller.js');
 router.get('/', controller.index);
 
 // run motion command
-router.get('/run/:type?', controller.run);
+router.get('/run/:command?', controller.run);
 
 module.exports = router;

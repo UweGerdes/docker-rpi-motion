@@ -23,30 +23,33 @@ let motionProcess = null;
 function start(callback) {
   let cmd = 'motion';
   let args = ['-b'];
-  stop().then(exists => { // jscs:ignore jsDoc
+  isRunning().then(exists => { // jscs:ignore jsDoc
     if (exists === false) {
       if (verbose) {
         console.log('starting: ' + cmd + ' ' + args.join(' '));
       }
+      let out = fs.openSync('./motion.log', 'a');
+      let err = fs.openSync('./motion.log', 'a');
+      motionProcess = spawn(cmd, args,
+        {
+          detached: true,
+          stdio: ['ignore', out, err]
+        }
+      );
+      motionProcess.unref();
+      return new Promise((resolve) => { // jscs:ignore jsDoc
+        resolve(true);
+      });
     } else {
       if (verbose) {
         console.log('restarting: ' + cmd + ' ' + args.join(' '), exists);
       }
+      return new Promise((resolve) => { // jscs:ignore jsDoc
+        resolve(false);
+      });
     }
   });
 
-  let out = fs.openSync('./motion.log', 'a');
-  let err = fs.openSync('./motion.log', 'a');
-  motionProcess = spawn(cmd, args,
-    {
-      detached: true,
-      stdio: ['ignore', out, err]
-    }
-  );
-  motionProcess.unref();
-  return new Promise((resolve) => { // jscs:ignore jsDoc
-    resolve(true);
-  });
 }
 
 /**
@@ -58,7 +61,7 @@ function stop() {
       fkill('motion');
     }
     return new Promise((resolve) => { // jscs:ignore jsDoc
-      resolve(!running);
+      resolve(running);
     });
   });
 }
