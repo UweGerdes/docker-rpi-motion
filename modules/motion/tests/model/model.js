@@ -7,8 +7,13 @@
 const assert = require('assert');
 const model = require('../../server/model.js');
 
-/* jshint mocha: true */
-/* jscs:disable jsDoc */
+function delay(t, val) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      resolve(val);
+    }, t);
+  });
+}
 
 describe('motion/tests/model/model.js', () => {
   it('should have startMotion', () => {
@@ -33,11 +38,17 @@ describe('motion/tests/model/model.js', () => {
     assert.equal(isRunning, true);
   });
   it('should run', async () => {
+    await delay(1000);
     const isRunning = await model.isRunning();
     assert.equal(isRunning, true);
   });
   it('should stop motion', async () => {
     const wasRunning = await model.stopMotion();
     assert.equal(wasRunning, true);
+  });
+  it('should not run', async () => {
+    await delay(3000);
+    let isRunning = await model.isRunning();
+    assert.equal(isRunning, false);
   });
 });
