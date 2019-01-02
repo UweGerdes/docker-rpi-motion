@@ -22,7 +22,7 @@ let motionProcess = null;
 function start() {
   let cmd = 'motion';
   let args = ['-b'];
-  return isRunning().then(exists => { // jscs:ignore jsDoc
+  return isRunning().then(exists => {
     if (exists === false) {
       if (verbose) {
         console.log('starting: ' + cmd + ' ' + args.join(' '));
@@ -35,14 +35,14 @@ function start() {
           stdio: ['ignore', out, err]
         });
       motionProcess.unref();
-      return new Promise((resolve) => { // jscs:ignore jsDoc
+      return new Promise((resolve) => {
         resolve(true);
       });
     } else {
       if (verbose) {
         console.log('restarting: ' + cmd + ' ' + args.join(' '), exists);
       }
-      return new Promise((resolve) => { // jscs:ignore jsDoc
+      return new Promise((resolve) => {
         resolve(false);
       });
     }
@@ -54,12 +54,15 @@ function start() {
  * ### stop motion
  */
 function stop() {
-  return isRunning().then(running => { // jscs:ignore jsDoc
-    if (running) {
-      fkill('motion');
-    }
-    return new Promise((resolve) => { // jscs:ignore jsDoc
-      resolve(running);
+  return isRunning().then(running => {
+    return new Promise((resolve) => {
+      if (running) {
+        fkill('motion').then(() => {
+          resolve(running);
+        });
+      } else {
+        resolve(running);
+      }
     });
   });
 }
