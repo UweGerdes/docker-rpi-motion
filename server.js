@@ -3,6 +3,7 @@
  *
  * @module server
  */
+
 'use strict';
 
 const bodyParser = require('body-parser'),
@@ -16,22 +17,18 @@ const bodyParser = require('body-parser'),
   config = require('./lib/config'),
   ipv4addresses = require('./lib/ipv4addresses'),
   log = require('./lib/log'),
-  app = express()
-  ;
+  app = express(),
+  server = require('http').createServer(app);
 
-const httpPort = config.server.httpPort,
-  docRoot = config.server.docroot,
-  modulesRoot = config.server.modules,
-  verbose = config.server.verbose
-  ;
+let modules = { };
 
 /**
  * Weberver logging
  *
  * using log format starting with [time]
  */
-if (verbose) {
-  morgan.token('time', () => { // jscs:ignore jsDoc
+if (config.server.verbose) {
+  morgan.token('time', () => {
     return dateFormat(new Date(), 'HH:MM:ss');
   });
   app.use(morgan('[' + chalk.gray(':time') + '] ' +
@@ -52,7 +49,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Serve static files
-app.use(express.static(docRoot));
+app.use(express.static(config.server.docroot));
 
 /**
  * Route for root dir
@@ -61,7 +58,7 @@ app.use(express.static(docRoot));
  * @param {Object} res - response
  */
 app.get('/', (req, res) => {
-  res.sendFile(path.join(docRoot, 'index.html'));
+  res.sendFile(path.join(config.server.docroot, 'index.html'));
 });
 
 /**
@@ -74,16 +71,26 @@ app.get('/app', (req, res) => {
   res.render(viewPath('app'), getHostData(req));
 });
 
+// Fire it up!
+log.info('server listening on ' +
+  chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + config.server.httpPort));
+
+server.listen(config.server.httpPort);
+
 /**
  * Routes from modules
  */
-glob.sync(modulesRoot + '/**/server/index.js')
-  .forEach((filename) => { // jscs:ignore jsDoc
-    const regex = new RegExp(modulesRoot + '(/[^/]+)/server/index.js');
+glob.sync(config.server.modules + '/*/server/index.js')
+  .forEach((filename) => {
+    const regex = new RegExp(config.server.modules + '(/[^/]+)/server/index.js');
     const baseRoute = filename.replace(regex, '$1');
-    app.use(baseRoute, require(filename));
-  })
-;
+    modules[baseRoute] = require('./' + path.join(config.server.modules, baseRoute, 'config.json'));
+    const router = require(filename);
+    if (router.setExpress) {
+      router.setExpress(server);
+    }
+    app.use(baseRoute, router.router);
+  });
 
 /**
  * Route for everything else
@@ -94,12 +101,6 @@ glob.sync(modulesRoot + '/**/server/index.js')
 app.get('*', (req, res) => {
   res.status(404).render(viewPath('404'), getHostData(req));
 });
-
-// Fire it up!
-log.info('server listening on ' +
-  chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + httpPort));
-
-app.listen(httpPort);
 
 /**
  * Handle server errors
@@ -127,11 +128,11 @@ app.use((err, req, res, next) => {
  * @param {String} type - file type (ejs, jade, pug, html)
  */
 function viewPath(page = '404', type = 'ejs') {
-  return modulesRoot + '/pages/' + page + '/views/index.' + type;
+  return config.server.modules + '/pages/' + page + '/views/index.' + type;
 }
 
 /**
- * Get the host data for livereload
+ * Get the host data for ports and modules
  *
  * @private
  * @param {String} req - request
@@ -140,11 +141,12 @@ function getHostData(req) {
   let livereloadPort = config.server.livereloadPort;
   const host = req.get('Host');
   if (host.indexOf(':') > 0) {
-    livereloadPort = parseInt(host.split(':')[1]) + 1;
+    livereloadPort = parseInt(host.split(':')[1], 10) + 1;
   }
   return {
     hostname: req.hostname,
-    httpPort: httpPort,
-    livereloadPort: livereloadPort
+    httpPort: config.server.httpPort,
+    livereloadPort: livereloadPort,
+    modules: modules
   };
 }

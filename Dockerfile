@@ -3,7 +3,8 @@
 #
 # docker build -t uwegerdes/motion .
 
-FROM uwegerdes/nodejs
+ARG NODEIMAGE_VERSION=latest
+FROM uwegerdes/nodejs:${NODEIMAGE_VERSION}
 
 MAINTAINER Uwe Gerdes <entwicklung@uwegerdes.de>
 
@@ -16,9 +17,6 @@ ENV MOTION_PORT ${MOTION_PORT}
 ENV STREAM_PORT ${STREAM_PORT}
 ENV SERVER_PORT ${SERVER_PORT}
 ENV LIVERELOAD_PORT ${LIVERELOAD_PORT}
-
-# Set development environment as default
-ENV NODE_ENV development
 
 USER root
 
@@ -37,9 +35,8 @@ RUN apt-get update && \
 	adduser ${USER_NAME} audio && \
 	adduser ${USER_NAME} video && \
 	adduser ${USER_NAME} motion && \
-	npm install -g \
+	npm install -g --cache /tmp/root-cache \
 				gulp-cli \
-				jshint \
 				nodemon && \
 	chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
 
@@ -51,7 +48,7 @@ USER ${USER_NAME}
 
 WORKDIR ${NODE_HOME}
 
-RUN npm install
+RUN npm install --cache /tmp/node-cache
 
 WORKDIR ${APP_HOME}
 

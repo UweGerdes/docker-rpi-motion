@@ -10,23 +10,23 @@ gulp:
         - 'watch'
         - 'livereload-start'
         - 'server-start'
-#        - 'tests'
+        - 'tests'
       build:
         - 'less'
         - 'js'
 #        - 'jsdoc'
-      test:
+      tests:
         - 'test-modules'
       lint:
-        - 'jshint'
+        - 'ejslint'
+        - 'eslint'
         - 'jsonlint'
-        - 'lesshint'
         - 'yamllint'
         - 'puglint'
         - 'ejslint'
       server:
         - 'server-changed'
-#        - 'tests'
+        - 'tests'
     production:
       gulp:
         - 'build'
@@ -34,41 +34,35 @@ gulp:
       build:
         - 'less'
         - 'js'
-      test: []
+      tests: []
       lint: []
       server:
         - 'server-changed'
   watch:
+    eslint:
+      - '*.js'
+      - '.eslintrc.js'
+      - 'gulp/**/*.js'
+      - 'lib/**/*.js'
+      - 'modules/**/*.js'
     js:
       - 'modules/*/js/*.js'
     jsdoc:
       - 'nofile.js'
-    jshint:
-      - '*.js'
-      - 'gulp/**/*.js'
-      - 'lib/**/*.js'
-      - 'modules/**/*.js'
-      - '!modules/**/tests/e2e-workflow/*.js'
-      - 'src/**/*.js'
     jsonlint:
       - '**/*.json'
-      - '.jscsrc'
-      - '.jshintrc'
       - '.lesshintrc'
-    lesshint:
-      - 'modules/**/less/**/*.less'
-      - 'src/less/**/*.less'
     yamllint:
       - '**/*.yaml'
       - '**/*.yml'
-    ejslint:
+    ejslint-livereload:
       - '**/*.ejs'
     less:
       - 'src/less/**/*.less'
       - 'modules/**/*.less'
     puglint:
       - '**/*.pug'
-    server-restart:
+    server:
       - './server.js'
       - './modules/**/!(tests)/server/*.js'
     livereload:
@@ -77,6 +71,7 @@ gulp:
       - 'modules/**/*.pug'
       - 'public/img/**/*.*'
       - 'public/css/*.css'
+    livereload-index:
       - 'public/js/**/*.js'
     test-modules:
 #      - 'index.js'
@@ -87,8 +82,9 @@ gulp:
 #      - 'htdocs/js/**/*.js'
   tests:
     modules:
-      - 'modules/**/tests/server/*.js'
       - 'modules/**/tests/model/*.js'
+      - 'modules/**/tests/server/*.js'
+      - 'modules/**/tests/views/*.js'
   build:
     jsdoc:
       src:
@@ -99,10 +95,11 @@ gulp:
         - 'src/**/*.js'
       dest: 'docs/jsdoc'
     js:
-      src: 'modules/*/js/*.js'
+      src:
+        - 'modules/*/js/*.js'
       dest: 'public/js'
       replace:
-        '/js': ''
+        'modules/([^/]+)/js(/[^/]+)?/.+': '$1$2'
     less:
       src: 'src/less/app.less'
       dest: 'public/css'

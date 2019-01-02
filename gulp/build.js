@@ -1,30 +1,22 @@
 /**
  * @module gulp/build
  */
+
 'use strict';
 
 const gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
   jsdoc = require('gulp-jsdoc3'),
   less = require('gulp-less'),
-  notify = require('gulp-notify'),
   rename = require('gulp-rename'),
   sequence = require('gulp-sequence'),
+  gulpStreamToPromise = require('gulp-stream-to-promise'),
   lessPluginGlob = require('less-plugin-glob'),
   combiner = require('stream-combiner2'),
   config = require('../lib/config'),
-  loadTasks = require('./lib/load-tasks')
-  ;
-
-/**
- * log only to console, not GUI
- *
- * @param {pbject} options - setting options
- * @param {function} callback - gulp callback
- */
-const log = notify.withReporter((options, callback) => {
-  callback();
-});
+  filePromises = require('./lib/files-promises'),
+  loadTasks = require('./lib/load-tasks'),
+  notify = require('./lib/notify');
 
 const tasks = {
   /**
@@ -48,7 +40,7 @@ const tasks = {
    * @task less
    * @namespace tasks
    */
-  'less': () => {
+  'less': [['lesshint'], () => {
     return combiner.obj([
       gulp.src(config.gulp.build.less.src),
       less({
@@ -56,11 +48,10 @@ const tasks = {
       }),
       autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'),
       gulp.dest(config.gulp.build.less.dest),
-      log({ message: 'written: <%= file.path %>', title: 'Gulp less' })
+      notify({ message: 'written: <%= file.path %>', title: 'Gulp less' })
     ])
-    .on('error', () => { }) // jscs:ignore jsDoc
-    ;
-  },
+      .on('error', () => { });
+  }],
   /**
    * #### Compile js files
    *
@@ -69,17 +60,31 @@ const tasks = {
    * @task jsss
    * @namespace tasks
    */
-  'js': () => {
-    return gulp.src(config.gulp.build.js.src)
-      .pipe(rename(function (path) {
-        Object.keys(config.gulp.build.js.replace).forEach((key) => { // jscs:ignore jsDoc
-          path.dirname = path.dirname.replace(key, config.gulp.build.js.replace[key]);
-        });
-      }))
-      .pipe(gulp.dest(config.gulp.build.js.dest))
-      .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp js' }))
-    ;
-  },
+  'js': [['eslint'], (callback) => {
+    Promise.all(config.gulp.build.js.src.map(filePromises.getFilenames))
+      .then((filenames) => [].concat(...filenames))
+      .then(filePromises.getRecentFiles)
+      .then((filenames) => {
+        const promises = [];
+        for (const filename of filenames) {
+          promises.push(gulpStreamToPromise(
+            gulp.src(filename)
+              .pipe(rename(function (path) {
+                Object.keys(config.gulp.build.js.replace).forEach((key) => {
+                  path.dirname = filename.replace(new RegExp(key), config.gulp.build.js.replace[key]);
+                });
+              }))
+              .pipe(gulp.dest(config.gulp.build.js.dest))
+              .pipe(notify({ message: 'written: <%= file.path %>', title: 'Gulp js' }))
+          ));
+        }
+        return Promise.all(promises);
+      })
+      .then(() => {
+        callback();
+      })
+      .catch(err => console.log(err));
+  }],
   /**
    * #### Compile jsdoc
    *
@@ -89,7 +94,7 @@ const tasks = {
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'jsdoc': [['jshint'], (callback) => {
+  'jsdoc': [['eslint'], (callback) => {
     const jsdocConfig = {
       'tags': {
         'allowUnknownTags': true
@@ -114,11 +119,8 @@ const tasks = {
       }
     };
     gulp.src(config.gulp.build.jsdoc.src, { read: false })
-      .pipe(jsdoc(jsdocConfig, callback))
-      ;
+      .pipe(jsdoc(jsdocConfig, callback));
   }]
 };
 
-if (process.env.NODE_ENV == 'development') {
-  loadTasks.importTasks(tasks);
-}
+loadTasks.importTasks(tasks);

@@ -1,5 +1,5 @@
 /**
- * gulpfile for project motion
+ * gulpfile
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  *
@@ -9,6 +9,7 @@
  * @module
  *
  */
+
 'use strict';
 
 require('./gulp/build');
@@ -19,8 +20,7 @@ require('./gulp/watch');
 
 const gulp = require('gulp'),
   sequence = require('gulp-sequence'),
-  config = require('./lib/config')
-  ;
+  config = require('./lib/config');
 
 /**
  * #### default task
