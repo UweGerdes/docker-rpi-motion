@@ -23,7 +23,7 @@ let motionProcess = null;
 function start(callback) {
   let cmd = 'motion';
   let args = ['-b'];
-  isRunning().then(exists => { // jscs:ignore jsDoc
+  return isRunning().then(exists => { // jscs:ignore jsDoc
     if (exists === false) {
       if (verbose) {
         console.log('starting: ' + cmd + ' ' + args.join(' '));
