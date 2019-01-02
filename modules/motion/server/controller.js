@@ -10,6 +10,7 @@ const path = require('path'),
   socketIo = require('socket.io'),
   config = require('../../../lib/config'),
   model = require('./model.js');
+
 const viewBase = path.join(path.dirname(__dirname), 'views');
 
 const viewRenderParams = {
@@ -66,22 +67,18 @@ const setExpress = (server) => {
     console.log('socket.io incoming connection');
     socket = newSocket;
     socket.on('startMotion', async () => {
-      console.log('socket.io startMotion');
       const started = await model.startMotion();
-      socket.emit('status', started);
+      const isRunning = await model.isRunning();
+      socket.emit('status', { startMotion: started, isRunning: isRunning });
     });
     socket.on('stopMotion', async () => {
-      console.log('socket.io stopMotion');
       const stopped = await model.stopMotion();
-      socket.emit('status', stopped);
+      const isRunning = await model.isRunning();
+      socket.emit('status', { stopMotion: stopped, isRunning: isRunning });
     });
     socket.on('isRunning', async () => {
       const isRunning = await model.isRunning();
-      console.log('socket.io isRunning', isRunning);
       socket.emit('status', { isRunning: isRunning });
-    });
-    socket.on('setValue', (data) => {
-      console.log('socket.io setValue', data);
     });
   });
 };
