@@ -7,14 +7,6 @@
 const assert = require('assert');
 const model = require('../../server/model.js');
 
-function delay(t, val) {
-  return new Promise(function(resolve) {
-    setTimeout(function() {
-      resolve(val);
-    }, t);
-  });
-}
-
 describe('motion/tests/model/model.js', () => {
   it('should have startMotion', () => {
     assert.notEqual(model.startMotion, null);
@@ -46,7 +38,6 @@ describe('motion/tests/model/model.js', () => {
     assert.equal(wasRunning, true);
   });
   it('should not run', async () => {
-    await delay(3000);
     let isRunning = await model.isRunning();
     assert.equal(isRunning, false);
   });

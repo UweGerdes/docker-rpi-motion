@@ -54,12 +54,19 @@ function start() {
  * ### stop motion
  */
 function stop() {
-  return isRunning().then(running => {
-    return new Promise((resolve) => {
+  const delay = (t, val) => {
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        resolve(val);
+      }, t);
+    });
+  };
+  return isRunning().then((running) => {
+    return new Promise(async (resolve) => {
       if (running) {
-        fkill('motion').then(() => {
-          resolve(running);
-        });
+        await fkill('motion');
+        await delay(3000);
+        resolve(running);
       } else {
         resolve(running);
       }
