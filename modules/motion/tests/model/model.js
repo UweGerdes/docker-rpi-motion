@@ -38,7 +38,6 @@ describe('motion/tests/model/model.js', () => {
     assert.equal(isRunning, true);
   });
   it('should run', async () => {
-    await delay(1000);
     const isRunning = await model.isRunning();
     assert.equal(isRunning, true);
   });
