@@ -1,8 +1,8 @@
 //- index.pug
 extends ../../index.pug
 
-mixin button(msg, data, label)
-  button.button.motion-button&attributes({ 'data-emit': msg, 'data-data': data })= label
+mixin button(msg, enabled, label)
+  button.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled })= label
 
 block content
   div#motion.motion.flex-wrapper
@@ -13,13 +13,12 @@ block content
 
     #motion-container.motion-container.flex-block.flex-center
       h2 Motion
-      h3 Status unbekannt
+      h3= 'Status '
+        span.status&attributes({ 'data-status': 'isRunning' }) unbekannt
       #button-container.button-container
-        + button('startMotion', "{}",  'start')
-        + button('stopMotion', "{}",  'stop')
+        + button('startMotion', '!isRunning',  'start')
+        + button('stopMotion', 'isRunning',  'stop')
         + button('isRunning', "{}",  'is running?')
-        button.button#motion-snapshot snapshot
-        button.button#motion-edit stream
 
 append footer
   script(src='/js/motion/event-handler.js')

@@ -64,7 +64,6 @@ const run = (req, res) => {
 const setExpress = (server) => {
   io = socketIo(server);
   io.sockets.on('connection', function (newSocket) {
-    console.log('socket.io incoming connection');
     socket = newSocket;
     socket.on('startMotion', async () => {
       const started = await model.startMotion();
