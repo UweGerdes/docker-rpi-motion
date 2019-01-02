@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.11
+updated boilerplate, async test for motion start/stop, adding socket.io
+
 ## 0.0.10
 replaced gulpfile, server with boilerplate from docker-vcards
 
