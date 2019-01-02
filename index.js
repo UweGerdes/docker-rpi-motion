@@ -5,6 +5,7 @@
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  */
+
 'use strict';
 
 const spawn = require('child_process').spawn,
@@ -17,10 +18,8 @@ let motionProcess = null;
 
 /**
  * ### start motion
- *
- * @param {Function} callback - after end
  */
-function start(callback) {
+function start() {
   let cmd = 'motion';
   let args = ['-b'];
   return isRunning().then(exists => { // jscs:ignore jsDoc
@@ -34,8 +33,7 @@ function start(callback) {
         {
           detached: true,
           stdio: ['ignore', out, err]
-        }
-      );
+        });
       motionProcess.unref();
       return new Promise((resolve) => { // jscs:ignore jsDoc
         resolve(true);

@@ -6,7 +6,7 @@
 
 /* jshint expr: true, mocha: true, browser: true */
 
-const serverDomain = 'http://localhost:8082';
+const serverDomain = 'http://localhost:8080';
 
 const chai = require('chai'),
   chaiHttp = require('chai-http'),
@@ -61,7 +61,7 @@ describe('motion/tests/server/page.js', function () {
           assert.equal(footer.textContent, '© 2018 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://localhost:8083/livereload.js'
+            'http://localhost:8081/livereload.js'
           );
           done();
         });

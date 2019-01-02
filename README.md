@@ -58,7 +58,7 @@ $ docker run -it \
 	bash
 ```
 
-You should start `npm start` and open localhost:8082 for the server, localhost:8080 / localhost:8081 for motion / streaming (if started from server or console).
+You should start `npm start` and open localhost:8080 for the server, localhost:8082 / localhost:8083 for motion / streaming (if started from server or console).
 
 Restart it later with:
 
