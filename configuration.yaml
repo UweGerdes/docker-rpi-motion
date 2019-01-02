@@ -1,5 +1,5 @@
 #
-#  Configuration for boilerplate
+#  Configuration for motion
 #
 gulp:
   start:
@@ -63,8 +63,8 @@ gulp:
     puglint:
       - '**/*.pug'
     server:
-      - './server.js'
-      - './modules/**/!(tests)/server/*.js'
+      - 'server.js'
+      - 'modules/**/!(tests)/server/*.js'
     livereload:
       - 'public/**/*.html'
       - 'modules/**/*.ejs'
@@ -74,7 +74,7 @@ gulp:
     livereload-index:
       - 'public/js/**/*.js'
     test-modules:
-#      - 'index.js'
+      - 'index.js'
       - 'modules/**/tests/model/*.*'
       - 'modules/**/tests/server/*.*'
 #      - 'modules/**/views/**/*.*'
