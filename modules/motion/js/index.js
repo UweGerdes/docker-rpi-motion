@@ -26,6 +26,7 @@ function documentLoaded() {
   enabledElements.forEach((element) => {
     addEnabledElement(element);
   });
+  socket.emit('isRunning');
 }
 
 socket.on('connect', () => {
