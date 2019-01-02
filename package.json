@@ -61,7 +61,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uwegerdes/docker-motion-rpi"
+    "url": "https://github.com/uwegerdes/docker-rpi-motion"
   },
   "scripts": {
     "start": "gulp",
