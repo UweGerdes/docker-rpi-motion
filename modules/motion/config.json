@@ -1,3 +1,4 @@
 {
-  "name": "RPI Motion"
+  "name": "RPI Motion",
+  "bodyclass": "motion"
 }
