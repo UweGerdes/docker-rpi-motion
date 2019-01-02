@@ -7,6 +7,7 @@
 'use strict';
 
 const path = require('path'),
+  socketIo = require('socket.io'),
   config = require('../../../lib/config'),
   model = require('./model.js');
 const viewBase = path.join(path.dirname(__dirname), 'views');
@@ -15,6 +16,9 @@ const viewRenderParams = {
   // model data
   // view helper functions
 };
+
+let socket,
+  io;
 
 /**
  * ### index page
@@ -51,9 +55,29 @@ const run = (req, res) => {
   });
 };
 
+/**
+ * ### set express for socket
+ *
+ * @param {object} app - express instance
+ */
+const setExpress = (server) => {
+  io = socketIo(server);
+  io.sockets.on('connection', function (newSocket) {
+    console.log('socket.io incoming connection');
+    socket = newSocket;
+    socket.on('start', () => {
+      console.log('socket.io start');
+    });
+    socket.on('setValue', (data) => {
+      console.log('socket.io setValue', data);
+    });
+  });
+};
+
 module.exports = {
   index: index,
-  run: run
+  run: run,
+  setExpress: setExpress
 };
 
 /**
