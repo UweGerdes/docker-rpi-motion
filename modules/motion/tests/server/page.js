@@ -43,9 +43,12 @@ describe('motion/tests/server/page.js', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          const searchButton = document.getElementById('motion-start');
-          assert.equal(searchButton.textContent, 'start');
-          // assert.equal(searchButton.getAttribute('data-modal'), '#searchLayer');
+          const startButton = document.querySelector('[data-emit=startMotion]');
+          assert.equal(startButton.textContent, 'start');
+          const stopButton = document.querySelector('[data-emit=stopMotion]');
+          assert.equal(stopButton.textContent, 'stop');
+          const isRunningButton = document.querySelector('[data-emit=isRunning]');
+          assert.equal(isRunningButton.textContent, 'is running?');
           done();
         });
     });

@@ -1,6 +1,9 @@
 //- index.pug
 extends ../../index.pug
 
+mixin button(msg, data, label)
+  button.button.motion-button&attributes({ 'data-emit': msg, 'data-data': data })= label
+
 block content
   div#motion.motion.flex-wrapper
 
@@ -12,11 +15,13 @@ block content
       h2 Motion
       h3 Status unbekannt
       #button-container.button-container
-        button.button#motion-start&attributes({'data-click-xhr': '/motion/run/startMotion', 'data-click-xhr-result': 'motion-start-result'}) start
-        button.button#motion-stop&attributes({'data-click-xhr': '/motion/run/stopMotion', 'data-click-xhr-result': 'motion-start-result'}) stop
-        button.button#motion-running&attributes({'data-click-xhr': '/motion/run/isRunning', 'data-click-xhr-result': 'motion-start-result'}) is running?
+        + button('startMotion', "{}",  'start')
+        + button('stopMotion', "{}",  'stop')
+        + button('isRunning', "{}",  'is running?')
         button.button#motion-snapshot snapshot
         button.button#motion-edit stream
 
 append footer
   script(src='/js/motion/event-handler.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
+  script(src='/js/motion/index.js')

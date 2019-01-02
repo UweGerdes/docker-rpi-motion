@@ -65,8 +65,20 @@ const setExpress = (server) => {
   io.sockets.on('connection', function (newSocket) {
     console.log('socket.io incoming connection');
     socket = newSocket;
-    socket.on('start', () => {
-      console.log('socket.io start');
+    socket.on('startMotion', async () => {
+      console.log('socket.io startMotion');
+      const started = await model.startMotion();
+      socket.emit('status', started);
+    });
+    socket.on('stopMotion', async () => {
+      console.log('socket.io stopMotion');
+      const stopped = await model.stopMotion();
+      socket.emit('status', stopped);
+    });
+    socket.on('isRunning', async () => {
+      const isRunning = await model.isRunning();
+      console.log('socket.io isRunning', isRunning);
+      socket.emit('status', { isRunning: isRunning });
     });
     socket.on('setValue', (data) => {
       console.log('socket.io setValue', data);
