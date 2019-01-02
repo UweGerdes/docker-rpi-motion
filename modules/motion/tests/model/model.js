@@ -20,19 +20,24 @@ describe('motion/tests/model/model.js', () => {
   it('should have isRunning', () => {
     assert.notEqual(model.isRunning, null);
   });
-  it('should not run', () => {
-    model.isRunning().then(running => {
-      assert.equal(running, false);
-    });
+  it('should not run', async () => {
+    const isRunning = await model.isRunning();
+    assert.equal(isRunning, false);
   });
-  it('should start motion', () => {
-    model.startMotion().then(running => {
-      assert.equal(running, true);
-    });
+  it('should not be stopped if not there', async () => {
+    const wasRunning = await model.stopMotion();
+    assert.equal(wasRunning, false);
   });
-  it('should stop motion', () => {
-    model.stopMotion().then(wasRunning => {
-      assert.equal(wasRunning, false);
-    });
+  it('should start motion', async () => {
+    const isRunning = await model.startMotion();
+    assert.equal(isRunning, true);
+  });
+  it('should run', async () => {
+    const isRunning = await model.isRunning();
+    assert.equal(isRunning, true);
+  });
+  it('should stop motion', async () => {
+    const wasRunning = await model.stopMotion();
+    assert.equal(wasRunning, true);
   });
 });
