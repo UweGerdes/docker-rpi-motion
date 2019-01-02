@@ -1,17 +1,16 @@
 /**
  * Test for motion data model
  */
+
 'use strict';
 
-const assert = require('assert')
-  ;
-
+const assert = require('assert');
 const model = require('../../server/model.js');
 
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('motion API', () => {
+describe('motion/tests/model/model.js', () => {
   it('should have startMotion', () => {
     assert.notEqual(model.startMotion, null);
   });

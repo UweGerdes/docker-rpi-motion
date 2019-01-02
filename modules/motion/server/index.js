@@ -1,10 +1,10 @@
 /**
  * Routes for motion
  */
+
 'use strict';
 
-const express = require('express'),
-  router = express.Router();
+const router = require('express').Router(); // eslint-disable-line new-cap
 
 const controller = require('./controller.js');
 
@@ -14,4 +14,6 @@ router.get('/', controller.index);
 // run motion command
 router.get('/run/:command?', controller.run);
 
-module.exports = router;
+module.exports = {
+  router: router
+};

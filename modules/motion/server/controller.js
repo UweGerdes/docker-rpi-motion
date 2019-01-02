@@ -3,13 +3,12 @@
  *
  * @module motion/controller
  */
+
 'use strict';
 
 const path = require('path'),
   config = require('../../../lib/config'),
-  model = require('./model.js')
-  ;
-
+  model = require('./model.js');
 const viewBase = path.join(path.dirname(__dirname), 'views');
 
 const viewRenderParams = {
@@ -26,14 +25,12 @@ const viewRenderParams = {
  * @param {object} res - result
  */
 const index = (req, res) => {
-  console.log('index');
   let data = Object.assign({
-      title: 'Motion'
-    },
-    req.params,
-    getHostData(req),
-    viewRenderParams
-  );
+    title: 'Motion'
+  },
+  req.params,
+  getHostData(req),
+  viewRenderParams);
   res.render(path.join(viewBase, 'index.pug'), data);
 };
 
@@ -69,7 +66,7 @@ function getHostData(req) {
   let livereloadPort = config.server.livereloadPort;
   const host = req.get('Host');
   if (host.indexOf(':') > 0) {
-    livereloadPort = parseInt(host.split(':')[1]) + 1;
+    livereloadPort = parseInt(host.split(':')[1], 10) + 1;
   }
   return {
     environment: process.env.NODE_ENV,

@@ -1,6 +1,7 @@
 /**
  * Test for motion page elements
  */
+
 'use strict';
 
 /* jshint expr: true, mocha: true, browser: true */
@@ -12,26 +13,25 @@ const chai = require('chai'),
   jsdom = require('jsdom'),
   assert = chai.assert,
   expect = chai.expect,
-  { JSDOM } = jsdom
-  ;
-
+  { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
-describe('motion page', function () {
+describe('motion/tests/server/page.js', function () {
   describe('GET /motion/', function () {
     it('should have head', function (done) {
       chai.request(serverDomain)
-        .get('/motion')
+        .get('/motion/')
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          assert.equal(document.title, 'Webserver - Motion');
+          assert.equal(document.title, 'Motion');
           assert.equal(document.head.getElementsByTagName('link').length, 1);
           assert.equal(
             document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
-            '/css/app.css');
+            '/css/app.css'
+          );
           done();
         });
     });
@@ -45,7 +45,7 @@ describe('motion page', function () {
           const { document } = (new JSDOM(res.text)).window;
           const searchButton = document.getElementById('motion-start');
           assert.equal(searchButton.textContent, 'start');
-          //assert.equal(searchButton.getAttribute('data-modal'), '#searchLayer');
+          // assert.equal(searchButton.getAttribute('data-modal'), '#searchLayer');
           done();
         });
     });
@@ -61,7 +61,8 @@ describe('motion page', function () {
           assert.equal(footer.textContent, '© 2018 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://localhost:8083/livereload.js');
+            'http://localhost:8083/livereload.js'
+          );
           done();
         });
     });
