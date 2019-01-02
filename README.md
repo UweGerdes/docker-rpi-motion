@@ -1,9 +1,5 @@
 # Docker with motion - use cam to detect motion, grab video, html frontend
 
-Inspiration from https://github.com/j3lte/node-motion
-
-## TODO
-
 Controller for motion actions
 
 Html server with image output, video stream and control links
@@ -16,15 +12,11 @@ Most of it should be packed in docker so I can recreate everything with a few co
 
 ## Prerequisites
 
-Make sure you have connected and tested the hardware, got images by raspistill and completed the following steps on your Raspberry Pi:
+Make sure you have connected and tested the hardware, activated the camera with `sudo raspi-config`, got images by raspistill and completed the following steps on your Raspberry Pi:
 
 ### Make a Raspbian image
 
 I use Raspbian, other systems might work too.
-
-### Install Docker
-
-TODO
 
 ### Create /dev/video0
 
@@ -41,7 +33,7 @@ You should add `bcm2835-v4l2` to `/etc/modules` so whenever the pi is restarted 
 
 ### Build the Docker image
 
-If you have proxy caches for apt-get and npm you should build my baseimage-arm32v7 and nodejs before building the motion image.
+You should start with (`uwegerdes/baseimage`)[https://github.com/UweGerdes/docker-baseimage-arm32v7] (arm32v7 version) and build (`uwegerdes/nodejs`)[https://github.com/UweGerdes/docker-nodejs] before building the motion image.
 
 ```bash
 $ docker build -t uwegerdes/motion .
@@ -100,4 +92,6 @@ $ ffmpeg -i "FILENAME.mp3" -r 30 -i "FILENAME.avi" "video.avi"
 
 https://www.bouvet.no/bouvet-deler/utbrudd/building-a-motion-activated-security-camera-with-the-raspberry-pi-zero
 
+## References
 
+Inspiration from (https://github.com/j3lte/node-motion)[https://github.com/j3lte/node-motion].
