@@ -19,6 +19,7 @@ block content
         + button('startMotion', '!isRunning',  'start')
         + button('stopMotion', 'isRunning',  'stop')
         + button('isRunning', "{}",  'is running?')
+      #stream&attributes({ 'data-enabled': 'isRunning' }) stream view
 
 append footer
   script(src='/js/motion/event-handler.js')

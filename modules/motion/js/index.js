@@ -49,6 +49,7 @@ socket.on('status', (data) => {
       }
     });
     enabledElements.isRunning.forEach(element => {
+      element.dataset.isRunning = data.isRunning;
       if (data.isRunning) {
         element.disabled = false;
       } else {
@@ -56,6 +57,7 @@ socket.on('status', (data) => {
       }
     });
     enabledElements['!isRunning'].forEach(element => {
+      element.dataset.isRunning = data.isRunning;
       if (data.isRunning) {
         element.disabled = true;
       } else {

@@ -1,9 +1,9 @@
 /**
  * scripts for motion
  */
+
 'use strict';
 
-/* jshint browser: true */
 /* globals registerHandler */
 
 /**
