@@ -71,7 +71,7 @@ const tasks = {
   /**
    * #### Lint json files
    *
-   * apply lesshint json files
+   * apply jsonlint json files
    *
    * @task jsonlint
    * @namespace tasks
