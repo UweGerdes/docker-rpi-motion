@@ -26,8 +26,16 @@ describe('motion/tests/model/model.js', () => {
     assert.equal(wasRunning, false);
   });
   it('should start motion', async () => {
-    const isRunning = await model.startMotion();
+    const wasRunning = await model.startMotion();
+    assert.equal(wasRunning, false);
+  });
+  it('should run', async () => {
+    const isRunning = await model.isRunning();
     assert.equal(isRunning, true);
+  });
+  it('should start motion again', async () => {
+    const wasRunning = await model.startMotion();
+    assert.equal(wasRunning, true);
   });
   it('should run', async () => {
     const isRunning = await model.isRunning();

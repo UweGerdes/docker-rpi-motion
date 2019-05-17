@@ -14,27 +14,105 @@ const io = require('socket.io-client'),
   };
 
 describe('motion/tests/server/socket.io.js', function () {
-  describe('GET /motion/', function () {
-    it('should send isRunning and receive status message', function (done) {
-      const client = io.connect(socketURL, options);
-      client.on('connect', function() {
-        client.emit('isRunning');
-      });
-      client.on('status', function(data) {
-        console.log('isRunning status', data);
-        assert.equal(data.isRunning, false, 'isRunning');
-        client.disconnect();
-        done();
-      });
-    });
-    it('should send stopMotion and receive status message', function (done) {
+  describe('socket', function () {
+    it('should send stopMotion and receive status isRunning=false', function (done) {
       const client = io.connect(socketURL, options);
       client.on('connect', function() {
         client.emit('stopMotion');
       });
       client.on('status', function(data) {
-        console.log('stopMotion status', data);
-        assert.equal(data.stopMotion, false, 'stopMotion');
+        assert.equal(data.isRunning, false, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send isRunning and receive status isRunning=false', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('isRunning');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.isRunning, false, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send startMotion and receive status wasRunning=false, isRunning=true', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('startMotion');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.wasRunning, false, 'wasRunning');
+        assert.equal(data.isRunning, true, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send isRunning and receive status isRunning=true', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('isRunning');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.isRunning, true, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send startMotion and receive status wasRunning=true, isRunning=true', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('startMotion');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.wasRunning, true, 'wasRunning');
+        assert.equal(data.isRunning, true, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send isRunning and receive status isRunning=true', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('isRunning');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.isRunning, true, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send stopMotion and receive status wasRunning=true, isRunning=false', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('stopMotion');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.wasRunning, true, 'wasRunning');
+        assert.equal(data.isRunning, false, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send stopMotion and receive status wasRunning=false, isRunning=false', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('stopMotion');
+      });
+      client.on('status', function(data) {
+        assert.equal(data.wasRunning, false, 'wasRunning');
+        assert.equal(data.isRunning, false, 'isRunning');
+        client.disconnect();
+        done();
+      });
+    });
+    it('should send isRunning and receive status isRunning=false', function (done) {
+      const client = io.connect(socketURL, options);
+      client.on('connect', function() {
+        client.emit('isRunning');
+      });
+      client.on('status', function(data) {
         assert.equal(data.isRunning, false, 'isRunning');
         client.disconnect();
         done();

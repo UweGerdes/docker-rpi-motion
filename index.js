@@ -35,17 +35,14 @@ function start() {
           stdio: ['ignore', out, err]
         });
       motionProcess.unref();
-      return new Promise((resolve) => {
-        resolve(true);
-      });
     } else {
       if (verbose) {
-        console.log('restarting: ' + cmd + ' ' + args.join(' '), exists);
+        console.log('already started: ' + cmd + ' ' + args.join(' '), exists);
       }
-      return new Promise((resolve) => {
-        resolve(false);
-      });
     }
+    return new Promise((resolve) => {
+      resolve(exists);
+    });
   });
 }
 

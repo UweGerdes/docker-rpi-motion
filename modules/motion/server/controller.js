@@ -68,12 +68,13 @@ const setExpress = (server) => {
     socket.on('startMotion', async () => {
       const started = await model.startMotion();
       const isRunning = await model.isRunning();
-      socket.emit('status', { startMotion: started, isRunning: isRunning });
+      socket.emit('status', { wasRunning: started, isRunning: isRunning });
     });
     socket.on('stopMotion', async () => {
+      const wasRunning = await model.isRunning();
       const stopped = await model.stopMotion();
       const isRunning = await model.isRunning();
-      socket.emit('status', { stopMotion: stopped, isRunning: isRunning });
+      socket.emit('status', { wasRunning: wasRunning, stopped: stopped, isRunning: isRunning });
     });
     socket.on('isRunning', async () => {
       const isRunning = await model.isRunning();
