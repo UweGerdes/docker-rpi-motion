@@ -56,6 +56,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // work on cookies
 app.use(cookieParser());
 
+// set up i18n
+i18n.configure({
+  defaultLocale: 'de',
+  directory: config.gulp.build.locales.dest,
+  autoReload: true,
+  updateFiles: false,
+  cookie: 'lang',
+  queryParameter: 'lang'
+});
+app.use(i18n.init);
+app.use((req, res, next) => {
+  if (req.query.lang) {
+    res.cookie('lang', req.query.lang, { maxAge: 900000, httpOnly: true });
+  } else if (!res.cookie.lang) {
+    const lang = req.acceptsLanguages(...Object.keys(i18n.getCatalog()));
+    if (lang) {
+      i18n.setLocale(lang);
+    }
+  }
+  next();
+});
+
 // Serve static files
 app.use(express.static(config.server.docroot));
 

@@ -82,6 +82,20 @@ const tasks = {
       .pipe(jsonlint.reporter());
   },
   /**
+   * #### Lint locales json files
+   *
+   * apply jsonlint json files
+   *
+   * @task localesjsonlint
+   * @namespace tasks
+   */
+  'localesjsonlint': () => {
+    return gulp.src(config.gulp.watch.locales)
+      .pipe(jsonlint())
+      .pipe(jsonlint.reporter())
+      .pipe(jsonlint.failOnError());
+  },
+  /**
    * #### Lint less files
    *
    * apply lesshint to less files
