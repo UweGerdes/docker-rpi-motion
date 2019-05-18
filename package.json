@@ -66,6 +66,7 @@
     "plugin-error": "^1.0.1",
     "socket.io-client": "^2.2.0",
     "stream-combiner2": "^1.1.1",
+    "supertest": "^4.0.2",
     "syntax-error": "^1.4.0"
   },
   "repository": {

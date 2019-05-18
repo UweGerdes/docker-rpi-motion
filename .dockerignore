@@ -1,8 +1,10 @@
 # dockerignore
-.git/
-capture/
+.git
+capture
 docs/jsdoc
-logs/
-public/css/
-public/js/
+key
+logs
+motion.log
+public/css
+public/js
 

@@ -1,6 +1,7 @@
 #
-public/css
-public/js
 docs/jsdoc
+key
 logs
 motion.log
+public/css
+public/js

@@ -7,11 +7,13 @@
 'use strict';
 
 const bodyParser = require('body-parser'),
-  cookieParser = require('cookie-parser'),
   chalk = require('chalk'),
+  cookieParser = require('cookie-parser'),
   dateFormat = require('dateformat'),
   express = require('express'),
+  fs = require('fs'),
   glob = require('glob'),
+  https = require('https'),
   morgan = require('morgan'),
   path = require('path'),
   config = require('./lib/config'),
@@ -19,6 +21,12 @@ const bodyParser = require('body-parser'),
   log = require('./lib/log'),
   app = express(),
   server = require('http').createServer(app);
+
+const options = {
+  key: fs.readFileSync(path.join(__dirname, config.server.httpsKey)),
+  cert: fs.readFileSync(path.join(__dirname, config.server.httpsCert))
+};
+const httpsServer = https.createServer(options, app);
 
 let modules = { };
 
@@ -72,10 +80,12 @@ app.get('/app', (req, res) => {
 });
 
 // Fire it up!
-log.info('server listening on ' +
-  chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + config.server.httpPort));
-
 server.listen(config.server.httpPort);
+server.on('error', onError);
+server.on('listening', onListening);
+httpsServer.listen(process.env.HTTPS_PORT);
+httpsServer.on('error', onError);
+httpsServer.on('listening', onListeningHttps);
 
 /**
  * Routes from modules
@@ -149,4 +159,42 @@ function getHostData(req) {
     livereloadPort: livereloadPort,
     modules: modules
   };
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(config.server.httpPort + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(config.server.httpPort + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  log.info('server listening on ' +
+    chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + config.server.httpPort));
+}
+
+/**
+ * Event listener for HTTPS server "listening" event.
+ */
+function onListeningHttps() {
+  log.info('server listening on ' +
+    chalk.greenBright('https://' + ipv4addresses.get()[0] + ':' + process.env.HTTPS_PORT));
 }
