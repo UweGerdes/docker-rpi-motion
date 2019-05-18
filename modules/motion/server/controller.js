@@ -7,7 +7,7 @@
 'use strict';
 
 const path = require('path'),
-  socketIo = require('socket.io'),
+  SocketIo = require('socket.io'),
   config = require('../../../lib/config'),
   model = require('./model.js');
 
@@ -59,10 +59,13 @@ const run = (req, res) => {
 /**
  * ### set express for socket
  *
- * @param {object} app - express instance
+ * @param {object} server - express instance
+ * @param {object} httpsServer - httpsServer instance
  */
-const setExpress = (server) => {
-  io = socketIo(server);
+const setExpress = (server, httpsServer) => {
+  io = new SocketIo();
+  io.attach(server);
+  io.attach(httpsServer);
   io.sockets.on('connection', function (newSocket) {
     socket = newSocket;
     socket.on('startMotion', async () => {
@@ -96,11 +99,7 @@ module.exports = {
  * @param {String} req - request
  */
 function getHostData(req) {
-  let livereloadPort = config.server.livereloadPort;
-  const host = req.get('Host');
-  if (host.indexOf(':') > 0) {
-    livereloadPort = parseInt(host.split(':')[1], 10) + 1;
-  }
+  let livereloadPort = process.env.LIVERELOAD_PORT;
   return {
     environment: process.env.NODE_ENV,
     hostname: req.hostname,

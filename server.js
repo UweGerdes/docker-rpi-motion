@@ -97,7 +97,7 @@ glob.sync(config.server.modules + '/*/server/index.js')
     modules[baseRoute] = require('./' + path.join(config.server.modules, baseRoute, 'config.json'));
     const router = require(filename);
     if (router.setExpress) {
-      router.setExpress(server);
+      router.setExpress(server, httpsServer);
     }
     app.use(baseRoute, router.router);
   });
@@ -148,11 +148,7 @@ function viewPath(page = '404', type = 'ejs') {
  * @param {String} req - request
  */
 function getHostData(req) {
-  let livereloadPort = config.server.livereloadPort;
-  const host = req.get('Host');
-  if (host.indexOf(':') > 0) {
-    livereloadPort = parseInt(host.split(':')[1], 10) + 1;
-  }
+  let livereloadPort = process.env.LIVERELOAD_PORT;
   return {
     hostname: req.hostname,
     httpPort: config.server.httpPort,

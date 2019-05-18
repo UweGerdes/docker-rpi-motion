@@ -110,7 +110,6 @@ server:
   modules: ./modules
   jsdoc: ./docs/jsdoc
   httpPort: 8080
-  livereloadPort: 8081
   motionPort: 8082
   streamPort: 8083
   verbose: false
