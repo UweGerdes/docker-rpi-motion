@@ -2,6 +2,7 @@
 docs/jsdoc
 key
 logs
+locales
 motion.log
 public/css
 public/js
