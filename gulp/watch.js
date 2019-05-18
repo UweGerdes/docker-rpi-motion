@@ -22,7 +22,12 @@ const tasks = {
    */
   'watch': () => {
     const tasks = loadTasks.tasks();
-    for (let task in config.gulp.watch) {
+    let tasklist = config.gulp.watch;
+    if (config.gulp.start[process.env.NODE_ENV] && config.gulp.start[process.env.NODE_ENV].watch) {
+      tasklist = config.gulp.start[process.env.NODE_ENV].watch
+        .reduce((obj, key) => ({ ...obj, [key]: config.gulp.watch[key] }), {});
+    }
+    for (let task in tasklist) {
       if (config.gulp.watch.hasOwnProperty(task)) {
         if (tasks.indexOf(task) >= 0) {
           gulp.watch(config.gulp.watch[task], [task]);
