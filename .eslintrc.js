@@ -3,7 +3,7 @@ module.exports = {
     'airbnb/legacy'
   ],
   "parserOptions": {
-    "ecmaVersion": 8,
+    "ecmaVersion": 2018,
     "ecmaFeatures": {
       "jsx": true
     },
