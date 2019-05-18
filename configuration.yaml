@@ -65,6 +65,7 @@ gulp:
     server:
       - 'server.js'
       - 'modules/**/!(tests)/server/*.js'
+      - 'modules/*/*.yaml'
     livereload:
       - 'public/**/*.html'
       - 'modules/**/*.ejs'
