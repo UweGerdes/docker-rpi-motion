@@ -67,7 +67,7 @@ describe('motion/tests/server/motion.js', function () {
           const isRunningButton = document.querySelector('[data-emit=isRunning]');
           assert.equal(isRunningButton.textContent, 'is running?');
           const footer = document.getElementById('footer');
-          assert.equal(footer.textContent, '© 2018 Uwe Gerdes');
+          assert.equal(footer.textContent, '© 2019 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
             '//localhost:8081/livereload.js'

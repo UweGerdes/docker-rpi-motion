@@ -34,7 +34,7 @@ const index = (req, res) => {
     title: 'Motion'
   },
   req.params,
-  getHostData(req),
+  config.getData(req),
   viewRenderParams);
   res.render(path.join(viewBase, 'index.pug'), data);
 };
@@ -57,12 +57,12 @@ const run = (req, res) => {
 };
 
 /**
- * ### set express for socket
+ * ### use server and httpsServer for socket
  *
  * @param {object} server - express instance
  * @param {object} httpsServer - httpsServer instance
  */
-const setExpress = (server, httpsServer) => {
+const connectServer = (server, httpsServer) => {
   io = new SocketIo();
   io.attach(server);
   io.attach(httpsServer);
@@ -89,20 +89,5 @@ const setExpress = (server, httpsServer) => {
 module.exports = {
   index: index,
   run: run,
-  setExpress: setExpress
+  connectServer: connectServer
 };
-
-/**
- * Get the host data for livereload
- *
- * @private
- * @param {String} req - request
- */
-function getHostData(req) {
-  let livereloadPort = process.env.LIVERELOAD_PORT;
-  return {
-    environment: process.env.NODE_ENV,
-    hostname: req.hostname,
-    livereloadPort: livereloadPort
-  };
-}

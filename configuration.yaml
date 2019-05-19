@@ -85,7 +85,7 @@ gulp:
       - 'index.js'
       - 'modules/**/tests/model/*.*'
       - 'modules/**/tests/server/*.*'
-#      - 'modules/**/views/**/*.*'
+      - 'modules/**/tests/views/*.*'
 #      - 'htdocs/css/*.css'
 #      - 'htdocs/js/**/*.js'
   tests:

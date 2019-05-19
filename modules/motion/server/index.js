@@ -16,5 +16,5 @@ router.get('/run/:command?', controller.run);
 
 module.exports = {
   router: router,
-  setExpress: controller.setExpress
+  connectServer: controller.connectServer
 };

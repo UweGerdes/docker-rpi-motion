@@ -43,10 +43,10 @@ describe('/pages/tests/views/page.js', function () {
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
           const footer = document.getElementById('footer');
-          assert.equal(footer.textContent.trim(), '© 2018 Uwe Gerdes');
+          assert.equal(footer.textContent.trim(), '© 2019 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://localhost:8081/livereload.js'
+            '//localhost:8081/livereload.js'
           );
           done();
         });

@@ -29,7 +29,7 @@ const options = {
 };
 const httpsServer = https.createServer(options, app);
 
-let modules = { };
+let routers = { };
 
 /**
  * Weberver logging
@@ -43,6 +43,19 @@ if (config.server.verbose) {
   app.use(morgan('[' + chalk.gray(':time') + '] ' +
     ':method :status :url :res[content-length] Bytes - :response-time ms'));
 }
+
+// Serve static files
+app.use(express.static(config.server.docroot));
+
+/**
+ * Routes from modules
+ */
+glob.sync(config.server.modules + '/*/server/index.js')
+  .forEach((filename) => {
+    const regex = new RegExp(config.server.modules + '(/[^/]+)/server/index.js');
+    const baseRoute = filename.replace(regex, '$1');
+    routers[baseRoute] = require(filename);
+  });
 
 // base directory for views
 app.set('views', __dirname);
@@ -79,8 +92,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files
-app.use(express.static(config.server.docroot));
+/**
+ * use express in modules
+ */
+for (const router of Object.values(routers)) {
+  if (router.useExpress) {
+    router.useExpress(server, httpsServer);
+  }
+}
 
 /**
  * Route for root dir
@@ -99,7 +118,7 @@ app.get('/', (req, res) => {
  * @param {Object} res - response
  */
 app.get('/app', (req, res) => {
-  res.render(viewPath('app'), getHostData(req));
+  res.render(viewPath('app'), config.getData(req));
 });
 
 // Fire it up!
@@ -111,19 +130,14 @@ httpsServer.on('error', onError);
 httpsServer.on('listening', onListeningHttps);
 
 /**
- * Routes from modules
+ * connect server and use routes from modules
  */
-glob.sync(config.server.modules + '/*/server/index.js')
-  .forEach((filename) => {
-    const regex = new RegExp(config.server.modules + '(/[^/]+)/server/index.js');
-    const baseRoute = filename.replace(regex, '$1');
-    modules[baseRoute] = require('./' + path.join(config.server.modules, baseRoute, 'config.json'));
-    const router = require(filename);
-    if (router.setExpress) {
-      router.setExpress(server, httpsServer);
-    }
-    app.use(baseRoute, router.router);
-  });
+for (const [baseRoute, router] of Object.entries(routers)) {
+  if (router.connectServer) {
+    router.connectServer(server, httpsServer);
+  }
+  app.use(baseRoute, router.router);
+}
 
 /**
  * Route for everything else
@@ -132,7 +146,12 @@ glob.sync(config.server.modules + '/*/server/index.js')
  * @param {Object} res - response
  */
 app.get('*', (req, res) => {
-  res.status(404).render(viewPath('404'), getHostData(req));
+  res.status(404).render(viewPath('error'), Object.assign({
+    error: {
+      code: 404,
+      name: 'not found'
+    }
+  }, config.getData(req)));
 });
 
 /**
@@ -146,8 +165,15 @@ app.get('*', (req, res) => {
 app.use((err, req, res, next) => {
   console.error('SERVER ERROR:', err);
   if (err) {
-    res.status(500)
-      .render(viewPath('500'), Object.assign({ error: err }, getHostData(req)));
+    res
+      .status(500)
+      .render(viewPath('error'), Object.assign({
+        error: {
+          code: 500,
+          name: 'server error',
+          error: err
+        }
+      }, config.getData(req)));
   } else {
     next();
   }
@@ -160,24 +186,8 @@ app.use((err, req, res, next) => {
  * @param {String} page - page type
  * @param {String} type - file type (ejs, jade, pug, html)
  */
-function viewPath(page = '404', type = 'ejs') {
-  return config.server.modules + '/pages/' + page + '/views/index.' + type;
-}
-
-/**
- * Get the host data for ports and modules
- *
- * @private
- * @param {String} req - request
- */
-function getHostData(req) {
-  let livereloadPort = process.env.LIVERELOAD_PORT;
-  return {
-    hostname: req.hostname,
-    httpPort: config.server.httpPort,
-    livereloadPort: livereloadPort,
-    modules: modules
-  };
+function viewPath(page = 'error', type = 'ejs') {
+  return config.server.modules + '/pages/views/' + page + '.' + type;
 }
 
 /**

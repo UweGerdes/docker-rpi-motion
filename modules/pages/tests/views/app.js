@@ -37,9 +37,9 @@ describe('/pages/tests/views/app.js', function () {
         .end(function (err, res) {
           const document = getDocument(res, err);
           const moduleLinks = document.querySelectorAll('.module-link');
-          assert.isAtLeast(moduleLinks.length, 2, 'moduleLinks');
-          assert.equal(moduleLinks[0].textContent, 'Boilerplate');
-          assert.equal(moduleLinks[0].getAttribute('href'), '/boilerplate/');
+          assert.isAtLeast(moduleLinks.length, 1, 'moduleLinks');
+          assert.equal(moduleLinks[0].textContent, 'Motion');
+          assert.equal(moduleLinks[0].getAttribute('href'), '/motion/');
           done();
         });
     });
@@ -52,7 +52,7 @@ describe('/pages/tests/views/app.js', function () {
           assert.equal(footer.textContent.trim(), '© 2019 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://localhost:8081/livereload.js'
+            '//localhost:8081/livereload.js'
           );
           done();
         });
