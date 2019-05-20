@@ -97,7 +97,7 @@ app.use((req, res, next) => {
  */
 for (const router of Object.values(routers)) {
   if (router.useExpress) {
-    router.useExpress(server, httpsServer);
+    router.useExpress(app);
   }
 }
 
