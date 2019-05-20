@@ -27,8 +27,8 @@ function start() {
       if (verbose) {
         console.log('starting: ' + cmd + ' ' + args.join(' '));
       }
-      let out = fs.openSync('./motion.log', 'a');
-      let err = fs.openSync('./motion.log', 'a');
+      let out = fs.openSync('./logs/index.log', 'a');
+      let err = fs.openSync('./logs/index.log', 'a');
       motionProcess = spawn(cmd, args,
         {
           detached: true,
