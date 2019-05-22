@@ -1,15 +1,20 @@
 /**
- * ## Model for motion
+ * Model for motion
+ *
+ * This is just a wrapper for the index.js in the main folder of this project
  *
  * @module motion/model
  */
+
 'use strict';
 
 const motion = require('../../../index.js');
 const dryRun = false;
 
 /**
- * ### startMotion
+ * startMotion
+ *
+ * start the motion process
  */
 function startMotion() {
   if (!dryRun) {
@@ -20,7 +25,9 @@ function startMotion() {
 }
 
 /**
- * ### stopMotion
+ * stopMotion
+ *
+ * stop the motion process
  */
 function stopMotion() {
   if (!dryRun) {
@@ -31,7 +38,9 @@ function stopMotion() {
 }
 
 /**
- * ### isRunning
+ * isRunning
+ *
+ * check status of motion process
  *
  * @returns {Boolean} motion run status
  */

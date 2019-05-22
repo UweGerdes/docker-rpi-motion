@@ -93,7 +93,7 @@ function checkResponse (res, err) {
 }
 
 /**
- * test error message in document
+ * test several elements and error message in document
  *
  * @param {Object} document - document tree
  * @param {String} title - page title

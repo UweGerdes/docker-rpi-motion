@@ -1,9 +1,11 @@
 /**
- * # control the motion program
+ * control the motion program
  *
  * use with node require
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
+ *
+ * @module index
  */
 
 'use strict';
@@ -17,7 +19,9 @@ let verbose = false;
 let motionProcess = null;
 
 /**
- * ### start motion
+ * start motion
+ *
+ * spawn child process motion and redirect output to ./logs/index.log
  */
 function start() {
   let cmd = 'motion';
@@ -47,7 +51,9 @@ function start() {
 }
 
 /**
- * ### stop motion
+ * stop motion
+ *
+ * fkill the motion process
  */
 function stop() {
   const delay = (t, val) => {
@@ -71,7 +77,9 @@ function stop() {
 }
 
 /**
- * ### is motion running
+ * is motion running
+ *
+ * use process-exists to check existance of process motion
  *
  * @returns {Boolean} motion run status
  */

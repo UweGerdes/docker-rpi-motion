@@ -46,6 +46,7 @@ if (config.server.verbose) {
 
 // Serve static files
 app.use(express.static(config.server.docroot));
+app.use('/jsdoc', express.static(config.gulp.build.jsdoc.dest));
 
 /**
  * Routes from modules
