@@ -18,15 +18,28 @@ const spawn = require('child_process').spawn,
 let verbose = false;
 let motionProcess = null;
 
+module.exports = {
+  /**
+   * is motion running
+   *
+   * use process-exists to check existance of process motion
+   *
+   * @returns {Boolean} motion run status
+   */
+  isRunning: () => {
+    return processExists('motion');
+  }
+};
+
 /**
  * start motion
  *
  * spawn child process motion and redirect output to ./logs/index.log
  */
-function start() {
+module.exports.start = () => {
   let cmd = 'motion';
   let args = ['-b'];
-  return isRunning().then(exists => {
+  return module.exports.isRunning().then(exists => {
     if (exists === false) {
       if (verbose) {
         console.log('starting: ' + cmd + ' ' + args.join(' '));
@@ -48,14 +61,14 @@ function start() {
       resolve(exists);
     });
   });
-}
+};
 
 /**
  * stop motion
  *
  * fkill the motion process
  */
-function stop() {
+module.exports.stop = () => {
   const delay = (t, val) => {
     return new Promise(function(resolve) {
       setTimeout(function() {
@@ -63,7 +76,7 @@ function stop() {
       }, t);
     });
   };
-  return isRunning().then((running) => {
+  return module.exports.isRunning().then((running) => {
     return new Promise(async (resolve) => {
       if (running) {
         await fkill('motion');
@@ -75,20 +88,3 @@ function stop() {
     });
   });
 }
-
-/**
- * is motion running
- *
- * use process-exists to check existance of process motion
- *
- * @returns {Boolean} motion run status
- */
-function isRunning() {
-  return processExists('motion');
-}
-
-module.exports = {
-  start: start,
-  stop: stop,
-  isRunning: isRunning
-};
