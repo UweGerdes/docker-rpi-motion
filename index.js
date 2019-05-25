@@ -3,8 +3,6 @@
  *
  * use with node require
  *
- * (c) Uwe Gerdes, entwicklung@uwegerdes.de
- *
  * @module index
  */
 
@@ -17,7 +15,10 @@ const spawn = require('child_process').spawn,
 
 let verbose = false;
 let motionProcess = null;
+let cmd = 'motion';
+let args = ['-b'];
 
+var isRunning =
 /**
  * is motion running
  *
@@ -35,9 +36,7 @@ exports.isRunning = () => {
  * spawn child process motion and redirect output to ./logs/index.log
  */
 exports.start = () => {
-  let cmd = 'motion';
-  let args = ['-b'];
-  return exports.isRunning().then(exists => {
+  return isRunning().then(exists => {
     if (exists === false) {
       if (verbose) {
         console.log('starting: ' + cmd + ' ' + args.join(' '));
@@ -74,12 +73,17 @@ exports.stop = () => {
       }, t);
     });
   };
-  return exports.isRunning().then((running) => {
-    return new Promise(async (resolve) => {
+  return isRunning().then((running) => {
+    return new Promise(async (resolve, reject) => {
       if (running) {
-        await fkill('motion');
-        await delay(3000);
-        resolve(running);
+        try {
+          await fkill('motion');
+          await delay(3000);
+          resolve(running);
+        } catch (error) {
+          console.log(cmd, args.join(' '), 'could not be killed');
+          reject(error);
+        }
       } else {
         resolve(running);
       }
