@@ -5,6 +5,7 @@
     "style": "long"
   },
   "idSelector": false,
+  "qualifyingElement": false,
   "spaceAfterPropertyColon": {
     "enabled": true,
     "style": "one_space"
