@@ -122,7 +122,6 @@ server:
   server: ./server.js
   docroot: ./public
   modules: ./modules
-  jsdoc: ./docs/jsdoc
   httpPort: 8080
   motionPort: 8082
   streamPort: 8083
