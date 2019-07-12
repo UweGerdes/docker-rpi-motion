@@ -8,7 +8,7 @@ fi
 if [ ! -d "${APP_HOME}/key" ]; then
 	mkdir "${APP_HOME}/key"
 	# see https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs
-	openssl req -new -newkey rsa:2048 -nodes -x509 -days 3650 -out "${APP_HOME}/key/motion.crt" -keyout "${APP_HOME}/key/motion.key"
+	openssl req -new -newkey rsa:2048 -nodes -x509 -days 3650 -out "${APP_HOME}/key/selfsigned.crt" -keyout "${APP_HOME}/key/selfsigned.key"
 	# -subj "/C=US/ST=New York/L=Brooklyn/O=Example Company/CN=example.com"
 fi
 

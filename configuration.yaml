@@ -11,6 +11,7 @@ gulp:
         - 'livereload-start'
         - 'server-start'
         - 'tests'
+#        - 'livereload-all'
       build:
         - 'less'
         - 'js'
@@ -28,6 +29,17 @@ gulp:
       server:
         - 'server-changed'
         - 'tests'
+    staging:
+      gulp:
+        - 'watch'
+        - 'server-start'
+      build: []
+      tests: []
+      lint: []
+      server:
+        - 'server-changed'
+      watch:
+        - 'server'
     production:
       gulp:
         - 'build'
@@ -50,7 +62,7 @@ gulp:
     js:
       - 'modules/*/js/*.js'
     jsdoc:
-#      - 'index.js'
+#      - 'nofile.js'
       - '*.js'
       - 'gulp/**/*.js'
       - 'lib/**/*.js'
@@ -75,23 +87,23 @@ gulp:
       - '**/*.pug'
     server:
       - 'server.js'
-      - 'modules/**/!(tests)/server/*.js'
+      - 'modules/*/server/*.js'
       - 'modules/*/*.yaml'
     livereload:
       - 'public/**/*.html'
+      - 'public/img/**/*.*'
+      - 'public/css/**/*.css'
       - 'modules/**/*.ejs'
       - 'modules/**/*.pug'
-      - 'public/img/**/*.*'
-      - 'public/css/*.css'
-    livereload-index:
+    livereload-all:
       - 'public/js/**/*.js'
+      - 'locales/**/*.*'
     test-modules:
       - 'index.js'
       - 'modules/**/tests/model/*.*'
       - 'modules/**/tests/server/*.*'
-      - 'modules/**/tests/views/*.*'
-#      - 'htdocs/css/*.css'
-#      - 'htdocs/js/**/*.js'
+      - 'modules/**/views/**/*.*'
+      - 'htdocs/js/**/*.js'
   tests:
     modules:
       - 'modules/**/tests/model/*.js'
@@ -108,23 +120,41 @@ gulp:
       dest: 'docs/jsdoc'
     js:
       src:
-        - 'modules/*/js/*.js'
+        - 'modules/*/js/**/*.js'
       dest: 'public/js'
       replace:
-        'modules/([^/]+)/js(/[^/]+)?/.+': '$1$2'
+        'modules/([^/]+)/js/(.+)*/.+': '$1/$2'
     less:
-      src: 'src/less/app.less'
+      src:
+        - 'src/less/app.less'
+        - 'modules/*/less/layout.less'
       dest: 'public/css'
     locales:
       dest: 'locales'
+    deploy:
+      src:
+        - 'CHANGELOG.md'
+        - 'configuration.yaml'
+        - 'Dockerfile'
+        - 'LICENSE'
+        - 'package.json'
+        - 'README.md'
+        - 'server.js'
+        - 'lib/**/*'
+        - 'locales/*'
+        - 'modules/*/*.json'
+        - 'modules/*/*.yaml'
+        - 'modules/*/server/**/*'
+        - 'modules/*/views/**/*'
+        - 'public/*'
+        - 'public/css/*'
+        - 'public/js/**/*'
+      dest: 'deploy'
 
 server:
   server: ./server.js
   docroot: ./public
   modules: ./modules
-  httpPort: 8080
-  motionPort: 8082
-  streamPort: 8083
   verbose: false
-  httpsKey: ./key/motion.key
-  httpsCert: ./key/motion.crt
+  httpsKey: ./key/selfsigned.key
+  httpsCert: ./key/selfsigned.crt

@@ -7,6 +7,7 @@
 const chai = require('chai'),
   chaiHttp = require('chai-http'),
   jsdom = require('jsdom'),
+  ipv4addresses = require('../../../../lib/ipv4addresses'),
   assert = chai.assert,
   expect = chai.expect,
   { JSDOM } = jsdom;
@@ -52,7 +53,7 @@ describe('/pages/tests/views/app.js', function () {
           assert.equal(footer.textContent.trim(), '© 2019 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'https://localhost:8081/livereload.js'
+            'https://' + ipv4addresses.get()[0] + ':' + process.env.LIVERELOAD_PORT + '/livereload.js'
           );
           done();
         });

@@ -1,7 +1,7 @@
 {
   "name": "motion",
   "description": "detect motion, grab video, html frontend",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "keywords": [
     "raspberry",
     "cam",

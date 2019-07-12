@@ -1,5 +1,5 @@
 /**
- * wrapper for gulp-notify
+ * Wrapper for gulp-notify
  *
  * @module gulp/lib/notify
  */
@@ -9,10 +9,10 @@
 const gulpNotify = require('gulp-notify');
 
 /**
- * log only to console, not GUI
+ * Log only to console, not GUI
  *
- * @param {pbject} options - setting options
- * @param {function} callback - gulp callback
+ * @param {pbject} options - options
+ * @param {function} callback - gulp callback to signal end of task
  * @type {function}
  */
 const notify = gulpNotify.withReporter((options, callback) => {

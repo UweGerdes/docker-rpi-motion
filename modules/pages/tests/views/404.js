@@ -1,5 +1,5 @@
 /**
- * Test for boilerplate page elements
+ * Test for 404 error page elements
  */
 
 'use strict';

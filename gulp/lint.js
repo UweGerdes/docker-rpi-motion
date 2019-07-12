@@ -1,5 +1,11 @@
 /**
+ * Gulp tasks for linting sources
+ *
  * @module gulp/lint
+ * @requires module:lib/config
+ * @requires module:gulp/lib/files-promises
+ * @requires module:gulp/lib/load-tasks
+ * @requires module:gulp/lib/notify
  */
 
 'use strict';
@@ -23,11 +29,10 @@ const gulp = require('gulp'),
 
 const tasks = {
   /**
-   * ### Default gulp lint task
+   * Default gulp lint task
    *
-   * @task lint
-   * @namespace tasks
-   * @param {function} callback - gulp callback
+   * @function lint
+   * @param {function} callback - gulp callback to signal end of task
    */
   'lint': (callback) => {
     sequence(
@@ -36,12 +41,11 @@ const tasks = {
     );
   },
   /**
-   * #### Lint js files
+   * Lint js files
    *
    * apply eslint to js files
    *
-   * @task eslint
-   * @namespace tasks
+   * @function eslint
    */
   'eslint': () => {
     const isFixed = (file) => {
@@ -69,12 +73,11 @@ const tasks = {
       .pipe(eslint.failAfterError());
   },
   /**
-   * #### Lint json files
+   * Lint json files
    *
    * apply jsonlint json files
    *
-   * @task jsonlint
-   * @namespace tasks
+   * @function jsonlint
    */
   'jsonlint': () => {
     return gulp.src(config.gulp.watch.jsonlint)
@@ -82,12 +85,11 @@ const tasks = {
       .pipe(jsonlint.reporter());
   },
   /**
-   * #### Lint locales json files
+   * Lint locales json files
    *
-   * apply jsonlint json files
+   * apply jsonlint locales json files
    *
-   * @task localesjsonlint
-   * @namespace tasks
+   * @function localesjsonlint
    */
   'localesjsonlint': () => {
     return gulp.src(config.gulp.watch.locales)
@@ -96,12 +98,11 @@ const tasks = {
       .pipe(jsonlint.failOnError());
   },
   /**
-   * #### Lint less files
+   * Lint less files
    *
    * apply lesshint to less files
    *
-   * @task lesshint
-   * @namespace tasks
+   * @function lesshint
    */
   'lesshint': () => {
     return gulp.src(config.gulp.watch.less)
@@ -111,12 +112,11 @@ const tasks = {
       .pipe(lesshint.failOnError());
   },
   /**
-   * #### Lint yaml files
+   * Lint yaml files
    *
    * apply yamlValidate to yaml files
    *
-   * @task yamllint
-   * @namespace tasks
+   * @function yamllint
    */
   'yamllint': () => {
     return gulp.src(config.gulp.watch.yamllint)
@@ -126,23 +126,21 @@ const tasks = {
       });
   },
   /**
-   * #### Lint pug files
+   * Lint pug files
    *
    * apply pug-linter to pug files
    *
-   * @task puglint
-   * @namespace tasks
+   * @function puglint
    */
   'puglint': () => {
     return gulp.src(config.gulp.watch.puglint)
       .pipe(pugLinter({ reporter: 'default', failAfterError: true }));
   },
   /**
-   * ### lint ejs and livereload task
+   * Lint ejs and livereload task
    *
-   * @task lint
-   * @namespace tasks
-   * @param {function} callback - gulp callback
+   * @function lint
+   * @param {function} callback - gulp callback to signal end of task
    */
   'ejslint-livereload': [['ejslint'], (callback) => {
     sequence(
@@ -151,24 +149,22 @@ const tasks = {
     );
   }],
   /**
-   * #### Lint ejs files
+   * Lint ejs files
    *
-   * validate ejs files
    * - replace `<%=`, `<%-` tags with output = [expression];
    * - strip non ejs html and `<%` and `%>`
    * - keep lines for counting
    *
    * options are supplied here - TODO use .ejslintrc
    *
-   * @task ejslint
-   * @namespace tasks
-   * @param {function} callback - gulp callback
+   * @function ejslint
+   * @param {function} callback - gulp callback to signal end of task
    */
   'ejslint': (callback) => {
     /**
      * Replace expression output tags
      *
-     * @private
+     * @function ejslint:replaceOutputTags
      * @param {function} file - file object with contents
      */
     const replaceOutputTags = (file) => {
@@ -183,7 +179,7 @@ const tasks = {
     /**
      * Replace html outside of ejs tags with returns
      *
-     * @private
+     * @function ejslint:replaceEjsTags
      * @param {function} file - file object with contents
      */
     const replaceEjsTags = (file) => {
@@ -201,9 +197,9 @@ const tasks = {
     };
 
     /**
-     * check the remaining content
+     * Check the remaining content
      *
-     * @private
+     * @function ejslint:fileCheck
      * @param {function} file - file object with contents
      */
     const fileCheck = (file) => {

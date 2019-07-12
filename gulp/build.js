@@ -1,5 +1,11 @@
 /**
+ * Gulp tasks for generation of compiled sources
+ *
  * @module gulp/build
+ * @requires module:lib/config
+ * @requires module:gulp/lib/files-promises
+ * @requires module:gulp/lib/load-tasks
+ * @requires module:gulp/lib/notify
  */
 
 'use strict';
@@ -21,11 +27,12 @@ const gulp = require('gulp'),
 
 const tasks = {
   /**
-   * ### Default gulp build task
+   * Default gulp build task
    *
-   * @task build
-   * @namespace tasks
-   * @param {function} callback - gulp callback
+   * Build all tasks configured for current NODE_ENV setting
+   *
+   * @function build
+   * @param {function} callback - gulp callback to signal end of task
    */
   'build': (callback) => {
     sequence(
@@ -34,12 +41,9 @@ const tasks = {
     );
   },
   /**
-   * #### Compile less files
+   * Compile less files
    *
-   * compile less files
-   *
-   * @task less
-   * @namespace tasks
+   * @function less
    */
   'less': [['lesshint'], () => {
     return combiner.obj([
@@ -48,18 +52,19 @@ const tasks = {
         plugins: [lessPluginGlob]
       }),
       autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'),
+      rename(path => {
+        path.dirname = path.dirname.replace(/\/less$/, '');
+        return path;
+      }),
       gulp.dest(config.gulp.build.less.dest),
       notify({ message: 'written: <%= file.path %>', title: 'Gulp less' })
     ])
       .on('error', () => { });
   }],
   /**
-   * #### Compile js files
+   * Compile js files
    *
-   * compile js files
-   *
-   * @task jsss
-   * @namespace tasks
+   * @function js
    */
   'js': [['eslint'], (callback) => {
     Promise.all(config.gulp.build.js.src.map(filePromises.getFilenames))
@@ -87,12 +92,9 @@ const tasks = {
       .catch(err => console.log(err));
   }],
   /**
-   * #### Compile locales files
+   * Compile locales files
    *
-   * compile locales files
-   *
-   * @task locales
-   * @namespace tasks
+   * @function locales
    */
   'locales': [['localesjsonlint'], () => {
     return gulp.src(config.gulp.watch.locales)
@@ -104,13 +106,10 @@ const tasks = {
       .pipe(notify({ message: 'written: <%= file.path %>', title: 'Gulp locales' }));
   }],
   /**
-   * #### Compile jsdoc
+   * Compile jsdoc
    *
-   * compile jsdoc
-   *
-   * @task jsdoc
-   * @namespace tasks
-   * @param {function} callback - gulp callback
+   * @function jsdoc
+   * @param {function} callback - gulp callback to signal end of task
    */
   'jsdoc': [['eslint'], (callback) => {
     const jsdocConfig = {
@@ -138,7 +137,17 @@ const tasks = {
     };
     gulp.src(config.gulp.build.jsdoc.src, { read: false })
       .pipe(jsdoc(jsdocConfig, callback));
-  }]
+  }],
+  /**
+   * Copy files to deploy
+   *
+   * @function deploy
+   */
+  'deploy': () => {
+    return gulp.src(config.gulp.build.deploy.src, { 'base': '.' })
+      .pipe(gulp.dest(config.gulp.build.deploy.dest))
+      .pipe(notify({ message: 'written: <%= file.path %>', title: 'Gulp deploy' }));
+  }
 };
 
 loadTasks.importTasks(tasks);

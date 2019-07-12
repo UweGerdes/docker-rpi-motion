@@ -2,23 +2,23 @@
  * ## Gulp watch task
  *
  * @module gulp/watch
+ * @requires module:lib/config
+ * @requires module:lib/log
+ * @requires module:gulp/lib/load-tasks
  */
 
 'use strict';
 
 const gulp = require('gulp'),
   config = require('../lib/config'),
-  loadTasks = require('./lib/load-tasks'),
-  log = require('../lib/log');
+  log = require('../lib/log'),
+  loadTasks = require('./lib/load-tasks');
 
 const tasks = {
   /**
-   * ### watch
+   * Watch and execute tasks when files changed for all tasks configured for current NODE_ENV setting
    *
-   * watch and execute tasks when files changed
-   *
-   * @task watch
-   * @namespace tasks
+   * @function watch
    */
   'watch': () => {
     const tasks = loadTasks.tasks();

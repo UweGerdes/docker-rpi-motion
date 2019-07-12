@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.0
+updates from boilerplate
+
 ## 0.0.11
 updated boilerplate, async test for motion start/stop, adding socket.io
 
