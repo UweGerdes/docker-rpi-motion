@@ -34,46 +34,13 @@ describe('motion/tests/server/motion.js', function () {
       document = checkResponse(res, err);
       checkPage(document, 'Motion', null, 'anmelden');
       testError();
-      /*
-      testElement('#header', { }, 'HomeOAuth 2 Serveranmelden');
-      testElement('.header a.login-link', { 'href': '/oauth2/user/login/?redirect=/oauth2/' }, 'anmelden');
-      */
+      testElement('#header', { }, 'HomeMotionanmelden');
+      testElement('.header a.login-link', { 'href': '/login/' }, 'anmelden');
       testElement('#headline', { }, 'Motion Headline');
       testElement('[data-emit=startMotion]', { }, 'start');
       testElement('[data-emit=stopMotion]', { }, 'stop');
       testElement('[data-emit=isRunning]', { }, 'is running?');
-    });
-  });
-  describe('GET /motion/', function () {
-    it('should have head', function (done) {
-      chai.request('http://localhost:8080')
-        .get('/motion/')
-        .end(function (err, res) {
-          // TODO should redirect to https
-          expect(err).to.be.null;
-          expect(res).to.have.status(200);
-          expect(res).to.be.html;
-          const { document } = (new JSDOM(res.text)).window;
-          assert.equal(document.title, 'Motion');
-          assert.equal(document.head.getElementsByTagName('link').length, 1);
-          assert.equal(
-            document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
-            '/css/app.css'
-          );
-          const startButton = document.querySelector('[data-emit=startMotion]');
-          assert.equal(startButton.textContent, 'start');
-          const stopButton = document.querySelector('[data-emit=stopMotion]');
-          assert.equal(stopButton.textContent, 'stop');
-          const isRunningButton = document.querySelector('[data-emit=isRunning]');
-          assert.equal(isRunningButton.textContent, 'is running?');
-          const footer = document.getElementById('footer');
-          assert.equal(footer.textContent, '© 2019 Uwe Gerdes');
-          assert.equal(
-            document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'https://motion:8081/livereload.js'
-          );
-          done();
-        });
+      assert.isAtLeast(document.querySelectorAll('.eventList li').length, 1);
     });
   });
 });

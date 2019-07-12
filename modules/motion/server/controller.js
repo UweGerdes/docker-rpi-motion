@@ -31,7 +31,8 @@ let socket,
  */
 const index = (req, res) => {
   let data = Object.assign({
-    title: 'Motion'
+    title: 'Motion',
+    eventList: model.getEventList()
   },
   req.params,
   config.getData(req),

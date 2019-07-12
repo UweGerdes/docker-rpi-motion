@@ -19,7 +19,13 @@ block content
         + button('startMotion', '!isRunning',  'start')
         + button('stopMotion', 'isRunning',  'stop')
         + button('isRunning', "{}",  'is running?')
-      #stream&attributes({ 'data-enabled': 'isRunning' }) stream view
+      h3.eventListHeadline #{__('Event List')}
+      ul.eventList
+        if locals.eventList && Object.keys(eventList).length > 0
+          each event in eventList
+            li= JSON.stringify(event)
+        else
+          li #{__('no events')}
 
 append footer
   script(src='/js/motion/event-handler.js')
