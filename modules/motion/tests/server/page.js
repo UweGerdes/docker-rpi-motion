@@ -14,6 +14,7 @@ const chai = require('chai'),
   assert = chai.assert,
   expect = chai.expect,
   { JSDOM } = jsdom;
+
 chai.use(chaiHttp);
 
 describe('motion/tests/server/page.js', function () {
@@ -64,7 +65,7 @@ describe('motion/tests/server/page.js', function () {
           assert.equal(footer.textContent, '© 2019 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'https://localhost:8081/livereload.js'
+            'https://motion:8081/livereload.js'
           );
           done();
         });
