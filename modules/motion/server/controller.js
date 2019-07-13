@@ -1,7 +1,9 @@
 /**
- * ## Controller for motion
+ * Controller for motion
  *
  * @module motion/controller
+ * @requires modules/motion/server/model
+ * @requires module:lib/config
  */
 
 'use strict';
@@ -23,9 +25,7 @@ let socket,
   io;
 
 /**
- * ### index page
- *
- * render the index page
+ * Render index page
  *
  * @param {object} req - request
  * @param {object} res - result
@@ -42,7 +42,43 @@ const index = (req, res) => {
 };
 
 /**
- * ### run command
+ * Render index page with image
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const image = (req, res) => {
+  let data = Object.assign({
+    title: 'Motion',
+    eventList: model.getEventList(),
+    image: req.params.image
+  },
+  req.params,
+  config.getData(req),
+  viewRenderParams);
+  res.render(path.join(viewBase, 'index.pug'), data);
+};
+
+/**
+ * Render index page with video
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const video = (req, res) => {
+  let data = Object.assign({
+    title: 'Motion',
+    eventList: model.getEventList(),
+    video: req.params.video
+  },
+  req.params,
+  config.getData(req),
+  viewRenderParams);
+  res.render(path.join(viewBase, 'index.pug'), data);
+};
+
+/**
+ * Run command
  *
  * render the run result data
  *
@@ -59,19 +95,16 @@ const run = (req, res) => {
 };
 
 /**
- * ### run command
+ * Serve static capture files
  *
- * render the run result data
- *
- * @param {object} req - request
- * @param {object} res - result
+ * @param {object} app - express app
  */
 const useExpress = (app) => {
   app.use('/motion/capture', express.static('capture'));
 };
 
 /**
- * ### use server and httpsServer for socket
+ * Use server and httpsServer for socket
  *
  * @param {object} server - express instance
  * @param {object} httpsServer - httpsServer instance
@@ -102,6 +135,8 @@ const connectServer = (server, httpsServer) => {
 
 module.exports = {
   index: index,
+  image: image,
+  video: video,
   run: run,
   useExpress: useExpress,
   connectServer: connectServer

@@ -63,9 +63,13 @@ function isRunning() {
 function getEventList() {
   let events = {};
   const eventId = filename => filename.replace(/^.+\/([0-9]+-[0-9]+).+/, '$1');
-  const videos = glob.sync(path.join(__dirname, '..', '..', '..', 'capture', '*.avi'));
+  const videos = glob.sync(path.join(__dirname, '..', '..', '..', 'capture', '*.mp4'));
   videos.forEach(filename => {
-    events[eventId(filename)] = { video: filename };
+    events[eventId(filename)] = {
+      video: filename,
+      videoFilename: path.basename(filename),
+      videoLink: filename.replace(/^.+\//, '/motion/video/')
+    };
   });
   const images = glob.sync(path.join(__dirname, '..', '..', '..', 'capture', '*.jpg'));
   images.forEach(filename => {
@@ -73,13 +77,13 @@ function getEventList() {
       events[eventId(filename)] = { };
     }
     events[eventId(filename)].image = filename;
+    events[eventId(filename)].imageFilename = path.basename(filename);
+    events[eventId(filename)].imageLink = filename.replace(/^.+\//, '/motion/image/');
   });
   for (let [key, value] of Object.entries(events)) {
     value.date = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$3.$2.$1');
     value.time = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$4:$5:$6');
     value.take = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$7');
-    value.imageLink = value.image.replace(/^.+\//, '/motion/capture/');
-    value.videoLink = value.video.replace(/^.+\//, '/motion/capture/');
   }
   return events;
 }

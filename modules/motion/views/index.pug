@@ -22,18 +22,36 @@ block content
       h3.eventListHeadline #{__('Event List')}
       table.eventList
         if locals.eventList && Object.keys(eventList).length > 0
-          each event in eventList
+          each eventId in Object.keys(eventList).sort()
+            - event = eventList[eventId]
             tr.event
               td.date= event.date
               td.time= event.time
               td.take= event.take
               td.image
-                a(href=event.imageLink) #{__('Image')}
+                if event.imageLink
+                  if !locals.image || event.imageLink.indexOf(image) < 0
+                    a(href=event.imageLink) #{__('Image')}
+                  else
+                    strong #{__('Image')}
               td.video
-                a(href=event.videoLink) #{__('Video')}
+                if event.videoLink
+                  if !locals.video || event.videoLink.indexOf(video) < 0
+                    a(href=event.videoLink) #{__('Video')}
+                  else
+                    strong #{__('Video')}
         else
           tr.event
             td #{__('no events')}
+      if locals.image
+        .image
+          img(src='/motion/capture/' + image)
+      if locals.video
+        .video
+          video(controls='controls')
+            source(src='/motion/capture/' + video, type='video/mp4')
+            | #{__('Your browser can\'t show videos')}
+          a(href='/motion/capture/' + video) Video
 
 append footer
   script(src='/js/motion/event-handler.js')
