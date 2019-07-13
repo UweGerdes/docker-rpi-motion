@@ -6,7 +6,8 @@
 
 'use strict';
 
-const path = require('path'),
+const express = require('express'),
+  path = require('path'),
   SocketIo = require('socket.io'),
   config = require('../../../lib/config'),
   model = require('./model.js');
@@ -58,6 +59,18 @@ const run = (req, res) => {
 };
 
 /**
+ * ### run command
+ *
+ * render the run result data
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const useExpress = (app) => {
+  app.use('/motion/capture', express.static('capture'));
+};
+
+/**
  * ### use server and httpsServer for socket
  *
  * @param {object} server - express instance
@@ -90,5 +103,6 @@ const connectServer = (server, httpsServer) => {
 module.exports = {
   index: index,
   run: run,
+  useExpress: useExpress,
   connectServer: connectServer
 };

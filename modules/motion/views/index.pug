@@ -20,12 +20,20 @@ block content
         + button('stopMotion', 'isRunning',  'stop')
         + button('isRunning', "{}",  'is running?')
       h3.eventListHeadline #{__('Event List')}
-      ul.eventList
+      table.eventList
         if locals.eventList && Object.keys(eventList).length > 0
           each event in eventList
-            li= JSON.stringify(event)
+            tr.event
+              td.date= event.date
+              td.time= event.time
+              td.take= event.take
+              td.image
+                a(href=event.imageLink) #{__('Image')}
+              td.video
+                a(href=event.videoLink) #{__('Video')}
         else
-          li #{__('no events')}
+          tr.event
+            td #{__('no events')}
 
 append footer
   script(src='/js/motion/event-handler.js')

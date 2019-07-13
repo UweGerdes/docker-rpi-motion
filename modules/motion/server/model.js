@@ -78,6 +78,8 @@ function getEventList() {
     value.date = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$3.$2.$1');
     value.time = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$4:$5:$6');
     value.take = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$7');
+    value.imageLink = value.image.replace(/^.+\//, '/motion/capture/');
+    value.videoLink = value.video.replace(/^.+\//, '/motion/capture/');
   }
   return events;
 }

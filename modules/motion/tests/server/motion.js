@@ -40,7 +40,7 @@ describe('motion/tests/server/motion.js', function () {
       testElement('[data-emit=startMotion]', { }, 'start');
       testElement('[data-emit=stopMotion]', { }, 'stop');
       testElement('[data-emit=isRunning]', { }, 'is running?');
-      assert.isAtLeast(document.querySelectorAll('.eventList li').length, 1);
+      assert.isAtLeast(document.querySelectorAll('.eventList tr').length, 1);
     });
   });
 });
