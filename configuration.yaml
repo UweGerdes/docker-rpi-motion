@@ -120,10 +120,10 @@ gulp:
       dest: 'docs/jsdoc'
     js:
       src:
-        - 'modules/*/js/**/*.js'
+        - 'modules/*/js/*.js'
       dest: 'public/js'
       replace:
-        'modules/([^/]+)/js/(.+)*/.+': '$1/$2'
+        'modules/([^/]+)/js(/[^/]+)?/.+': '$1$2'
     less:
       src:
         - 'src/less/app.less'
