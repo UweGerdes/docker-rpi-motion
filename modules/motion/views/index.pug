@@ -31,15 +31,15 @@ block content
               td.image
                 if event.imageLink
                   if !locals.image || event.imageLink.indexOf(image) < 0
-                    a(href=event.imageLink) #{__('Image')}
+                    a(href=event.imageLink) &#128247;
                   else
-                    strong #{__('Image')}
+                    strong &#128247;
               td.video
                 if event.videoLink
                   if !locals.video || event.videoLink.indexOf(video) < 0
-                    a(href=event.videoLink) #{__('Video')}
+                    a(href=event.videoLink) &#127909;
                   else
-                    strong #{__('Video')}
+                    strong &#127909;
         else
           tr.event
             td #{__('no events')}
