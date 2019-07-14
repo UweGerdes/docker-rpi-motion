@@ -45,11 +45,11 @@ describe('motion/tests/server/page.js', function () {
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
           const startButton = document.querySelector('[data-emit=startMotion]');
-          assert.equal(startButton.textContent, 'start');
+          assert.equal(startButton.textContent, '\u{1F534}');
           const stopButton = document.querySelector('[data-emit=stopMotion]');
-          assert.equal(stopButton.textContent, 'stop');
+          assert.equal(stopButton.textContent, '\u2B1B');
           const isRunningButton = document.querySelector('[data-emit=isRunning]');
-          assert.equal(isRunningButton.textContent, 'is running?');
+          assert.equal(isRunningButton.textContent, '\u2753');
           done();
         });
     });
