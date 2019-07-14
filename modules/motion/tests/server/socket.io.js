@@ -9,6 +9,7 @@ const socketURL = 'http://0.0.0.0:8080';
 const io = require('socket.io-client'),
   assert = require('chai').assert,
   options = {
+    path: '/motion/socket.io',
     transports: ['websocket'],
     'force new connection': true
   };

@@ -108,7 +108,7 @@ const useExpress = (app) => {
  * @param {object} httpsServer - httpsServer instance
  */
 const connectServer = (server, httpsServer) => {
-  io = new SocketIo();
+  io = new SocketIo({ path: '/motion/socket.io' });
   io.attach(server);
   io.attach(httpsServer);
   io.sockets.on('connection', function (newSocket) {

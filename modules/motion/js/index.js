@@ -6,7 +6,7 @@
 
 'use strict';
 
-let socket = io();
+let socket = io({ path: '/motion/socket.io' });
 
 let statusElements = { };
 let enabledElements = { };
