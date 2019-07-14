@@ -36,7 +36,7 @@ describe('motion/tests/server/motion.js', function () {
       testError();
       testElement('#header', { }, 'HomeMotionanmelden');
       testElement('.header a.login-link', { 'href': '/login/' }, 'anmelden');
-      testElement('#headline', { }, 'Motion Headline');
+      testElement('#headline', { }, 'Motion');
       testElement('[data-emit=startMotion]', { }, 'start');
       testElement('[data-emit=stopMotion]', { }, 'stop');
       testElement('[data-emit=isRunning]', { }, 'is running?');

@@ -28,7 +28,7 @@ describe('motion/tests/server/page.js', function () {
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
           assert.equal(document.title, 'Motion');
-          assert.equal(document.head.getElementsByTagName('link').length, 1);
+          assert.equal(document.head.getElementsByTagName('link').length, 2);
           assert.equal(
             document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
             '/css/app.css'

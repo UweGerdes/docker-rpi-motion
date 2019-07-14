@@ -4,6 +4,14 @@ extends ../../pages/views/page.pug
 append head
   link(rel='stylesheet', href='/css/'+ moduleName + '/layout.css')
 
+append breadcrumbs
+  if locals.image
+    li.header-breadcrumb
+      .header-breadcrumb-label #{__('Image')}: #{image}
+  if locals.video
+    li.header-breadcrumb
+      .header-breadcrumb-label #{__('Video')}: #{video}
+
 mixin button(msg, enabled, label)
   button.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled })= label
 
@@ -12,48 +20,51 @@ block content
 
     #head.flex-block.flex-header
       #header-wrapper.flex-wrapper
-        h1#headline.headline.flex-block.flex-left= title + ' Headline'
+        h1#headline.headline.flex-block.flex-left Motion
 
     #motion-container.motion-container.flex-block.flex-center
-      h2 Motion
-      h3= 'Status '
-        span.status&attributes({ 'data-status': 'isRunning' }) unbekannt
-      #button-container.button-container
-        + button('startMotion', '!isRunning',  'start')
-        + button('stopMotion', 'isRunning',  'stop')
-        + button('isRunning', "{}",  'is running?')
-      h3.eventListHeadline #{__('Event List')}
-      table.eventList
-        if locals.eventList && Object.keys(eventList).length > 0
-          each eventId in Object.keys(eventList).sort()
-            - event = eventList[eventId]
+      #motion-status-container.motion-status-container
+        h3.motion-status-headline= 'Status '
+          span.status&attributes({ 'data-status': 'isRunning' }) unbekannt
+          span#button-container.button-container
+            + button('startMotion', '!isRunning',  'start')
+            + button('stopMotion', 'isRunning',  'stop')
+            + button('isRunning', "{}",  'is running?')
+      #motion-eventList-container.motion-eventList-container
+        h3.eventListHeadline #{__('Event List')}
+        table.eventList
+          if locals.eventList && Object.keys(eventList).length > 0
+            each eventId in Object.keys(eventList).sort()
+              - event = eventList[eventId]
+              tr.event
+                td.date= event.date
+                td.time= event.time
+                td.take= event.take
+                td.image
+                  if event.imageLink
+                    if !locals.image || event.imageLink.indexOf(image) < 0
+                      a.imageLink(href=event.imageLink) &#128247;
+                    else
+                      strong.imageActive &#128247;
+                td.video
+                  if event.videoLink
+                    if !locals.video || event.videoLink.indexOf(video) < 0
+                      a.videoLink(href=event.videoLink) &#127909;
+                    else
+                      strong.videoActive &#127909;
+          else
             tr.event
-              td.date= event.date
-              td.time= event.time
-              td.take= event.take
-              td.image
-                if event.imageLink
-                  if !locals.image || event.imageLink.indexOf(image) < 0
-                    a.imageLink(href=event.imageLink) &#128247;
-                  else
-                    strong.imageActive &#128247;
-              td.video
-                if event.videoLink
-                  if !locals.video || event.videoLink.indexOf(video) < 0
-                    a.videoLink(href=event.videoLink) &#127909;
-                  else
-                    strong.videoActive &#127909;
-        else
-          tr.event
-            td #{__('no events')}
-      if locals.image
-        .image
-          img(src='/motion/capture/' + image)
-      if locals.video
-        .video
-          video(controls='controls')
-            source(src='/motion/capture/' + video, type='video/mp4')
-            | #{__('Your browser can\'t show videos')}
+              td #{__('no events')}
+      #motion-image-container.motion-image-container
+        if locals.image
+          .image
+            img(src='/motion/capture/' + image)
+      #motion-video-container.motion-video-container
+        if locals.video
+          .video
+            video(controls='controls')
+              source(src='/motion/capture/' + video, type='video/mp4')
+              | #{__('Your browser can\'t show videos')}
 
 append footer
   script(src='/js/motion/event-handler.js')

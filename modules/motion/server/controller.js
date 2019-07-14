@@ -32,7 +32,6 @@ let socket,
  */
 const index = (req, res) => {
   let data = Object.assign({
-    title: 'Motion',
     eventList: model.getEventList()
   },
   req.params,
@@ -49,7 +48,6 @@ const index = (req, res) => {
  */
 const image = (req, res) => {
   let data = Object.assign({
-    title: 'Motion',
     eventList: model.getEventList(),
     image: req.params.image
   },
