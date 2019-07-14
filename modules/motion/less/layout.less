@@ -1,4 +1,34 @@
 .motion {
+  .running {
+    [data-emit='startMotion'] {
+      display: none;
+    }
+  }
+
+  .stopped {
+    [data-emit='stopMotion'] {
+      display: none;
+    }
+  }
+
+  .motion-button {
+    color: initial;
+    cursor: pointer;
+    font-size: 1.5em;
+    padding: 5px 8px;
+    text-decoration: none;
+  }
+
+  .image-container,
+  .video-container {
+    max-width: 100%;
+
+    .image,
+    .video {
+      max-width: 100%;
+    }
+  }
+
   .imageLink,
   .videoLink {
     color: initial;

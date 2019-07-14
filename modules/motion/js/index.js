@@ -43,9 +43,11 @@ socket.on('status', (data) => {
     statusElements.isRunning.forEach(element => {
       element.dataset.isRunning = data.isRunning;
       if (data.isRunning) {
-        element.innerText = 'running';
+        element.classList.add('running');
+        element.classList.remove('stopped');
       } else {
-        element.innerText = 'stopped';
+        element.classList.add('stopped');
+        element.classList.remove('running');
       }
     });
     enabledElements.isRunning.forEach(element => {
