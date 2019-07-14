@@ -1,6 +1,9 @@
 //- index.pug
 extends ../../pages/views/page.pug
 
+append head
+  link(rel='stylesheet', href='/css/'+ moduleName + '/layout.css')
+
 mixin button(msg, enabled, label)
   button.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled })= label
 
@@ -31,15 +34,15 @@ block content
               td.image
                 if event.imageLink
                   if !locals.image || event.imageLink.indexOf(image) < 0
-                    a(href=event.imageLink) &#128247;
+                    a.imageLink(href=event.imageLink) &#128247;
                   else
-                    strong &#128247;
+                    strong.imageActive &#128247;
               td.video
                 if event.videoLink
                   if !locals.video || event.videoLink.indexOf(video) < 0
-                    a(href=event.videoLink) &#127909;
+                    a.videoLink(href=event.videoLink) &#127909;
                   else
-                    strong &#127909;
+                    strong.videoActive &#127909;
         else
           tr.event
             td #{__('no events')}
