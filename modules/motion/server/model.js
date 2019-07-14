@@ -72,13 +72,36 @@ function getEventList() {
     };
   });
   const images = glob.sync(path.join(__dirname, '..', '..', '..', 'capture', '*.jpg'));
-  images.forEach(filename => {
-    if (!events[eventId(filename)]) {
-      events[eventId(filename)] = { };
+  let eventIds = { };
+  Object.keys(events).forEach(eventId => {
+    const parts = eventId.split('-');
+    if (eventIds[parts[1]]) {
+      eventIds[parts[1]].push(parseInt(parts[0], 10));
+    } else {
+      eventIds[parts[1]] = [parseInt(parts[0], 10)];
     }
-    events[eventId(filename)].image = filename;
-    events[eventId(filename)].imageFilename = path.basename(filename);
-    events[eventId(filename)].imageLink = filename.replace(/^.+\//, '/motion/image/');
+  });
+  const getEventId = eventId => {
+    let foundId = eventId;
+    const parts = eventId.split('-');
+    const time = parseInt(parts[0], 10);
+    if (eventIds[parts[1]]) {
+      eventIds[parts[1]].forEach(id => {
+        if (Math.abs(time - id) < 120) {
+          foundId = String(id) + '-' + parts[1];
+        }
+      });
+    }
+    return foundId;
+  };
+  images.forEach(filename => {
+    const eventIdFound = getEventId(eventId(filename));
+    if (!events[eventIdFound]) {
+      events[eventIdFound] = { };
+    }
+    events[eventIdFound].image = filename;
+    events[eventIdFound].imageFilename = path.basename(filename);
+    events[eventIdFound].imageLink = filename.replace(/^.+\//, '/motion/image/');
   });
   for (let [key, value] of Object.entries(events)) {
     value.date = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$3.$2.$1');
