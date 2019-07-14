@@ -25,6 +25,11 @@ describe('motion/tests/server/socket.io.js', function () {
         client.disconnect();
         done();
       });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
+        client.disconnect();
+        done();
+      });
     });
     it('should send isRunning and receive status isRunning=false', function (done) {
       const client = io.connect(socketURL, options);
@@ -33,6 +38,11 @@ describe('motion/tests/server/socket.io.js', function () {
       });
       client.on('status', function(data) {
         assert.equal(data.isRunning, false, 'isRunning');
+        client.disconnect();
+        done();
+      });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
         client.disconnect();
         done();
       });
@@ -48,6 +58,11 @@ describe('motion/tests/server/socket.io.js', function () {
         client.disconnect();
         done();
       });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
+        client.disconnect();
+        done();
+      });
     });
     it('should send isRunning and receive status isRunning=true', function (done) {
       const client = io.connect(socketURL, options);
@@ -56,6 +71,11 @@ describe('motion/tests/server/socket.io.js', function () {
       });
       client.on('status', function(data) {
         assert.equal(data.isRunning, true, 'isRunning');
+        client.disconnect();
+        done();
+      });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
         client.disconnect();
         done();
       });
@@ -71,6 +91,11 @@ describe('motion/tests/server/socket.io.js', function () {
         client.disconnect();
         done();
       });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
+        client.disconnect();
+        done();
+      });
     });
     it('should send isRunning and receive status isRunning=true', function (done) {
       const client = io.connect(socketURL, options);
@@ -79,6 +104,11 @@ describe('motion/tests/server/socket.io.js', function () {
       });
       client.on('status', function(data) {
         assert.equal(data.isRunning, true, 'isRunning');
+        client.disconnect();
+        done();
+      });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
         client.disconnect();
         done();
       });
@@ -99,6 +129,11 @@ describe('motion/tests/server/socket.io.js', function () {
         client.disconnect();
         done();
       });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
+        client.disconnect();
+        done();
+      });
     });
     it('should send stopMotion and receive status wasRunning=false, isRunning=false', function (done) {
       const client = io.connect(socketURL, options);
@@ -111,6 +146,11 @@ describe('motion/tests/server/socket.io.js', function () {
         client.disconnect();
         done();
       });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
+        client.disconnect();
+        done();
+      });
     });
     it('should send isRunning and receive status isRunning=false', function (done) {
       const client = io.connect(socketURL, options);
@@ -119,6 +159,11 @@ describe('motion/tests/server/socket.io.js', function () {
       });
       client.on('status', function(data) {
         assert.equal(data.isRunning, false, 'isRunning');
+        client.disconnect();
+        done();
+      });
+      client.on('connect_timeout', (timeout) => {
+        console.log('connect_timeout reached', timeout);
         client.disconnect();
         done();
       });
