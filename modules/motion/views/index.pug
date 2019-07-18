@@ -5,12 +5,15 @@ append head
   link(rel='stylesheet', href='/css/'+ moduleName + '/layout.css')
 
 append breadcrumbs
-  if locals.image
+  if locals.show && locals.eventShow
+    - event = eventList[eventShow]
     li.header-breadcrumb
-      .header-breadcrumb-label #{__('Image')}: #{image}
-  if locals.video
-    li.header-breadcrumb
-      .header-breadcrumb-label #{__('Video')}: #{video}
+      .header-breadcrumb-label
+        if show == 'image'
+          |#{__('Image')}:
+        if show == 'video'
+          |#{__('Video')}:
+        |  #{event.date} #{event.time} #{event.take}
 
 mixin button(msg, enabled, label)
   a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled }) #{label}
@@ -30,40 +33,41 @@ block content
     #motion-container.motion-container.flex-wrapper
       #motion-eventList-container.flex-block.flex-left.motion-eventList-container
         h3.eventListHeadline #{__('Event List')}
-        table.eventList
-          if locals.eventList && Object.keys(eventList).length > 0
-            each eventId in Object.keys(eventList).sort()
-              - event = eventList[eventId]
+        .eventList-container
+          table.eventList
+            if locals.eventList && Object.keys(eventList).length > 0
+              each eventId in eventIdList
+                - event = eventList[eventId]
+                tr.event
+                  td.date= event.date
+                  td.time= event.time
+                  td.take= event.take
+                  td.image
+                    if event.imageFilename
+                      if !locals.show || show != 'image' || eventId != eventShow
+                        a.imageLink(href='/motion/image/' + eventId) &#128247;
+                      else
+                        strong.imageActive &#128247;
+                  td.video
+                    if event.videoFilename
+                      if !locals.show || show != 'video' || eventId != eventShow
+                        a.videoLink(href='/motion/video/' + eventId) &#127909;
+                      else
+                        strong.videoActive &#127909;
+            else
               tr.event
-                td.date= event.date
-                td.time= event.time
-                td.take= event.take
-                td.image
-                  if event.imageLink
-                    if !locals.image || event.imageLink.indexOf(image) < 0
-                      a.imageLink(href=event.imageLink) &#128247;
-                    else
-                      strong.imageActive &#128247;
-                td.video
-                  if event.videoLink
-                    if !locals.video || event.videoLink.indexOf(video) < 0
-                      a.videoLink(href=event.videoLink) &#127909;
-                    else
-                      strong.videoActive &#127909;
-          else
-            tr.event
-              td #{__('no events')}
-      if locals.image
+                td #{__('no events')}
+      if locals.show && show == 'image' && locals.eventShow
         #motion-image-container.flex-block.flex-center.motion-image-container
-          h2 #{__('Image')}
+          h3 #{__('Image')} #{__('on')} #{event.date} #{__('at')} #{event.time}
           .image-container
-            img.image(src='/motion/capture/' + image)
-      if locals.video
+            img.image(src='/motion/capture/' + eventList[eventShow].imageFilename)
+      if locals.show && show == 'video' && locals.eventShow
         #motion-video-container.flex-block.flex-center.motion-video-container
-          h2 #{__('Video')}
+          h3 #{__('Video')} #{__('on')} #{event.date} #{__('at')} #{event.time}
           .video-container
             video.video(controls='controls')
-              source(src='/motion/capture/' + video, type='video/mp4')
+              source(src='/motion/capture/' + eventList[eventShow].videoFilename, type='video/mp4')
               | #{__('Your browser can\'t show videos')}
 
 append footer

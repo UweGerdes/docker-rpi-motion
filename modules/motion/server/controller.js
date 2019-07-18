@@ -31,8 +31,10 @@ let socket,
  * @param {object} res - result
  */
 const index = (req, res) => {
+  const eventList = model.getEventList();
   let data = Object.assign({
-    eventList: model.getEventList()
+    eventList: eventList,
+    eventIdList: Object.keys(eventList).sort()
   },
   req.params,
   config.getData(req),
@@ -41,33 +43,18 @@ const index = (req, res) => {
 };
 
 /**
- * Render index page with image
+ * Render index page with image or video
  *
  * @param {object} req - request
  * @param {object} res - result
  */
-const image = (req, res) => {
+const show = (req, res) => {
+  const eventList = model.getEventList();
   let data = Object.assign({
-    eventList: model.getEventList(),
-    image: req.params.image
-  },
-  req.params,
-  config.getData(req),
-  viewRenderParams);
-  res.render(path.join(viewBase, 'index.pug'), data);
-};
-
-/**
- * Render index page with video
- *
- * @param {object} req - request
- * @param {object} res - result
- */
-const video = (req, res) => {
-  let data = Object.assign({
-    title: 'Motion',
-    eventList: model.getEventList(),
-    video: req.params.video
+    eventList: eventList,
+    eventIdList: Object.keys(eventList).sort(),
+    eventShow: req.params.eventShow,
+    show: req.params.show
   },
   req.params,
   config.getData(req),
@@ -133,8 +120,7 @@ const connectServer = (server, httpsServer) => {
 
 module.exports = {
   index: index,
-  image: image,
-  video: video,
+  show: show,
   run: run,
   useExpress: useExpress,
   connectServer: connectServer

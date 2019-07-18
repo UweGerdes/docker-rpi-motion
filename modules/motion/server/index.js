@@ -20,14 +20,7 @@ router.get('/', controller.index);
  *
  * @name get_image_route
  */
-router.get('/image/:image', controller.image);
-
-/**
- * GET /video/[video] route
- *
- * @name get_video_route
- */
-router.get('/video/:video', controller.video);
+router.get('/:show/:eventShow', controller.show);
 
 /**
  * GET /run/[command] route

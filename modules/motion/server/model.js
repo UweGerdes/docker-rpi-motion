@@ -67,8 +67,7 @@ function getEventList() {
   videos.forEach(filename => {
     events[eventId(filename)] = {
       video: filename,
-      videoFilename: path.basename(filename),
-      videoLink: filename.replace(/^.+\//, '/motion/video/')
+      videoFilename: path.basename(filename)
     };
   });
   const images = glob.sync(path.join(__dirname, '..', '..', '..', 'capture', '*.jpg'));
@@ -101,7 +100,6 @@ function getEventList() {
     }
     events[eventIdFound].image = filename;
     events[eventIdFound].imageFilename = path.basename(filename);
-    events[eventIdFound].imageLink = filename.replace(/^.+\//, '/motion/image/');
   });
   for (let [key, value] of Object.entries(events)) {
     value.date = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$3.$2.$1');
