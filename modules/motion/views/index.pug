@@ -18,6 +18,16 @@ append breadcrumbs
 mixin button(msg, enabled, label)
   a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled }) #{label}
 
+mixin pagination(baselink, items, current)
+  if items && items.length > 0
+    .pagination-container
+      each item, index in items
+        .pagination-item
+          if item != current
+            a.pagination-item-link(href=baselink + item) #{index}
+          else
+            .pagination-item-current #{index}
+
 block content
   div#motion.motion
 
@@ -62,6 +72,7 @@ block content
           h3 #{__('Image')} #{__('on')} #{event.date} #{__('at')} #{event.time}
           .image-container
             img.image(src='/motion/capture/' + eventList[eventShow].imageFilename)
+          + pagination('/motion/image/', eventIdList, eventShow)
       if locals.show && show == 'video' && locals.eventShow
         #motion-video-container.flex-block.flex-center.motion-video-container
           h3 #{__('Video')} #{__('on')} #{event.date} #{__('at')} #{event.time}
@@ -69,6 +80,7 @@ block content
             video.video(controls='controls')
               source(src='/motion/capture/' + eventList[eventShow].videoFilename, type='video/mp4')
               | #{__('Your browser can\'t show videos')}
+          + pagination('/motion/video/', eventIdList, eventShow)
 
 append footer
   script(src='/js/motion/event-handler.js')

@@ -1,3 +1,5 @@
+@import '../../../src/less/vars';
+
 .motion {
   .running {
     [data-emit='startMotion'] {
@@ -55,5 +57,42 @@
     display: block;
     font-size: 1.5em;
     padding: 5px 8px;
+  }
+
+  .pagination {
+    &-container {
+      align-content: flex-start;
+      display: flex;
+      flex-flow: row wrap;
+      margin: 1em 0;
+      max-width: 100%;
+    }
+
+    &-item {
+      flex: 1 2% 0;
+      width: 3em;
+
+      &-link,
+      &-current {
+        display: block;
+        margin: 0 2px 2px 0;
+        padding: 6px 8px;
+        text-align: center;
+      }
+
+      &-link {
+        color: @text_color;
+        text-decoration: none;
+
+        &:hover {
+          background: #cccccc;
+        }
+      }
+
+      &-current {
+        background: #cccccc;
+        font-weight: bold;
+      }
+    }
   }
 }
