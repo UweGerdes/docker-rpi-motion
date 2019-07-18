@@ -18,15 +18,16 @@ append breadcrumbs
 mixin button(msg, enabled, label)
   a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled }) #{label}
 
-mixin pagination(baselink, items, current)
+mixin pagination(baselink, items, current, max=11)
   if items && items.length > 0
+    - first = items.indexOf(current) - Math.max(0, Math.floor(0.5 * max))
     .pagination-container
-      each item, index in items
+      each item, index in items.splice(first, max)
         .pagination-item
           if item != current
-            a.pagination-item-link(href=baselink + item) #{index}
+            a.pagination-item-link(href=baselink + item) #{first + index + 1}
           else
-            .pagination-item-current #{index}
+            .pagination-item-current #{first + index + 1}
 
 block content
   div#motion.motion
