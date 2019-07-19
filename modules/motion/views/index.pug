@@ -27,7 +27,7 @@ mixin pagination(baselink, items, current, max=11)
           a.pagination-item-link(href=baselink + items[0]) &laquo;
         else
           .pagination-item-disabled &laquo;
-      each item, index in items.slice(first, max)
+      each item, index in items.slice(first, first + max)
         .pagination-item
           if item != current
             a.pagination-item-link(href=baselink + item) #{first + index + 1}
