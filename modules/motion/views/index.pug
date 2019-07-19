@@ -20,14 +20,24 @@ mixin button(msg, enabled, label)
 
 mixin pagination(baselink, items, current, max=11)
   if items && items.length > 0
-    - first = items.indexOf(current) - Math.max(0, Math.floor(0.5 * max))
+    - first = Math.max(0, Math.min(items.indexOf(current) - Math.floor(0.5 * max), items.length - max))
     .pagination-container
+      .pagination-item
+        if first > 0
+          a.pagination-item-link(href=baselink + items[0]) &laquo;
+        else
+          .pagination-item-disabled &laquo;
       each item, index in items.splice(first, max)
         .pagination-item
           if item != current
             a.pagination-item-link(href=baselink + item) #{first + index + 1}
           else
             .pagination-item-current #{first + index + 1}
+      .pagination-item
+        if first + max <= items.length
+          a.pagination-item-link(href=baselink + items[items.length - 1]) &raquo;
+        else
+          .pagination-item-disabled &raquo;
 
 block content
   div#motion.motion
@@ -71,17 +81,17 @@ block content
       if locals.show && show == 'image' && locals.eventShow
         #motion-image-container.flex-block.flex-center.motion-image-container
           h3 #{__('Image')} #{__('on')} #{event.date} #{__('at')} #{event.time}
-          .image-container
+          .motion-image-content
             img.image(src='/motion/capture/' + eventList[eventShow].imageFilename)
-          + pagination('/motion/image/', eventIdList, eventShow)
+            + pagination('/motion/image/', eventIdList, eventShow)
       if locals.show && show == 'video' && locals.eventShow
         #motion-video-container.flex-block.flex-center.motion-video-container
           h3 #{__('Video')} #{__('on')} #{event.date} #{__('at')} #{event.time}
-          .video-container
+          .motion-video-content
             video.video(controls='controls')
               source(src='/motion/capture/' + eventList[eventShow].videoFilename, type='video/mp4')
               | #{__('Your browser can\'t show videos')}
-          + pagination('/motion/video/', eventIdList, eventShow)
+            + pagination('/motion/video/', eventIdList, eventShow)
 
 append footer
   script(src='/js/motion/event-handler.js')

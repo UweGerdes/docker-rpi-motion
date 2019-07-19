@@ -28,14 +28,19 @@
     overflow-y: scroll;
   }
 
-  .image-container,
-  .video-container {
+  &-image-container,
+  &-video-container {
     max-width: 100%;
 
     .image,
     .video {
       max-width: 100%;
     }
+  }
+
+  &-image-content,
+  &-video-content {
+    display: inline-block;
   }
 
   .imageLink,
@@ -60,6 +65,8 @@
   }
 
   .pagination {
+    display: inline-block;
+
     &-container {
       align-content: flex-start;
       display: flex;
@@ -69,14 +76,15 @@
     }
 
     &-item {
-      flex: 1 2% 0;
-      width: 3em;
+      flex-grow: 1;
 
       &-link,
-      &-current {
+      &-current,
+      &-disabled {
+        border: 1px solid #cccccc;
         display: block;
-        margin: 0 2px 2px 0;
-        padding: 6px 8px;
+        margin: 0 2px;
+        padding: 8px 0;
         text-align: center;
       }
 
@@ -92,6 +100,10 @@
       &-current {
         background: #cccccc;
         font-weight: bold;
+      }
+
+      &-disabled {
+        opacity: 0.5;
       }
     }
   }
