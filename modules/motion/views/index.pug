@@ -52,6 +52,20 @@ block content
             a.button.motion-button&attributes({ 'data-emit': 'isRunning', 'data-enabled': '{}' }) &#x2753;
 
     #motion-container.motion-container.flex-wrapper
+      if locals.show && show == 'image' && locals.eventShow
+        #motion-image-container.flex-block.flex-center.motion-image-container
+          h3 #{__('Image')} #{__('on')} #{event.date} #{__('at')} #{event.time}
+          .motion-image-content
+            img.image(src='/motion/capture/' + eventList[eventShow].imageFilename)
+            + pagination('/motion/image/', eventIdList, eventShow)
+      if locals.show && show == 'video' && locals.eventShow
+        #motion-video-container.flex-block.flex-center.motion-video-container
+          h3 #{__('Video')} #{__('on')} #{event.date} #{__('at')} #{event.time}
+          .motion-video-content
+            video.video(controls='controls')
+              source(src='/motion/capture/' + eventList[eventShow].videoFilename, type='video/mp4')
+              | #{__('Your browser can\'t show videos')}
+            + pagination('/motion/video/', eventIdList, eventShow)
       #motion-eventList-container.flex-block.flex-left.motion-eventList-container
         h3.eventListHeadline #{__('Event List')}
         .eventList-container
@@ -78,20 +92,6 @@ block content
             else
               tr.event
                 td #{__('no events')}
-      if locals.show && show == 'image' && locals.eventShow
-        #motion-image-container.flex-block.flex-center.motion-image-container
-          h3 #{__('Image')} #{__('on')} #{event.date} #{__('at')} #{event.time}
-          .motion-image-content
-            img.image(src='/motion/capture/' + eventList[eventShow].imageFilename)
-            + pagination('/motion/image/', eventIdList, eventShow)
-      if locals.show && show == 'video' && locals.eventShow
-        #motion-video-container.flex-block.flex-center.motion-video-container
-          h3 #{__('Video')} #{__('on')} #{event.date} #{__('at')} #{event.time}
-          .motion-video-content
-            video.video(controls='controls')
-              source(src='/motion/capture/' + eventList[eventShow].videoFilename, type='video/mp4')
-              | #{__('Your browser can\'t show videos')}
-            + pagination('/motion/video/', eventIdList, eventShow)
 
 append footer
   script(src='/js/motion/event-handler.js')
