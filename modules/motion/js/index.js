@@ -96,7 +96,6 @@ function addEnabledElement(element) {
 
 function scrollList() {
   const list = document.querySelector('.eventList-container');
-  console.log('#' + document.location.href.replace(/.+\//, ''));
   const item = document.querySelector('#item-' + document.location.href.replace(/.+\//, ''));
   if (list && item) {
     list.scroll(0, Math.max(0, item.offsetTop - 4 * item.offsetHeight - 10));
