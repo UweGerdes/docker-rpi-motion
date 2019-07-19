@@ -59,7 +59,7 @@ block content
             if locals.eventList && Object.keys(eventList).length > 0
               each eventId in eventIdList
                 - event = eventList[eventId]
-                tr.event
+                tr.event(id='item-' + eventId)
                   td.date= event.date
                   td.time= event.time
                   td.take= event.take

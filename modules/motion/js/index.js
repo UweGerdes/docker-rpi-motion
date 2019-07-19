@@ -27,6 +27,7 @@ function documentLoaded() {
     addEnabledElement(element);
   });
   socket.emit('isRunning');
+  scrollList();
 }
 
 socket.on('connect', () => {
@@ -91,4 +92,13 @@ function addEnabledElement(element) {
     enabledElements[element.dataset.enabled] = [];
   }
   enabledElements[element.dataset.enabled].push(element);
+}
+
+function scrollList() {
+  const list = document.querySelector('.eventList-container');
+  console.log('#' + document.location.href.replace(/.+\//, ''));
+  const item = document.querySelector('#item-' + document.location.href.replace(/.+\//, ''));
+  if (list && item) {
+    list.scroll(0, Math.max(0, item.offsetTop - 4 * item.offsetHeight - 10));
+  }
 }
