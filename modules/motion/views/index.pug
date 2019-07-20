@@ -6,7 +6,7 @@ append head
 
 append breadcrumbs
   if locals.show && locals.eventShow
-    - event = eventList[eventShow]
+    - event = eventList[eventShow - 1]
     li.header-breadcrumb
       .header-breadcrumb-label
         if show == 'image'
@@ -19,23 +19,24 @@ mixin button(msg, enabled, label)
   a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled }) #{label}
 
 mixin pagination(baselink, items, current, max=11)
-  if items && items.length > 0
-    - first = Math.max(0, Math.min(items.indexOf(current) - Math.floor(0.5 * max), items.length - max))
+  if items && items > 1
+    - first = Math.max(0, Math.min(current - Math.floor(0.5 * max) - 1, items - max))
     .pagination-container
       .pagination-item
-        if first > 0
-          a.pagination-item-link(href=baselink + items[0]) &laquo;
+        if current > 1
+          a.pagination-item-link(href=baselink + '1') &laquo;
         else
           .pagination-item-disabled &laquo;
-      each item, index in items.slice(first, first + max)
+      - for (index=first; index < Math.min(items, first + max); index++) {
         .pagination-item
-          if item != current
-            a.pagination-item-link(href=baselink + item) #{first + index + 1}
+          if index + 1 != current
+            a.pagination-item-link(href=baselink + (index + 1)) #{index + 1}
           else
-            .pagination-item-current #{first + index + 1}
+            .pagination-item-current #{index + 1}
+      - }
       .pagination-item
-        if first + max <= items.length
-          a.pagination-item-link(href=baselink + items[items.length - 1]) &raquo;
+        if current < items
+          a.pagination-item-link(href=baselink + items) &raquo;
         else
           .pagination-item-disabled &raquo;
 
@@ -56,37 +57,36 @@ block content
         #motion-image-container.flex-block.flex-center.motion-image-container
           h3 #{__('Image')} #{__('on')} #{event.date} #{__('at')} #{event.time}
           .motion-image-content
-            img.image(src='/motion/capture/' + eventList[eventShow].imageFilename)
-            + pagination('/motion/image/', eventIdList, eventShow)
+            img.image(src='/motion/capture/' + eventList[eventShow - 1].imageFilename)
+            + pagination('/motion/image/', eventList.length, eventShow)
       if locals.show && show == 'video' && locals.eventShow
         #motion-video-container.flex-block.flex-center.motion-video-container
           h3 #{__('Video')} #{__('on')} #{event.date} #{__('at')} #{event.time}
           .motion-video-content
             video.video(controls='controls')
-              source(src='/motion/capture/' + eventList[eventShow].videoFilename, type='video/mp4')
+              source(src='/motion/capture/' + eventList[eventShow - 1].videoFilename, type='video/mp4')
               | #{__('Your browser can\'t show videos')}
-            + pagination('/motion/video/', eventIdList, eventShow)
+            + pagination('/motion/video/', eventList.length, eventShow)
       #motion-eventList-container.flex-block.flex-left.motion-eventList-container
         h3.eventListHeadline #{__('Event List')}
         .eventList-container
           table.eventList
-            if locals.eventList && Object.keys(eventList).length > 0
-              each eventId in eventIdList
-                - event = eventList[eventId]
-                tr.event(id='item-' + eventId)
+            if locals.eventList && eventList.length > 0
+              each event, eventId in eventList
+                tr.event(id='item-' + (eventId + 1))
                   td.date= event.date
                   td.time= event.time
                   td.take= event.take
                   td.image
                     if event.imageFilename
-                      if !locals.show || show != 'image' || eventId != eventShow
-                        a.imageLink(href='/motion/image/' + eventId) &#128247;
+                      if !locals.show || show != 'image' || eventId != eventShow - 1
+                        a.imageLink(href='/motion/image/' + (eventId + 1)) &#128247;
                       else
                         strong.imageActive &#128247;
                   td.video
                     if event.videoFilename
-                      if !locals.show || show != 'video' || eventId != eventShow
-                        a.videoLink(href='/motion/video/' + eventId) &#127909;
+                      if !locals.show || show != 'video' || eventId != eventShow - 1
+                        a.videoLink(href='/motion/video/' + (eventId + 1)) &#127909;
                       else
                         strong.videoActive &#127909;
             else

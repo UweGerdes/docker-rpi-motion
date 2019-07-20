@@ -33,8 +33,7 @@ let socket,
 const index = (req, res) => {
   const eventList = model.getEventList();
   let data = Object.assign({
-    eventList: eventList,
-    eventIdList: Object.keys(eventList).sort()
+    eventList: Object.values(eventList)
   },
   req.params,
   config.getData(req),
@@ -51,8 +50,7 @@ const index = (req, res) => {
 const show = (req, res) => {
   const eventList = model.getEventList();
   let data = Object.assign({
-    eventList: eventList,
-    eventIdList: Object.keys(eventList).sort(),
+    eventList: Object.values(eventList),
     eventShow: req.params.eventShow,
     show: req.params.show
   },
