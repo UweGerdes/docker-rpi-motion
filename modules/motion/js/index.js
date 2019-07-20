@@ -39,7 +39,6 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('status', (data) => {
-  // console.log('status', data);
   if ('isRunning' in data) {
     statusElements.isRunning.forEach(element => {
       element.dataset.isRunning = data.isRunning;
@@ -79,7 +78,6 @@ function addEmitter(element) {
 }
 
 function addStatusElement(element) {
-  console.log('add', element);
   if (statusElements[element.dataset.status] === undefined) {
     statusElements[element.dataset.status] = [];
   }
@@ -87,7 +85,6 @@ function addStatusElement(element) {
 }
 
 function addEnabledElement(element) {
-  console.log('enabled', element);
   if (enabledElements[element.dataset.enabled] === undefined) {
     enabledElements[element.dataset.enabled] = [];
   }
