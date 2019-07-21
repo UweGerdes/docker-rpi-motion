@@ -144,7 +144,7 @@ const tasks = {
    */
   'ejslint-livereload': [['ejslint'], (callback) => {
     sequence(
-      'livereload-index',
+      'livereload-all',
       callback
     );
   }],

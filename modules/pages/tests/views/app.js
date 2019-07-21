@@ -24,7 +24,7 @@ describe('/pages/tests/views/app.js', function () {
           assert.equal(document.head.getElementsByTagName('link').length, 1);
           assert.equal(
             document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
-            '/css/app.css'
+            '/app.css'
           );
           const headline = document.getElementById('headline');
           assert.equal(headline.textContent, 'Module:');

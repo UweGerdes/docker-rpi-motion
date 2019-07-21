@@ -92,11 +92,11 @@ gulp:
     livereload:
       - 'public/**/*.html'
       - 'public/img/**/*.*'
-      - 'public/css/**/*.css'
+      - 'public/**/*.css'
       - 'modules/**/*.ejs'
       - 'modules/**/*.pug'
     livereload-all:
-      - 'public/js/**/*.js'
+      - 'public/**/*.js'
       - 'locales/**/*.*'
     test-modules:
       - 'index.js'
@@ -121,14 +121,14 @@ gulp:
     js:
       src:
         - 'modules/*/js/*.js'
-      dest: 'public/js'
+      dest: 'public'
       replace:
-        'modules/([^/]+)/js(/[^/]+)?/.+': '$1$2'
+        'modules/(.+/)js/.+': '$1'
     less:
       src:
         - 'src/less/app.less'
         - 'modules/*/less/layout.less'
-      dest: 'public/css'
+      dest: 'public'
     locales:
       dest: 'locales'
     deploy:
@@ -146,9 +146,7 @@ gulp:
         - 'modules/*/*.yaml'
         - 'modules/*/server/**/*'
         - 'modules/*/views/**/*'
-        - 'public/*'
-        - 'public/css/*'
-        - 'public/js/**/*'
+        - 'public/**/*'
       dest: 'deploy'
 
 server:

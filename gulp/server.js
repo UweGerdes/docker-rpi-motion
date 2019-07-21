@@ -97,13 +97,12 @@ const tasks = {
   'livereload-start': () => {
     livereload.listen({
       host: ipv4addresses.get()[0],
-      port: process.env.LIVERELOAD_PORT,
+      port: '8081',
       quiet: false,
       key: fs.readFileSync(path.join(__dirname, '..', config.server.httpsKey)),
       cert: fs.readFileSync(path.join(__dirname, '..', config.server.httpsCert))
     });
-    log.info('livereload listening on http://' +
-      ipv4addresses.get()[0] + ':' + process.env.LIVERELOAD_PORT);
+    log.info('livereload listening on http://localhost:' + process.env.LIVERELOAD_PORT);
   }
 };
 

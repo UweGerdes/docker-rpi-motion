@@ -31,7 +31,7 @@ describe('motion/tests/server/page.js', function () {
           assert.equal(document.head.getElementsByTagName('link').length, 2);
           assert.equal(
             document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
-            '/css/app.css'
+            '/app.css'
           );
           done();
         });
