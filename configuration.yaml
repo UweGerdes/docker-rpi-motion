@@ -11,6 +11,7 @@ gulp:
         - 'livereload-start'
         - 'server-start'
         - 'tests'
+        - 'livereload'
 #        - 'livereload-all'
       build:
         - 'less'
@@ -92,11 +93,11 @@ gulp:
     livereload:
       - 'public/**/*.html'
       - 'public/img/**/*.*'
-      - 'public/**/*.css'
+      - 'generated/**/*.css'
       - 'modules/**/*.ejs'
       - 'modules/**/*.pug'
     livereload-all:
-      - 'public/**/*.js'
+      - 'generated/**/*.js'
       - 'locales/**/*.*'
     test-modules:
       - 'index.js'
@@ -121,14 +122,14 @@ gulp:
     js:
       src:
         - 'modules/*/js/*.js'
-      dest: 'public'
+      dest: 'generated'
       replace:
         'modules/(.+/)js/.+': '$1'
     less:
       src:
         - 'src/less/app.less'
         - 'modules/*/less/layout.less'
-      dest: 'public'
+      dest: 'generated'
     locales:
       dest: 'locales'
     deploy:
@@ -140,6 +141,7 @@ gulp:
         - 'package.json'
         - 'README.md'
         - 'server.js'
+        - 'generated/*'
         - 'lib/**/*'
         - 'locales/*'
         - 'modules/*/*.json'
@@ -152,6 +154,7 @@ gulp:
 server:
   server: ./server.js
   docroot: ./public
+  generated: ./generated
   modules: ./modules
   verbose: false
   httpsKey: ./key/selfsigned.key

@@ -52,6 +52,7 @@ if (config.server.verbose) {
  * @name request_serve_static_files
  */
 app.use(express.static(config.server.docroot));
+app.use(express.static(config.server.generated));
 app.use('/jsdoc', express.static(config.gulp.build.jsdoc.dest));
 
 /**
