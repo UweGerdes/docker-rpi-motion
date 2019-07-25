@@ -102,9 +102,9 @@ function getEventList() {
     events[eventIdFound].imageFilename = path.basename(filename);
   });
   for (let [key, value] of Object.entries(events)) {
-    value.date = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$3.$2.$1');
-    value.time = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$4:$5:$6');
-    value.take = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d{2})/, '$7');
+    value.date = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d+)/, '$3.$2.$1');
+    value.time = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d+)/, '$4:$5:$6');
+    value.take = key.replace(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d+)/, '$7');
   }
   return events;
 }
