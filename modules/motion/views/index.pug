@@ -5,6 +5,8 @@ append head
   link(rel='stylesheet', href='/'+ moduleName + '/layout.css')
 
 append breadcrumbs
+  li.header-breadcrumb
+    a.header-breadcrumb-link(href='/'+ moduleName + '/') Motion
   if locals.show && locals.eventShow
     - event = eventList[eventShow - 1]
     li.header-breadcrumb
