@@ -70,9 +70,9 @@ const show = (req, res) => {
  */
 const run = (req, res) => {
   res.set('Content-Type', 'application/json');
-  model[req.params.command]().then((result) => { // jscs:ignore jsDoc
+  model[req.params.command]().then((result) => {
     res.send({ data: result });
-  }).catch((error) => { // jscs:ignore jsDoc
+  }).catch((error) => {
     res.send({ error: error });
   });
 };
