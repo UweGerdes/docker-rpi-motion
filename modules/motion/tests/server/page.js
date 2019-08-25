@@ -65,7 +65,7 @@ describe('motion/tests/server/page.js', function () {
           assert.equal(footer.textContent, '© 2019 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'https://motion:8081/livereload.js'
+            'https://localhost:' + process.env.LIVERELOAD_PORT + '/livereload.js'
           );
           done();
         });

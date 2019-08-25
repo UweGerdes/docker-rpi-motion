@@ -102,7 +102,7 @@ const tasks = {
       key: fs.readFileSync(path.join(__dirname, '..', config.server.httpsKey)),
       cert: fs.readFileSync(path.join(__dirname, '..', config.server.httpsCert))
     });
-    log.info('livereload listening on http://localhost:' + process.env.LIVERELOAD_PORT);
+    log.info('livereload listening on http://' + ipv4addresses.get()[0] + ':' + process.env.LIVERELOAD_PORT);
   }
 };
 

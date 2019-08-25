@@ -159,4 +159,3 @@ server:
   verbose: false
   httpsKey: ./key/selfsigned.key
   httpsCert: ./key/selfsigned.crt
-  lifereloadHost: motion
