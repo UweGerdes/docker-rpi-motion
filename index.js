@@ -16,7 +16,7 @@ const spawn = require('child_process').spawn,
 let verbose = false;
 let motionProcess = null;
 let cmd = 'motion';
-let args = ['-b'];
+let args = ['-b', '-m'];
 
 var isRunning =
 /**
