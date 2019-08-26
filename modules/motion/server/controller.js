@@ -113,6 +113,15 @@ const connectServer = (server, httpsServer) => {
       const isRunning = await model.isRunning();
       socket.emit('status', { isRunning: isRunning });
     });
+    socket.on('getDetectionStatus', async () => {
+      socket.emit('status', { detectionStatus: await model.getDetectionStatus() });
+    });
+    socket.on('startDetection', async () => {
+      socket.emit('status', { detectionStatus: await model.setDetectionStatus('start') });
+    });
+    socket.on('stopDetection', async () => {
+      socket.emit('status', { detectionStatus: await model.setDetectionStatus('pause') });
+    });
   });
 };
 

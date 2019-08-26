@@ -53,6 +53,11 @@ block content
             a.button.motion-button&attributes({ 'data-emit': 'startMotion', 'data-enabled': '!isRunning' }) &#x1F534;
             a.button.motion-button&attributes({ 'data-emit': 'stopMotion', 'data-enabled': 'isRunning' }) &#x2B1B;
             a.button.motion-button&attributes({ 'data-emit': 'isRunning', 'data-enabled': '{}' }) &#x2753;
+            a.button.motion-button&attributes({ 'href': '/'+ moduleName + '/controls/', 'target': '_blank' }) &#x2699;
+          span#status-container.status-container&attributes({ 'data-status': 'detectionStatus' })
+            span.status.motion-status.motion-detection-status&attributes({ 'data-emit': 'getDetectionStatus', 'data-content': 'detectionStatus' }) pause
+            a.button.motion-button&attributes({ 'data-emit': 'startDetection' }) &#x1F534;
+            a.button.motion-button&attributes({ 'data-emit': 'stopDetection' }) &#x2B1B;
 
     #motion-container.motion-container.flex-wrapper
       if locals.show && show == 'image' && locals.eventShow

@@ -10,6 +10,7 @@ let socket = io({ path: '/motion/socket.io' });
 
 let statusElements = { };
 let enabledElements = { };
+let eventElements = { };
 
 window.addEventListener('load', documentLoaded);
 
@@ -26,7 +27,11 @@ function documentLoaded() {
   enabledElements.forEach((element) => {
     addEnabledElement(element);
   });
+  eventElements.status = document.querySelectorAll('[data-status]');
+  eventElements.enabled = document.querySelectorAll('[data-enabled]');
+  eventElements.content = document.querySelectorAll('[data-content]');
   socket.emit('isRunning');
+  socket.emit('getDetectionStatus');
   scrollList();
 }
 
@@ -41,17 +46,13 @@ socket.on('connect_error', (error) => {
 socket.on('status', (data) => {
   if ('isRunning' in data) {
     statusElements.isRunning.forEach(element => {
-      element.dataset.isRunning = data.isRunning;
       if (data.isRunning) {
         element.classList.add('running');
-        element.classList.remove('stopped');
       } else {
-        element.classList.add('stopped');
         element.classList.remove('running');
       }
     });
     enabledElements.isRunning.forEach(element => {
-      element.dataset.isRunning = data.isRunning;
       if (data.isRunning) {
         element.disabled = false;
       } else {
@@ -59,11 +60,25 @@ socket.on('status', (data) => {
       }
     });
     enabledElements['!isRunning'].forEach(element => {
-      element.dataset.isRunning = data.isRunning;
       if (data.isRunning) {
         element.disabled = true;
       } else {
         element.disabled = false;
+      }
+    });
+  }
+  if ('detectionStatus' in data) {
+    console.log(data.detectionStatus);
+    statusElements.detectionStatus.forEach(element => {
+      if (data.detectionStatus === 'active') {
+        element.classList.add('active');
+      } else {
+        element.classList.remove('active');
+      }
+    });
+    eventElements.content.forEach(element => {
+      if (element.dataset.content === 'detectionStatus') {
+        element.textContent = data.detectionStatus;
       }
     });
   }

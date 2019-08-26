@@ -9,7 +9,8 @@
 
 'use strict';
 
-const glob = require('glob'),
+const axios = require('axios'),
+  glob = require('glob'),
   path = require('path'),
   motion = require('../../../index.js');
 
@@ -50,6 +51,65 @@ function stopMotion() {
  */
 function isRunning() {
   return motion.isRunning();
+}
+
+/**
+ * getDetectionStatus
+ *
+ * get detection status of motion
+ *
+ * @returns {String} detection status
+ */
+async function getDetectionStatus() {
+  let status = '';
+  if (motion.isRunning()) {
+    try {
+      const page = await axios({
+        method: 'get',
+        url: 'http://localhost:8082/0/detection/status'
+      });
+      status = page.data.replace(/(?:.|\s)+Detection status ([A-Z]+)(?:.|\s)+/m, '$1').toLowerCase();
+    } catch (error) {
+      if (error.message.match(/.*connect ECONNREFUSED.*/)) {
+        status = 'no connection';
+      } else {
+        status = error.message;
+      }
+    }
+  } else {
+    status = 'not running';
+  }
+  return status;
+}
+
+/**
+ * setDetectionStatus
+ *
+ * set detection status of motion
+ *
+ * @param {String} newStatus - status to set
+ * @returns {String} detection status
+ */
+async function setDetectionStatus(newStatus) {
+  let status = '';
+  if (motion.isRunning()) {
+    try {
+      await axios({
+        method: 'get',
+        url: 'http://localhost:8082/0/detection/' + newStatus
+      });
+      status = getDetectionStatus();
+    } catch (error) {
+      if (error.message.match(/.*connect ECONNREFUSED.*/)) {
+        status = 'no connection';
+      } else {
+        status = error.message;
+      }
+    }
+  } else {
+    status = 'not running';
+  }
+  return status;
 }
 
 /**
@@ -113,5 +173,7 @@ module.exports = {
   startMotion: startMotion,
   stopMotion: stopMotion,
   isRunning: isRunning,
+  getDetectionStatus: getDetectionStatus,
+  setDetectionStatus: setDetectionStatus,
   getEventList: getEventList
 };

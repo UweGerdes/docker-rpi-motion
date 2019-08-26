@@ -1,15 +1,47 @@
 @import '../../../src/less/vars';
 
 .motion {
+  [data-emit='startMotion'] {
+    display: inline;
+  }
+
+  [data-emit='stopMotion'] {
+    display: none;
+  }
+
+  .status-container {
+    display: none;
+  }
+
   .running {
     [data-emit='startMotion'] {
       display: none;
     }
-  }
 
-  .stopped {
     [data-emit='stopMotion'] {
-      display: none;
+      display: inline;
+    }
+
+    .status-container {
+      display: inline;
+
+      [data-emit='startDetection'] {
+        display: inline;
+      }
+
+      [data-emit='stopDetection'] {
+        display: none;
+      }
+
+      &.active {
+        [data-emit='startDetection'] {
+          display: none;
+        }
+
+        [data-emit='stopDetection'] {
+          display: inline;
+        }
+      }
     }
   }
 
