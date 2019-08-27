@@ -21,9 +21,11 @@ const dryRun = false;
  *
  * start the motion process
  */
-function startMotion() {
+async function startMotion() {
   if (!dryRun) {
-    return motion.start();
+    const started = motion.start();
+    await sleep(200);
+    return started;
   } else {
     console.log('motion.start();');
   }
@@ -177,3 +179,7 @@ module.exports = {
   setDetectionStatus: setDetectionStatus,
   getEventList: getEventList
 };
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
