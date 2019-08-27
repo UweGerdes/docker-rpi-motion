@@ -41,6 +41,18 @@ describe('motion/tests/model/model.js', () => {
     const isRunning = await model.isRunning();
     assert.equal(isRunning, true);
   });
+  it('detection paused', async () => {
+    const status = await model.getDetectionStatus();
+    assert.equal(status, 'pause');
+  });
+  it('detection start', async () => {
+    const status = await model.setDetectionStatus('start');
+    assert.equal(status, 'active');
+  });
+  it('detection stop', async () => {
+    const status = await model.setDetectionStatus('pause');
+    assert.equal(status, 'pause');
+  });
   it('should stop motion', async () => {
     const wasRunning = await model.stopMotion();
     assert.equal(wasRunning, true);
