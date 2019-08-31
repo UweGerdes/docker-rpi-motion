@@ -281,7 +281,6 @@ app.use(requestError500Handler);
 /**
  * Get the path for file to render
  *
- * @private
  * @param {string} page - page type
  * @param {string} type - file type (ejs, jade, pug, html)
  */

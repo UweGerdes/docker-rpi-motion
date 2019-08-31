@@ -18,7 +18,7 @@ Make sure you have connected and tested the hardware, activated the camera with 
 
 I use Raspbian, other systems might work too.
 
-### Create /dev/video0
+### Create /dev/video0 (if not already existing)
 
 On the rasbian system activate the video driver:
 
