@@ -36,23 +36,6 @@ describe('motion/tests/server/page.js', function () {
           done();
         });
     });
-    it('should have some buttons', function (done) {
-      chai.request(serverDomain)
-        .get('/motion/')
-        .end(function (err, res) {
-          expect(err).to.be.null;
-          expect(res).to.have.status(200);
-          expect(res).to.be.html;
-          const { document } = (new JSDOM(res.text)).window;
-          const startButton = document.querySelector('[data-emit=startMotion]');
-          assert.equal(startButton.textContent, '\u{1F534}');
-          const stopButton = document.querySelector('[data-emit=stopMotion]');
-          assert.equal(stopButton.textContent, '\u2B1B');
-          const isRunningButton = document.querySelector('[data-emit=isRunning]');
-          assert.equal(isRunningButton.textContent, '\u2753');
-          done();
-        });
-    });
     it('should have footer', function (done) {
       chai.request(serverDomain)
         .get('/motion/')

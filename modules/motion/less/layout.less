@@ -1,16 +1,58 @@
 @import '../../../src/less/vars';
 
+.button-icon(@char) {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  text-indent: -9999px;
+  visibility: hidden;
+  width: 20px;
+
+  &::after {
+    content: @char;
+    display: block;
+    left: 8px;
+    position: absolute;
+    text-indent: 0;
+    top: 0;
+    visibility: visible;
+  }
+}
+
 .motion {
+  &-button {
+    color: initial;
+    cursor: pointer;
+    font-size: 1.5em;
+    padding: 5px 8px;
+    text-decoration: none;
+  }
+
   [data-emit='startMotion'] {
-    display: inline;
+    .button-icon('\1F534');
   }
 
   [data-emit='stopMotion'] {
+    .button-icon('\2B1B');
     display: none;
+  }
+
+  [data-emit='isRunning'] {
+    .button-icon('\2753');
   }
 
   .status-container {
     display: none;
+  }
+
+  &-detection-status {
+    display: none;
+  }
+
+  &-settings {
+    .button-icon('\2699');
+    font-size: 2em;
+    padding-top: 2px;
   }
 
   .running {
@@ -19,17 +61,18 @@
     }
 
     [data-emit='stopMotion'] {
-      display: inline;
+      display: inline-block;
     }
 
     .status-container {
       display: inline;
 
       [data-emit='startDetection'] {
-        display: inline;
+        .button-icon('\1F534');
       }
 
       [data-emit='stopDetection'] {
+        .button-icon('\2B1B');
         display: none;
       }
 
@@ -39,18 +82,10 @@
         }
 
         [data-emit='stopDetection'] {
-          display: inline;
+          display: inline-block;
         }
       }
     }
-  }
-
-  .motion-button {
-    color: initial;
-    cursor: pointer;
-    font-size: 1.5em;
-    padding: 5px 8px;
-    text-decoration: none;
   }
 
   .eventList-container {

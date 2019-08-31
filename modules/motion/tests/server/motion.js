@@ -37,9 +37,11 @@ describe('motion/tests/server/motion.js', function () {
       testElement('#header', { }, 'HomeMotionanmelden');
       testElement('.header a.login-link', { 'href': '/login/' }, 'anmelden');
       testElement('#headline', { }, 'Motion');
-      testElement('[data-emit=startMotion]', { }, '\u{1F534}');
-      testElement('[data-emit=stopMotion]', { }, '\u2B1B');
-      testElement('[data-emit=isRunning]', { }, '\u2753');
+      testElement('[data-emit=startMotion]', { }, 'start motion server');
+      testElement('[data-emit=stopMotion]', { }, 'stop motion server');
+      testElement('[data-emit=isRunning]', { }, 'motion server running?');
+      testElement('[data-emit=startDetection]', { }, 'start detection');
+      testElement('[data-emit=stopDetection]', { }, 'stop detection');
       assert.isAtLeast(document.querySelectorAll('.eventList tr').length, 1);
     });
   });
