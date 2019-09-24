@@ -73,7 +73,7 @@ async function getDetectionStatus() {
       status = page.data.replace(/(?:.|\s)+Detection status ([A-Z]+)(?:.|\s)+/m, '$1').toLowerCase();
     } catch (error) {
       if (error.message.match(/.*connect ECONNREFUSED.*/)) {
-        status = 'no connection';
+        status = 'no connection to motion server';
       } else {
         status = error.message;
       }
