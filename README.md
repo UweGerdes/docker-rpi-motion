@@ -33,7 +33,7 @@ You should add `bcm2835-v4l2` to `/etc/modules` so whenever the pi is restarted 
 
 ### Build the Docker image
 
-You should start with (`uwegerdes/baseimage`)[https://github.com/UweGerdes/docker-baseimage-arm32v7] (arm32v7 version) and build (`uwegerdes/nodejs`)[https://github.com/UweGerdes/docker-nodejs] before building the motion image.
+You should clone and build (`uwegerdes/baseimage`)[https://github.com/UweGerdes/docker-baseimage] and (`uwegerdes/nodejs`)[https://github.com/UweGerdes/docker-nodejs] before building the motion image.
 
 ```bash
 $ docker build -t uwegerdes/motion .
