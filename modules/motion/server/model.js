@@ -103,7 +103,7 @@ async function setDetectionStatus(newStatus) {
       status = getDetectionStatus();
     } catch (error) {
       if (error.message.match(/.*connect ECONNREFUSED.*/)) {
-        status = 'no connection';
+        status = 'no connection to motion server';
       } else {
         status = error.message;
       }
