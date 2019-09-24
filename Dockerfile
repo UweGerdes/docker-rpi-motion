@@ -38,10 +38,14 @@ RUN apt-get update && \
 	adduser ${USER_NAME} audio && \
 	adduser ${USER_NAME} video && \
 	adduser ${USER_NAME} motion && \
-	npm install -g --cache /tmp/root-cache \
-				gulp-cli \
-				nodemon && \
 	chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME} && \
+	npm -g config set user ${USER_NAME} && \
+	if [ "${NODE_ENV}" = "development" ] ; then \
+		npm install -g --cache /tmp/root-cache \
+					gulp-cli \
+					nodemon \
+					npm ; \
+	fi && \
 	rm -r /tmp/*
 
 COPY entrypoint.sh /usr/local/bin/

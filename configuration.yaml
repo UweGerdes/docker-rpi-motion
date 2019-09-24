@@ -26,7 +26,6 @@ gulp:
         - 'jsonlint'
         - 'yamllint'
         - 'puglint'
-        - 'ejslint'
       server:
         - 'server-changed'
         - 'tests'
@@ -111,6 +110,9 @@ gulp:
       - 'modules/**/tests/model/*.js'
       - 'modules/**/tests/server/*.js'
       - 'modules/**/tests/views/*.js'
+  lint:
+    eslint:
+      fixtureDir: './fixture'
   build:
     jsdoc:
       src:

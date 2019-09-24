@@ -1,12 +1,16 @@
 //- widgets/textarea.pug
-mixin textarea(name, value, width, height, label)
-  .field(class='field_' + name)
-    label.field-label.field-label-textarea= label
+mixin textarea(attr)
+  .field(class='field_' + attr.name)
+    label.field-label.field-label-textarea= __(attr.label)
     .field-value
-      .field-value-input(class='field-value-input-' + name)
-        textarea(
-          name=name,
-          class='input-textarea',
-          cols=width,
-          rows=height
-        )= post[name] || value
+      .field-value-input(class='field-value-input-' + attr.name)
+        if post[attr.name]
+          - value = post[attr.name]
+        else
+          if attr.value != ''
+            - value = __(attr.value)
+        if attr.placeholder != ''
+          - attr.placeholder = __(attr.placeholder)
+        - delete(attr.label)
+        - delete(attr.value)
+        textarea.input-textarea&attributes(attr)= value

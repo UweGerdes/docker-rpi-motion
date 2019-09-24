@@ -1,17 +1,20 @@
 //- widgets/select.pug
-mixin select(name, pretext, entries, followtext)
-  .field(class='field_' + name)
-    .field-label= pretext
+mixin select(attr)
+  .field(class='field_' + attr.name)
+    .field-label= __(attr.label)
     .field-value
-      .field-value-input(class='field-value-input-' + name)
-        select(
-              id=name,
-              name=name,
-              class='input-select'
-            )
-          each label, value in entries
+      .field-value-input(class='field-value-input-' + attr.name)
+        - options = attr.options
+        - delete(attr.type)
+        - delete(attr.label)
+        - text = attr.text
+        - delete(attr.text)
+        - options = attr.options
+        - delete(attr.options)
+        select.input-select&attributes(attr)
+          each label, value in options
             option(
               value=value,
-              selected=(value == post[name])
-            )= label
-        span.select-followtext= followtext
+              selected=(value == post[attr.name])
+            )= __(label)
+        span.select-followtext= __(text)
