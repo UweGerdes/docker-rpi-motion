@@ -51,7 +51,7 @@ mixin input(attr)
     - delete(attr.label)
     - delete(attr.value)
     textarea.input-textarea&attributes(attr)= value
-  else if attr.type != 'output'
+  else
     if post[attr.name]
       if attr.type != 'checkbox'
         - attr.value = post[attr.name]
