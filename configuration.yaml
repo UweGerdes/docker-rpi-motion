@@ -1,5 +1,5 @@
 #
-#  Configuration for motion
+#  Configuration for gulp expressjs projects
 #
 gulp:
   start:
@@ -100,7 +100,7 @@ gulp:
       - 'generated/**/*.js'
       - 'locales/**/*.*'
     test-modules:
-      - 'index.js'
+      - '*.js'
       - 'modules/**/tests/model/*.*'
       - 'modules/**/tests/server/*.*'
       - 'modules/**/views/**/*.*'

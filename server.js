@@ -1,5 +1,5 @@
 /**
- * HTTP-Server for motion
+ * HTTP-Server for expressjs projects
  *
  * @module server
  */
@@ -243,12 +243,13 @@ for (const [baseRoute, router] of Object.entries(routers)) {
  * @param {object} res - response
  */
 const requestGet404Route = (req, res) => {
-  res.status(404).render(viewPath('error'), Object.assign({
+  res.status(404).render(viewPath('error'), {
     error: {
       code: 404,
       name: 'not found'
-    }
-  }, config.getData(req)));
+    },
+    ...config.getData(req)
+  });
 };
 app.get('*', requestGet404Route);
 
@@ -265,13 +266,14 @@ const requestError500Handler = (err, req, res, next) => {
   if (err) {
     res
       .status(500)
-      .render(viewPath('error'), Object.assign({
+      .render(viewPath('error'), {
         error: {
           code: 500,
           name: 'server error',
           error: err
-        }
-      }, config.getData(req)));
+        },
+        ...config.getData(req)
+      });
   } else {
     next();
   }
