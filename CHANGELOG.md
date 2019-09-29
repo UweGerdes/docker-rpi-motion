@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.1
+updates to form handling, correct dependencies
+
 ## 0.1.0
 updates from boilerplate, translations, refactoring
 
