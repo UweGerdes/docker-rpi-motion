@@ -39,6 +39,7 @@ let routers = { };
  *
  * @name set_logformat
  */
+/* c8 ignore next 7 */
 if (config.server.verbose) {
   morgan.token('time', () => {
     return dateFormat(new Date(), 'HH:MM:ss');
