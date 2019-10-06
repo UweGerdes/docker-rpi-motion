@@ -35,6 +35,7 @@ describe('/pages/tests/views/https.js', () => {
       document = checkResponse(res, err);
       checkPage(document, 'Module', 'Home');
       testElement('#headline', { }, 'Module:');
+      testElement('.module-link', { href: '/motion/' }, 'Motion');
     });
   });
 });
