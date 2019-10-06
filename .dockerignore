@@ -1,6 +1,7 @@
 # dockerignore
 /.git
 /capture
+/coverage
 /deploy
 /docs/jsdoc
 /logs

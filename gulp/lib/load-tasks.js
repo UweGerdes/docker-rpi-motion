@@ -32,6 +32,7 @@ module.exports = {
    *
    * @return {Array} task list
    */
+  /* c8 ignore next 3 */
   tasks: () => {
     return list;
   }

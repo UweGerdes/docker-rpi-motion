@@ -20,6 +20,7 @@ const tasks = {
    *
    * @function watch
    */
+  /* c8 ignore next 17 */
   'watch': () => {
     const tasks = loadTasks.tasks();
     let tasklist = config.gulp.watch;

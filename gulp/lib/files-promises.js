@@ -20,6 +20,7 @@ const recentTime = 10;
 const getFilenames = (path) => {
   return new Promise((resolve, reject) => {
     glob(path, (error, files) => {
+      /* c8 ignore next 2 */
       if (error) {
         reject(error);
       } else {
@@ -45,6 +46,7 @@ function getRecentFiles(files) {
     }
   }
   const now = new Date();
+  /* c8 ignore next 4 */
   if (now.getTime() - bestTime < recentTime * 1000) {
     return new Promise((resolve) => {
       resolve([newest]);
@@ -64,6 +66,7 @@ function getRecentFiles(files) {
 const getFileContent = (filename) => {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, (error, data) => {
+      /* c8 ignore next 2 */
       if (error) {
         reject(error);
       } else {

@@ -32,6 +32,7 @@ const tasks = {
    * @function server
    * @param {function} callback - gulp callback to signal end of task
    */
+  /* c8 ignore next 6 */
   'server': [['eslint'], (callback) => {
     sequence(
       ...config.gulp.start[process.env.NODE_ENV].server,
@@ -44,6 +45,7 @@ const tasks = {
    * @function server-start
    * @param {function} callback - gulp callback to signal end of task
    */
+  /* c8 ignore next 8 */
   'server-start': (callback) => {
     server.listen({
       path: config.server.server,
@@ -58,6 +60,7 @@ const tasks = {
    * @function server-changed
    * @param {function} callback - gulp callback to signal end of task
    */
+  /* c8 ignore next 8 */
   'server-changed': (callback) => {
     server.changed((error) => {
       if (!error) {
@@ -71,6 +74,7 @@ const tasks = {
    *
    * @function livereload
    */
+  /* c8 ignore next 6 */
   'livereload': () => {
     return gulp.src(config.gulp.watch.livereload)
       .pipe(changedInPlace({ howToDetermineDifference: 'modification-time' }))
@@ -84,6 +88,7 @@ const tasks = {
    *
    * @function livereload-all
    */
+  /* c8 ignore next 5 */
   'livereload-all': () => {
     return gulp.src(config.gulp.watch.livereload[0])
       .pipe(notify({ message: 'triggered', title: 'livereload' }))
@@ -94,6 +99,7 @@ const tasks = {
    *
    * @function livereload-start
    */
+  /* c8 ignore next 10 */
   'livereload-start': () => {
     livereload.listen({
       host: ipv4addresses.get()[0],

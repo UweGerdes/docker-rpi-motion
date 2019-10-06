@@ -49,6 +49,7 @@ const tasks = {
    */
   'eslint': () => {
     const isFixed = (file) => {
+      /* c8 ignore next 1 */
       return file.eslint != null && file.eslint.fixed;
     };
     return gulp.src(config.gulp.watch.eslint)
@@ -57,6 +58,7 @@ const tasks = {
       .pipe(eslint({ configFile: path.join(__dirname, '..', '.eslintrc.js'), fix: true }))
       .pipe(eslint.format())
       .pipe(eslint.results(results => {
+        /* c8 ignore next 7 */
         if (results.length && (results.warningCount > 0 || results.errorCount > 0)) {
           console.log(
             `Total Results: ${results.length},  ` +
@@ -65,6 +67,7 @@ const tasks = {
           );
         }
       }))
+      /* c8 ignore next 1 */
       .pipe(gulpIf(isFixed, gulp.dest(config.gulp.lint.eslint.fixtureDir || './fixture')))
       .pipe(gulpIf(isFixed, notify({
         message: 'fixture: <%= file.path %>',
@@ -122,6 +125,7 @@ const tasks = {
     return gulp.src(config.gulp.watch.yamllint)
       .pipe(yamlValidate({ space: 2 }))
       .on('error', (msg) => {
+        /* c8 ignore next 1 */
         console.log(msg);
       });
   },
@@ -142,6 +146,7 @@ const tasks = {
    * @function lint
    * @param {function} callback - gulp callback to signal end of task
    */
+  /* c8 ignore next 6 */
   'ejslint-livereload': [['ejslint'], (callback) => {
     sequence(
       'livereload-all',
@@ -205,6 +210,7 @@ const tasks = {
     const fileCheck = (file) => {
       return new Promise((resolve) => {
         const err = check(file.jsCode, path.relative(process.cwd(), file.filename));
+        /* c8 ignore next 3 */
         if (err) {
           resolve(err);
         }
@@ -236,6 +242,7 @@ const tasks = {
       })
       .then((errorList) => {
         let error;
+        /* c8 ignore next 3 */
         if (errorList.join('').length > 0) {
           error = new PluginError('ejslint', errorList.join(''));
         }
@@ -246,6 +253,7 @@ const tasks = {
 
 if (process.env.NODE_ENV === 'development') {
   loadTasks.importTasks(tasks);
+/* c8 ignore next 6 */
 } else {
   loadTasks.importTasks({
     eslint: () => { },

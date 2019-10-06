@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0
+added test coverage and tests
+
 ## 0.1.1
 updates to form handling, correct dependencies
 

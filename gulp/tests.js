@@ -46,6 +46,7 @@ const tasks = {
         const task = gulp.src(filenames, { read: false })
           // `gulp-mocha` needs filepaths so you can't have any plugins before it
           .pipe(mocha({ reporter: 'tap', timeout: 10000 })) // timeout for Raspberry Pi 3
+          /* c8 ignore next 3 */
           .on('error', function (error) {
             task.emit(error);
           })

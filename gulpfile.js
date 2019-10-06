@@ -14,6 +14,7 @@
 
 'use strict';
 
+/* c8 ignore next 3 */
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
@@ -36,6 +37,7 @@ const gulp = require('gulp'),
  * @name module:gulpfile.default
  * @param {function} callback - gulp callback to signal end of task
  */
+/* c8 ignore next 6 */
 gulp.task('default', (callback) => {
   sequence(
     ...config.gulp.start[process.env.NODE_ENV].gulp,

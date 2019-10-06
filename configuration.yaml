@@ -70,6 +70,7 @@ gulp:
     jsonlint:
       - '**/*.json'
       - '.lesshintrc'
+      - '!coverage/**/*.json'
       - '!src/locales/*.json'
       - '!modules/**/locales/*.json'
     locales:
