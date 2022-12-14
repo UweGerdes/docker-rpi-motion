@@ -44,8 +44,11 @@ $ docker build -t uwegerdes/motion .
 Run the container with:
 
 ```bash
-$ docker run -it \
-	-v $(pwd):/home/node/app \
+$ docker run -it --rm \
+  -v $(pwd)/modules/motion:/home/node/app/modules/motion \
+  -v $(pwd)/capture:/home/node/app/capture \
+  -v $(pwd)/logs:/home/node/app/logs \
+  -v $(pwd)/fixture:/home/node/app/fixture \
 	-p 8080:8080 \
 	-p 8443:8443 \
 	-p 8081:8081 \
@@ -87,6 +90,22 @@ This process uses cpu and disk massively, so do it afterwards. The time depends 
 
 ```bash
 $ ffmpeg -i "FILENAME.mp3" -r 30 -i "FILENAME.avi" "video.avi"
+```
+
+## Test Video and Audio Setup
+
+### Take a pic
+
+raspistill -e png -dt -o "./img%010d.png" -w 1640 -h 1232 -cs 0 -n -t 10
+
+### Grab video and audio and convert
+
+```bash
+SECS=5
+TIME="$(date +%Y-%m-%d_%H:%M:%S)"
+raspivid -t ${SECS}000 -w 1280 -h 720 -b 3500000 -o "video-${TIME}.h264" &
+arecord -d ${SECS} -D default:CARD=Device -t wav -c 1 -r 48000 -f S16_LE "audio-${TIME}.wav"
+ffmpeg -i "audio-${TIME}.wav" -i "video-${TIME}.h264" "vid-${TIME}.mpg"
 ```
 
 ## Usage extensions
