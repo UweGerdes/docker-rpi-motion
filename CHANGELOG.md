@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2
+minor updates
+
 ## 0.3.1
 reactivate all tests, socket.io
 
