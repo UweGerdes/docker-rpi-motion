@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1
+reactivate all tests, socket.io
+
 ## 0.3.0
 rebase to expressjs-boilerplate, package upgrades
 
