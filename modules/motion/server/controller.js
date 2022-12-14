@@ -99,12 +99,9 @@ const useExpress = (app) => {
 const connectServer = (httpServer, httpsServer) => {
   io = new Server({ path: '/motion/socket.io' });
   io.attach(httpServer);
-  // io.attach(httpsServer);
-  // console.log('server: ', httpServer);
-  console.log('httpsServer: ', Object.keys(httpsServer)[0]);
+  io.attach(httpsServer);
   io.on('connection', function (newSocket) {
     socket = newSocket;
-    // console.log('newSocket: ', socket);
     socket.on('startMotion', async () => {
       const started = await model.startMotion();
       const isRunning = await model.isRunning();

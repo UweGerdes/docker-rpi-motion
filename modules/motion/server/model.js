@@ -24,7 +24,7 @@ const dryRun = false;
 async function startMotion() {
   if (!dryRun) {
     const started = motion.start();
-    await sleep(300);
+    await sleep(1000);
     return started;
   } else {
     console.log('motion.start();');
