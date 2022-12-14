@@ -6,7 +6,7 @@
 
 'use strict';
 
-let socket = io({ path: '/motion/socket.io' });
+let socket = io({ path: '/motion/socket.io/' });
 
 let statusElements = { };
 let enabledElements = { };
@@ -36,11 +36,11 @@ function documentLoaded() {
 }
 
 socket.on('connect', () => {
-  // console.log('connected');
+  console.log('connected to ', socket.id);
 });
 
 socket.on('connect_error', (error) => {
-  console.log('connect_error', error);
+  console.log('connect_error:', error.message);
 });
 
 socket.on('status', (data) => {
