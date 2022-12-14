@@ -91,17 +91,17 @@ const useExpress = (app) => {
 };
 
 /**
- * Use server and httpsServer for socket
+ * Use httpServer and httpsServer for socket
  *
  * @param {object} server - express instance
  * @param {object} httpsServer - httpsServer instance
  */
-const connectServer = (server, httpsServer) => {
+const connectServer = (httpServer, httpsServer) => {
   io = new Server({ path: '/motion/socket.io' });
-  io.attach(server);
+  io.attach(httpServer);
   // io.attach(httpsServer);
-  // console.log('server: ', server);
-  console.log('httpsServer: ', Object.keys(httpsServer));
+  // console.log('server: ', httpServer);
+  console.log('httpsServer: ', Object.keys(httpsServer)[0]);
   io.on('connection', function (newSocket) {
     socket = newSocket;
     // console.log('newSocket: ', socket);
