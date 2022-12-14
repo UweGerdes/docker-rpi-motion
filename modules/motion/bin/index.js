@@ -39,7 +39,7 @@ exports.start = () => {
   return isRunning().then(exists => {
     if (exists === false) {
       if (verbose) {
-        console.log('starting: ' + cmd + ' ' + args.join(' '));
+        console.log('starting:', cmd, args.join(' '));
       }
       let out = fs.openSync('./logs/index.log', 'a');
       let err = fs.openSync('./logs/index.log', 'a');
@@ -54,10 +54,9 @@ exports.start = () => {
       motionProcess.unref();
     } else {
       if (verbose) {
-        console.log('already started: ' + cmd + ' ' + args.join(' '), exists);
+        console.log('already started:', cmd, args.join(' '));
       }
     }
-    console.log('started: ' + exists + ' ' + cmd + ' ' + args.join(' '));
     return new Promise((resolve) => {
       resolve(exists);
     });
@@ -77,23 +76,14 @@ exports.stop = () => {
       }, t);
     });
   };
-  return isRunning().then((running) => {
-    return new Promise((resolve, reject) => {
-      if (running) {
-        try {
-          console.log('fkill motion');
-          fkill('motion');
-          console.log('delay 3000');
-          delay(3000);
-          console.log('resolve');
-          resolve(running);
-        } catch (error) {
-          console.log(cmd, args.join(' '), 'could not be killed');
-          reject(error);
-        }
-      } else {
-        resolve(running);
+  return isRunning().then(async (running) => {
+    if (running) {
+      await fkill('motion');
+      await delay(1000);
+      if (verbose) {
+        console.log('stopped:', cmd);
       }
-    });
+    }
+    return running;
   });
 };

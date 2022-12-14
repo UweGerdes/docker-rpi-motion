@@ -33,7 +33,6 @@ describe('motion/tests/model/model.js', () => {
     const isRunning = await model.isRunning();
     assert.equal(isRunning, true);
   });
-  /*
   it('should start motion again', async () => {
     const wasRunning = await model.startMotion();
     assert.equal(wasRunning, true);
@@ -54,7 +53,6 @@ describe('motion/tests/model/model.js', () => {
     const status = await model.setDetectionStatus('pause');
     assert.equal(status, 'pause');
   });
-  */
   it('should stop motion', async () => {
     const wasRunning = await model.stopMotion();
     assert.equal(wasRunning, true);
