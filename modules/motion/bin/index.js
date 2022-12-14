@@ -13,10 +13,10 @@ const spawn = require('child_process').spawn,
   fs = require('fs'),
   processExists = require('process-exists');
 
-let verbose = false;
+let verbose = true;
 let motionProcess = null;
 let cmd = 'motion';
-let args = ['-b', '-m'];
+let args = ['-b', '-m', '-c', '/home/node/app/modules/motion/bin/motion.conf'];
 
 var isRunning =
 /**
@@ -43,17 +43,21 @@ exports.start = () => {
       }
       let out = fs.openSync('./logs/index.log', 'a');
       let err = fs.openSync('./logs/index.log', 'a');
-      motionProcess = spawn(cmd, args,
+      motionProcess = spawn(
+        cmd,
+        args,
         {
           detached: true,
           stdio: ['ignore', out, err]
-        });
+        }
+      );
       motionProcess.unref();
     } else {
       if (verbose) {
         console.log('already started: ' + cmd + ' ' + args.join(' '), exists);
       }
     }
+    console.log('started: ' + exists + ' ' + cmd + ' ' + args.join(' '));
     return new Promise((resolve) => {
       resolve(exists);
     });
@@ -74,11 +78,14 @@ exports.stop = () => {
     });
   };
   return isRunning().then((running) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (running) {
         try {
-          await fkill('motion');
-          await delay(3000);
+          console.log('fkill motion');
+          fkill('motion');
+          console.log('delay 3000');
+          delay(3000);
+          console.log('resolve');
           resolve(running);
         } catch (error) {
           console.log(cmd, args.join(' '), 'could not be killed');

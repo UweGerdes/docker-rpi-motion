@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.0
+rebase to expressjs-boilerplate, package upgrades
+
 ## 0.2.0
 added test coverage and tests
 

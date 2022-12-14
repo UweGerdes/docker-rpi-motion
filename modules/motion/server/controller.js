@@ -10,7 +10,7 @@
 
 const express = require('express'),
   path = require('path'),
-  SocketIo = require('socket.io'),
+  { Server } = require('socket.io'),
   config = require('../../../lib/config'),
   model = require('./model.js');
 
@@ -32,12 +32,14 @@ let socket,
  */
 const index = (req, res) => {
   const eventList = model.getEventList();
-  let data = Object.assign({
-    eventList: Object.values(eventList)
-  },
-  req.params,
-  config.getData(req),
-  viewRenderParams);
+  let data = Object.assign(
+    {
+      eventList: Object.values(eventList)
+    },
+    req.params,
+    config.getData(req),
+    viewRenderParams
+  );
   res.render(path.join(viewBase, 'index.pug'), data);
 };
 
@@ -49,14 +51,16 @@ const index = (req, res) => {
  */
 const show = (req, res) => {
   const eventList = model.getEventList();
-  let data = Object.assign({
-    eventList: Object.values(eventList),
-    eventShow: req.params.eventShow,
-    show: req.params.show
-  },
-  req.params,
-  config.getData(req),
-  viewRenderParams);
+  let data = Object.assign(
+    {
+      eventList: Object.values(eventList),
+      eventShow: req.params.eventShow,
+      show: req.params.show
+    },
+    req.params,
+    config.getData(req),
+    viewRenderParams
+  );
   res.render(path.join(viewBase, 'index.pug'), data);
 };
 
@@ -93,11 +97,14 @@ const useExpress = (app) => {
  * @param {object} httpsServer - httpsServer instance
  */
 const connectServer = (server, httpsServer) => {
-  io = new SocketIo({ path: '/motion/socket.io' });
+  io = new Server({ path: '/motion/socket.io' });
   io.attach(server);
-  io.attach(httpsServer);
-  io.sockets.on('connection', function (newSocket) {
+  // io.attach(httpsServer);
+  // console.log('server: ', server);
+  console.log('httpsServer: ', Object.keys(httpsServer));
+  io.on('connection', function (newSocket) {
     socket = newSocket;
+    // console.log('newSocket: ', socket);
     socket.on('startMotion', async () => {
       const started = await model.startMotion();
       const isRunning = await model.isRunning();

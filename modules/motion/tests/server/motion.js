@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 const chai = require('chai'),
   chaiHttp = require('chai-http'),
   jsdom = require('jsdom'),
@@ -12,7 +11,7 @@ const chai = require('chai'),
   assert = chai.assert,
   expect = chai.expect,
   { JSDOM } = jsdom,
-  serverDomain = 'https://localhost:8443',
+  serverDomain = 'https://0.0.0.0:8443',
   agent = request.agent(serverDomain);
 
 chai.use(chaiHttp);
@@ -34,8 +33,9 @@ describe('motion/tests/server/motion.js', function () {
       document = checkResponse(res, err);
       checkPage(document, 'Motion', null, 'anmelden');
       testError();
-      testElement('#header', { }, 'HomeMotionanmelden');
-      testElement('.header a.login-link', { 'href': '/login/' }, 'anmelden');
+      testElement('#header .header-breadcrumbs', { }, 'HomeMotion');
+      // testElement('.header a.login-link', { 'href': '/login/' }, 'anmelden');
+      testElement('.header .loginLayer-link', { }, 'anmelden');
       testElement('#headline', { }, 'Motion');
       testElement('[data-emit=startMotion]', { }, 'start motion server');
       testElement('[data-emit=stopMotion]', { }, 'stop motion server');

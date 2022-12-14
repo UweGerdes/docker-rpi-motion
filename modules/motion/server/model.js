@@ -12,7 +12,7 @@
 const axios = require('axios'),
   glob = require('glob'),
   path = require('path'),
-  motion = require('../../../index.js');
+  motion = require('../bin/index.js');
 
 const dryRun = false;
 

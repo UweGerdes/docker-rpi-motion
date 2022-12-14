@@ -2,11 +2,11 @@
 extends ../../pages/views/page.pug
 
 append head
-  link(rel='stylesheet', href='/'+ moduleName + '/layout.css')
+  link(rel='stylesheet', href='/'+ modulePath + '/layout.css')
 
 append breadcrumbs
   li.header-breadcrumb
-    a.header-breadcrumb-link(href='/'+ moduleName + '/') Motion
+    a.header-breadcrumb-link(href='/'+ modulePath + '/') Motion
   if locals.show && locals.eventShow
     - event = eventList[eventShow - 1]
     li.header-breadcrumb
@@ -57,7 +57,7 @@ block content
             a.button.motion-button&attributes({ 'data-emit': 'startDetection' })= __('start detection')
             a.button.motion-button&attributes({ 'data-emit': 'stopDetection' })= __('stop detection')
             span.status.motion-status.motion-detection-status&attributes({ 'data-emit': 'getDetectionStatus', 'data-content': 'detectionStatus' })= __('pause')
-            a.button.motion-button.motion-settings&attributes({ 'href': '/'+ moduleName + '/settings/', 'target': '_blank' })= __('motion settings')
+            a.button.motion-button.motion-settings&attributes({ 'href': '/'+ modulePath + '/settings/', 'target': '_blank' })= __('motion settings')
 
     #motion-container.motion-container.flex-wrapper
       if locals.show && show == 'image' && locals.eventShow

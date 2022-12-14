@@ -1,1 +1,22 @@
 name: Motion
+
+gulp:
+  watch:
+    eslint:
+      - modules/motion/bin/index.js
+    'test-motion-modules':
+      - modules/motion/bin/index.js
+  tests:
+    'test-motion-modules':
+      - modules/motion/bin/index.js
+  start:
+    development:
+      tests:
+        - 'test-motion-modules'
+      default:
+      build:
+      lint:
+      server:
+      deploy:
+      watch:
+        - 'test-motion-modules'

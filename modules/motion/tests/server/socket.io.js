@@ -32,6 +32,7 @@ describe('motion/tests/server/socket.io.js', function () {
         done();
       });
     });
+    /*
     it('should send isRunning and receive status isRunning=false', function (done) {
       const client = io.connect(socketURL, options);
       client.on('connect', function() {
@@ -217,5 +218,6 @@ describe('motion/tests/server/socket.io.js', function () {
         done();
       });
     });
+    */
   });
 });
