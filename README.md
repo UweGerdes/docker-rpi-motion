@@ -45,10 +45,10 @@ Run the container with:
 
 ```bash
 $ docker run -it --rm \
-  -v $(pwd)/modules/motion:/home/node/app/modules/motion \
-  -v $(pwd)/capture:/home/node/app/capture \
-  -v $(pwd)/logs:/home/node/app/logs \
-  -v $(pwd)/fixture:/home/node/app/fixture \
+	-v $(pwd)/modules/motion:/home/node/app/modules/motion \
+	-v $(pwd)/capture:/home/node/app/capture \
+	-v $(pwd)/logs:/home/node/app/logs \
+	-v $(pwd)/fixture:/home/node/app/fixture \
 	-p 8080:8080 \
 	-p 8443:8443 \
 	-p 8081:8081 \
