@@ -7,7 +7,7 @@ gulp:
     'test-motion-modules':
       - modules/motion/bin/index.js
   tests:
-    'test-motion-modules':
+    modules:
       - modules/motion/bin/index.js
   start:
     development:
