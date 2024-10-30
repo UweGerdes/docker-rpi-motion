@@ -93,7 +93,7 @@ const useExpress = (app) => {
 /**
  * Use httpServer and httpsServer for socket
  *
- * @param {object} server - express instance
+ * @param {object} httpServer - express instance
  * @param {object} httpsServer - httpsServer instance
  */
 const connectServer = (httpServer, httpsServer) => {

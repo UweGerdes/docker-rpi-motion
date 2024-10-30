@@ -47,6 +47,7 @@ Run the container with:
 $ docker run -it --rm \
 	-v $(pwd)/modules/motion:/home/node/app/modules/motion \
 	-v $(pwd)/capture:/home/node/app/capture \
+	-v $(pwd)/key:/home/node/app/key \
 	-v $(pwd)/logs:/home/node/app/logs \
 	-v $(pwd)/fixture:/home/node/app/fixture \
 	-p 8080:8080 \
