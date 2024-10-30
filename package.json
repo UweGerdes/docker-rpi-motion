@@ -22,11 +22,11 @@
     "fkill": "^7.2.1",
     "onoff": "^6.0.3",
     "process-exists": "^4.1.0",
-    "socket.io": "^4.5.4"
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "gulp-sequence": "^1.0.0",
-    "socket.io-client": "^4.5.4",
+    "socket.io-client": "^4.8.1",
     "stream-combiner2": "^1.1.1"
   },
   "repository": {

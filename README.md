@@ -45,22 +45,22 @@ Run the container with:
 
 ```bash
 $ docker run -it --rm \
-	-v $(pwd)/modules/motion:/home/node/app/modules/motion \
-	-v $(pwd)/capture:/home/node/app/capture \
-	-v $(pwd)/key:/home/node/app/key \
-	-v $(pwd)/logs:/home/node/app/logs \
-	-v $(pwd)/fixture:/home/node/app/fixture \
-	-p 8080:8080 \
-	-p 8443:8443 \
-	-p 8081:8081 \
-	-p 8082:8082 \
-	-p 8083:8083 \
-	-v /dev/snd:/dev/snd \
-	-v /dev/video0:/dev/video0 \
-	--privileged \
-	--name motion \
-	uwegerdes/motion \
-	bash
+  -v $(pwd)/modules/motion:/home/node/app/modules/motion \
+  -v $(pwd)/capture:/home/node/app/capture \
+  -v $(pwd)/key:/home/node/app/key \
+  -v $(pwd)/logs:/home/node/app/logs \
+  -v $(pwd)/fixture:/home/node/app/fixture \
+  -p 8080:8080 \
+  -p 8443:8443 \
+  -p 8081:8081 \
+  -p 8082:8082 \
+  -p 8083:8083 \
+  -v /dev/snd:/dev/snd \
+  -v /dev/video0:/dev/video0 \
+  --privileged \
+  --name motion \
+  uwegerdes/motion \
+  bash
 ```
 
 You should start `npm start` and open localhost:8080 for the server, localhost:8082 / localhost:8083 for motion / streaming (if started from server or console).
@@ -94,6 +94,21 @@ $ ffmpeg -i "FILENAME.mp3" -r 30 -i "FILENAME.avi" "video.avi"
 ```
 
 ## Test Video and Audio Setup
+
+`arecord --list-devices` can be used to find audio inputs, with an external USB camera the device name was `Camera`. I got `Device` for a USB soundcard.
+
+```bash
+SECS=5
+TIME="$(date +%Y-%m-%d_%H:%M:%S)"
+raspivid -t ${SECS}000 -w 1280 -h 720 -b 3500000 -o "video-${TIME}.h264" &
+arecord -d ${SECS} -D default:CARD=Camera -t wav -c 1 -r 48000 -f S16_LE "audio-${TIME}.wav"
+ffmpeg -i "video-${TIME}.h264" -i "audio-${TIME}.wav" -af loudnorm=I=-14:LRA=7:TP=-2 "vid-${TIME}.mp4"
+```
+
+
+## Deprecated
+
+`raspistill` and `raspivid` are deprecated and replaced by `rpicam-*`. The new tools only work with Camera module, not USB.
 
 ### Take a pic
 
