@@ -106,8 +106,10 @@ SECS=5
 TIME="$(date +%Y-%m-%d_%H:%M:%S)"
 raspivid -t ${SECS}000 -w 1280 -h 720 -b 3500000 -o "video-${TIME}.h264" &
 arecord -d ${SECS} -D default:CARD=Device -t wav -c 1 -r 48000 -f S16_LE "audio-${TIME}.wav"
-ffmpeg -i "audio-${TIME}.wav" -i "video-${TIME}.h264" "vid-${TIME}.mpg"
+ffmpeg -i "video-${TIME}.h264" -i "audio-${TIME}.wav" -af loudnorm=I=-14:LRA=7:TP=-2 "vid-${TIME}.mp4"
 ```
+
+Hint: `arecord` also works with `-D plughw:1,0`
 
 ## Usage extensions
 
