@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "fkill": "^7.2.1",
+    "onoff": "^6.0.3",
     "process-exists": "^4.1.0",
     "socket.io": "^4.5.4"
   },
