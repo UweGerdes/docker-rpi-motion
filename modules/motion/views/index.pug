@@ -17,8 +17,8 @@ append breadcrumbs
           |#{__('Video')}:
         |  #{event.date} #{event.time} #{event.take}
 
-mixin button(msg, enabled, label)
-  a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled }) #{label}
+mixin button(msg, label, enabled)
+  a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled, 'title': label }) #{label}
 
 mixin pagination(baselink, items, current, max=11)
   if items && items > 1
@@ -50,12 +50,12 @@ block content
         h1#headline.headline.flex-block.flex-left Motion
         #motion-status-container.flex-block.flex-center.motion-status-container&attributes({ 'data-status': 'isRunning' })
           span#button-container.button-container
-            a.button.motion-button&attributes({ 'data-emit': 'startMotion', 'data-enabled': '!isRunning' })= __('start motion server')
-            a.button.motion-button&attributes({ 'data-emit': 'stopMotion', 'data-enabled': 'isRunning' })= __('stop motion server')
-            a.button.motion-button&attributes({ 'data-emit': 'isRunning', 'data-enabled': '{}' })= __('motion server running?')
+            + button('startMotion', __('start motion server'), '!isRunning')
+            + button('stopMotion', __('stop motion server'), 'isRunning')
+            + button('isRunning', __('motion server running?'))
           span#status-container.status-container&attributes({ 'data-status': 'detectionStatus' })
-            a.button.motion-button&attributes({ 'data-emit': 'startDetection' })= __('start detection')
-            a.button.motion-button&attributes({ 'data-emit': 'stopDetection' })= __('stop detection')
+            + button('startDetection', __('start detection'))
+            + button('stopDetection', __('stop detection'))
             span.status.motion-status.motion-detection-status&attributes({ 'data-emit': 'getDetectionStatus', 'data-content': 'detectionStatus' })= __('pause')
             a.button.motion-button.motion-settings&attributes({ 'href': '/'+ modulePath + '/settings/', 'target': '_blank' })= __('motion settings')
 
