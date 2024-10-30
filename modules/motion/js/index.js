@@ -68,7 +68,6 @@ socket.on('status', (data) => {
     });
   }
   if ('detectionStatus' in data) {
-    console.log(data.detectionStatus);
     statusElements.detectionStatus.forEach(element => {
       if (data.detectionStatus === 'active') {
         element.classList.add('active');
