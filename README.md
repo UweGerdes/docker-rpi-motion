@@ -2,7 +2,7 @@
 
 Controller for motion actions
 
-Html server with image output, video stream and control links
+Html server with image output, video stream and control buttons
 
 ## Elaborate use scenario
 
