@@ -50,11 +50,12 @@ $ docker run -it --rm \
   -v $(pwd)/key:/home/node/app/key \
   -v $(pwd)/logs:/home/node/app/logs \
   -v $(pwd)/fixture:/home/node/app/fixture \
-  -p 8080:8080 \
-  -p 8443:8443 \
-  -p 8081:8081 \
+  -p 48080:8080 \
+  -p 48443:8443 \
+  -p 48081:8081 \
   -p 8082:8082 \
   -p 8083:8083 \
+  -e 'LIVERELOAD_PORT=48081' \
   -v /dev/snd:/dev/snd \
   -v /dev/video0:/dev/video0 \
   --privileged \
