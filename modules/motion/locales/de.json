@@ -1,4 +1,11 @@
 {
   "Image": "Bild",
-  "no events": "Keine Aufzeichnungen"
+  "no events": "Keine Aufzeichnungen",
+  "start motion server": "Start Motion Server",
+  "stop motion server": "Stop Motion Server",
+  "motion server running?": "Motion Server läuft?",
+  "start detection": "Überwachung starten",
+  "stop detection": "Überwachung beenden",
+  "get detection status": "Status abfragen",
+  "motion settings": "Einstellungen"
 }

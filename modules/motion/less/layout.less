@@ -1,21 +1,27 @@
 @import '../../../src/less/vars';
 
 .button-icon(@char) {
+  border: 1px solid grey;
+  border-radius: 5px;
   display: inline-block;
+  font-size: 12px;
+  margin-right: 1.5em;
   overflow: hidden;
+  padding-top: 3em;
   position: relative;
-  text-indent: -9999px;
-  visibility: hidden;
-  width: 20px;
+  text-align: center;
+  width: 130px;
 
   &::after {
     content: @char;
     display: block;
-    left: 8px;
+    font-size: 24px;
+    left: 40%;
+    margin-top: 5px;
     position: absolute;
-    text-indent: 0;
     top: 0;
     visibility: visible;
+    width: 26px;
   }
 }
 
@@ -41,6 +47,10 @@
     .button-icon('\2753');
   }
 
+  [data-emit='getDetectionStatus'] {
+    .button-icon('\2139');
+  }
+
   .status-container {
     display: none;
   }
@@ -51,8 +61,11 @@
 
   &-settings {
     .button-icon('\2699');
-    font-size: 2em;
-    padding-top: 2px;
+    
+    &::after {
+	  font-size: 2.5em;
+	  margin-top: 1px;
+	}
   }
 
   .running {

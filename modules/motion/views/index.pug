@@ -56,7 +56,7 @@ block content
           span#status-container.status-container&attributes({ 'data-status': 'detectionStatus' })
             + button('startDetection', __('start detection'))
             + button('stopDetection', __('stop detection'))
-            span.status.motion-status.motion-detection-status&attributes({ 'data-emit': 'getDetectionStatus', 'data-content': 'detectionStatus' })= __('pause')
+            + button('getDetectionStatus', __('get detection status'))&attributes({ 'data-content': 'detectionStatus' })
             a.button.motion-button.motion-settings&attributes({ 'href': '/'+ modulePath + '/settings/', 'target': '_blank' })= __('motion settings')
 
     #motion-container.motion-container.flex-wrapper
