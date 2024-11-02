@@ -53,7 +53,9 @@ block content
             + button('startDetection', __('start detection'))
             + button('stopDetection', __('stop detection'))
             + button('getDetectionStatus', __('get detection status'))&attributes({ 'data-content': 'detectionStatus' })
-            a.button.motion-button.motion-settings&attributes({ 'href': '/'+ modulePath + '/settings/', 'target': '_blank' })= __('motion settings')
+            if environment == 'development'
+              a.button.motion-button.motion-settings&attributes({ 'href': '/'+ modulePath + '/settings/', 'target': '_blank' })= __('motion settings')
+              a.button.motion-button.motion-console&attributes({ 'href': 'http://'+ hostname + ':8082/', 'target': '_blank' })= __('motion console')
 
     #motion-container.motion-container.flex-wrapper
       if locals.show && locals.eventShow

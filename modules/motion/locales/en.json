@@ -10,5 +10,6 @@
   "start detection": "Start Detection",
   "stop detection": "Stop Detection",
   "get detection status": "Get Detection Status",
-  "motion settings": "Settings"
+  "motion settings": "Settings",
+  "motion console": "Motion Console"
 }

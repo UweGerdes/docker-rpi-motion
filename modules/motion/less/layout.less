@@ -1,17 +1,6 @@
 @import '../../../src/less/vars';
 
 .button-icon(@char) {
-  border: 1px solid grey;
-  border-radius: 5px;
-  display: inline-block;
-  font-size: 12px;
-  margin-right: 1.5em;
-  overflow: hidden;
-  padding-top: 3em;
-  position: relative;
-  text-align: center;
-  width: 130px;
-
   &::after {
     content: @char;
     display: block;
@@ -27,11 +16,19 @@
 
 .motion {
   &-button {
+    border: 1px solid grey;
+    border-radius: 5px;
     color: initial;
     cursor: pointer;
-    font-size: 1.5em;
-    padding: 5px 8px;
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 1.5em;
+    overflow: hidden;
+    padding: 3em 8px 5px 8px;
+    position: relative;
+    text-align: center;
     text-decoration: none;
+    width: 130px;
   }
 
   [data-emit='startMotion'] {
@@ -63,9 +60,17 @@
     .button-icon('\2699');
     
     &::after {
-	  font-size: 2.5em;
-	  margin-top: 1px;
-	}
+      font-size: 2.5em;
+      margin-top: 1px;
+    }
+  }
+
+  &-console {
+    background-image: url("https://motion-project.github.io/4.6.0/motion.gif");
+    background-position-x: center; 
+    background-position-y: 10px; 
+    background-repeat: no-repeat;
+    background-size: auto 25px;
   }
 
   .running {

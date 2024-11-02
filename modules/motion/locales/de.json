@@ -10,5 +10,6 @@
   "start detection": "Überwachung starten",
   "stop detection": "Überwachung beenden",
   "get detection status": "Status abfragen",
-  "motion settings": "Einstellungen"
+  "motion settings": "Einstellungen",
+  "motion console": "Motion Konsole"
 }
