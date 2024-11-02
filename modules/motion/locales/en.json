@@ -1,6 +1,8 @@
 {
-  "Image": "Images",
-  "no events": "Keine Aufzeichnungen",
+  "image": "Image",
+  "video": "Video",
+  "take number:": "Number",
+  "no events": "No Recordings",
   "start motion server": "Start Motion Server",
   "stop motion server": "Stop Motion Server",
   "motion server running?": "Motion Server Running?",

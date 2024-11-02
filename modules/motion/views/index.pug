@@ -11,11 +11,7 @@ append breadcrumbs
     - event = eventList[eventShow - 1]
     li.header-breadcrumb
       .header-breadcrumb-label
-        if show == 'image'
-          |#{__('Image')}:
-        if show == 'video'
-          |#{__('Video')}:
-        |  #{event.date} #{event.time} #{event.take}
+        |#{__(show)}: #{event.date} #{event.time}, #{__('take number:')} #{event.take}
 
 mixin button(msg, label, enabled)
   a.button.motion-button&attributes({ 'data-emit': msg, 'data-enabled': enabled, 'title': label }) #{label}

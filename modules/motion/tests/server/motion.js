@@ -37,11 +37,11 @@ describe('motion/tests/server/motion.js', function () {
       // testElement('.header a.login-link', { 'href': '/login/' }, 'anmelden');
       testElement('.header .loginLayer-link', { }, 'anmelden');
       testElement('#headline', { }, 'Motion');
-      testElement('[data-emit=startMotion]', { }, 'start motion server');
-      testElement('[data-emit=stopMotion]', { }, 'stop motion server');
-      testElement('[data-emit=isRunning]', { }, 'motion server running?');
-      testElement('[data-emit=startDetection]', { }, 'start detection');
-      testElement('[data-emit=stopDetection]', { }, 'stop detection');
+      testElement('[data-emit=startMotion]', { }, 'Start Motion Server');
+      testElement('[data-emit=stopMotion]', { }, 'Stop Motion Server');
+      testElement('[data-emit=isRunning]', { }, 'Motion Server läuft?');
+      testElement('[data-emit=startDetection]', { }, 'Überwachung starten');
+      testElement('[data-emit=stopDetection]', { }, 'Überwachung beenden');
       assert.isAtLeast(document.querySelectorAll('.eventList tr').length, 1);
     });
   });
