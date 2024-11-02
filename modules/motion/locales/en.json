@@ -2,6 +2,7 @@
   "image": "Image",
   "video": "Video",
   "take number:": "Number",
+  "Event List": "Recordings",
   "no events": "No Recordings",
   "start motion server": "Start Motion Server",
   "stop motion server": "Stop Motion Server",
